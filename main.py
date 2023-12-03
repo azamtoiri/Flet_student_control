@@ -1,5 +1,7 @@
 import flet as ft
 
+from pages import SignUp, Login, ForgotPassword, Dashboard
+
 
 class Main(ft.UserControl):
     def __init__(self, page: ft.Page):

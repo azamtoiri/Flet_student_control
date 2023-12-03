@@ -1,7 +1,7 @@
 from flet import *
 
 
-class Register(Container):
+class SignUp(Container):
     def __init__(self, page: Page):
         super().__init__()
         self.expand = True
