@@ -1,6 +1,6 @@
 import flet as ft
 
-from pages import SignUp, Login, ForgotPassword, Dashboard
+from pages import SignUp, Login, ForgotPassword, Dashboard, Home
 
 
 class Main(ft.UserControl):
@@ -12,10 +12,11 @@ class Main(ft.UserControl):
 
     def init_helper(self):
         self.page.on_route_change = self.on_route_change
-        self.page.go('/signup')
+        self.page.go('/')
 
     def on_route_change(self, route):
         new_page = {
+            "/": Home,
             "/login": Login,
             "/signup": SignUp,
             "/me": Dashboard,

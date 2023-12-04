@@ -1,5 +1,6 @@
 from flet import *
 
+from service.auth import create_user, store_token
 from utils.colors import BLUE
 from utils.validation import Validator
 
@@ -149,5 +150,22 @@ class SignUp(Container):
         if not self.validator.is_valid_password(self.password_box.content.value):
             self.password_box.border = self.error_border
             self.password_box.update()
+        else:
+            name = self.name_box.content.value
+            email = self.email_box.content.value
+            password = self.password_box.content.value
 
+            user = create_user(name=name, email=email, password=password)
+
+            if user:
+                store_token(user)
+                self.page.go('/login')
+            else:
+                self.page.snack_bar = SnackBar(
+                    content=Text(
+                        'Invalid credentials'
+                    )
+                )
+                self.page.snack_bar.open = True
+                self.page.update()
 

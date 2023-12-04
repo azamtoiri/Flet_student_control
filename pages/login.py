@@ -3,6 +3,8 @@ from flet import *
 from utils.colors import BLUE
 from utils.validation import Validator
 
+from service.auth import login_user, store_token
+
 
 class Login(Container):
     def __init__(self, page: Page):
@@ -121,7 +123,27 @@ class Login(Container):
         if not self.validator.is_valid_email(self.email_box.content.value):
             self.email_box.border = self.error_border
             self.email_box.update()
-        if not self.validator.is_valid_password(self.password_box.content.value):
-            self.password_box.border = self.error_border
-            self.password_box.update()
+
+        else:
+            email = self.email_box.content.value
+            password = self.password_box.content.value
+
+            self.page.splash = ProgressBar()
+            self.page.update()
+
+            token = login_user(email=email, password=password)
+            self.page.splash = None
+            self.page.update()
+
+            if token:
+                store_token(token)
+                self.page.go('/me')
+            else:
+                self.page.snack_bar = SnackBar(
+                    content=Text(
+                        'Invalid credentials'
+                    )
+                )
+                self.page.snack_bar.open = True
+                self.page.update()
 

@@ -1,9 +1,10 @@
+import os
+import pickle
+
 import firebase_admin
 import pyrebase
 from firebase_admin import auth as firebase_auth
 from firebase_admin import credentials
-import pickle
-import os
 
 cred = credentials.Certificate('service_account.json')
 firebase_admin.initialize_app(cred)
@@ -22,9 +23,9 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
-email = 'email@example.com'
-password = '123456'
-name = 'Test firebase'
+# email = 'email@example.com'
+# password = '123456'
+# name = 'Test firebase'
 
 
 def create_user(name, email, password):
@@ -36,6 +37,7 @@ def create_user(name, email, password):
         )
         return user.uid
     except Exception as e:
+        print(e)
         return None
 
 
@@ -58,3 +60,23 @@ def revoke_token(token):
     firebase_auth.revoke_refresh_tokens(token)
     if os.path.exists('token.pickle'):
         os.remove('token.pickle')
+
+
+def load_token():
+    try:
+        with open('token.pickle', 'rb') as f:
+            token = pickle.load(f)
+        return token
+    except Exception as e:
+        print(e)
+        return None
+
+
+def get_name(token):
+    try:
+        result = firebase_auth.verify_id_token(token)
+        print('Token get successfully')
+        return result['name']
+    except Exception as e:
+        print(e)
+        return None
