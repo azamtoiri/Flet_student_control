@@ -1,17 +1,40 @@
 import flet as ft
+from flet import Page, View
+
+from pages import Login, SignUp, Welcome, Student
+
+LOGO_PATH = '../assets/Fox_Hub_logo.png'
 
 
-def main(page: ft.Page):
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.title = "First run"
+class Main(ft.UserControl):
+    def __init__(self, page: ft.Page):
+        super().__init__()
 
-    page.add(
-        ft.Text("First_run", size=100)
-    )
+        self.page = page
+        self.init_helper()
 
-    page.update()
+    def init_helper(self):
+        self.page.on_route_change = self.on_route_change
+        self.page.go('/')
 
+    def on_route_change(self, route):
+        new_page = {
+            "/": Welcome,
+            "/login": Login,
+            "/signup": SignUp,
+            "/student": Student,
+        }[self.page.route](self.page)
+
+        self.page.views.clear()
+        self.page.views.append(
+            View(
+                route,
+                [new_page]
+            )
+        )
 
 if __name__ == '__main__':
-    ft.app(target=main)
+    ft.app(target=Main, host="192.168.0.112", port=58735)
+
+# TODO:
+#  Fix page navigation
