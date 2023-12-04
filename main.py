@@ -8,27 +8,28 @@ class Main(ft.UserControl):
         super().__init__()
         self.page = page
 
-    def init_helper(self, ):
+        self.init_helper()
+
+    def init_helper(self):
         self.page.on_route_change = self.on_route_change
+        self.page.go('/login')
 
     def on_route_change(self, route):
+        new_page = {
+            "/login": Login,
+            "signup": SignUp,
+            "/me": Dashboard,
+            "/forgotpassword": ForgotPassword,
+        }[self.page.route](self.page)
+
         self.page.views.clear()
         self.page.views.append(
-
+            ft.View(
+                route,
+                [new_page]
+            )
         )
 
 
-def main(page: ft.Page):
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.title = "First run"
-
-    page.add(
-        ft.Text("First_run", size=100)
-    )
-
-    page.update()
-
-
 if __name__ == '__main__':
-    ft.app(target=main)
+    ft.app(target=Main, assets_dir='assets', view=ft.WEB_BROWSER, port=12546)
