@@ -1,5 +1,4 @@
 import flet as ft
-from flet import Page, View
 
 from pages import Login, SignUp, Welcome, Student
 
@@ -27,14 +26,15 @@ class Main(ft.UserControl):
 
         self.page.views.clear()
         self.page.views.append(
-            View(
+            ft.View(
                 route,
                 [new_page]
             )
         )
 
+
 if __name__ == '__main__':
     ft.app(target=Main, host="192.168.0.112", port=58735)
 
 # TODO:
-#  Fix page navigation
+#  ADD: App bar
