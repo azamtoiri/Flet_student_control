@@ -38,3 +38,4 @@ if __name__ == '__main__':
 
 # TODO:
 #  ADD: App bar
+#  BUG: changing size of windows when routing between pages
