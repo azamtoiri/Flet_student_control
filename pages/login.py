@@ -29,6 +29,7 @@ class Login(Container):
             border=border.all(width=1, color='#bdcbf4'),
             border_radius=15
         )
+
         self.password_box = Container(
             content=TextField(
                 border=InputBorder.NONE,
