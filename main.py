@@ -17,7 +17,7 @@ class Main(ft.UserControl):
     def on_route_change(self, route):
         new_page = {
             "/login": Login,
-            "signup": SignUp,
+            "/signup": SignUp,
             "/me": Dashboard,
             "/forgotpassword": ForgotPassword,
         }[self.page.route](self.page)

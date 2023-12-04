@@ -9,6 +9,7 @@ class Login(Container):
         self.expand = True
         self.alignment = alignment.center
         self.bgcolor = BLUE
+
         self.email_box = Container(
             content=TextField(
                 border=InputBorder.NONE,
@@ -49,6 +50,7 @@ class Login(Container):
             border=border.all(width=1, color='#bdcbf4'),
             border_radius=15
         )
+
         self.content = Column(
             alignment=MainAxisAlignment.CENTER,
             horizontal_alignment=CrossAxisAlignment.CENTER,
@@ -69,8 +71,43 @@ class Login(Container):
                             ),
                             self.email_box,
                             self.password_box,
+                            Container(height=0),
+
+                            Container(
+                                alignment=alignment.center,
+                                bgcolor=BLUE,
+                                height=40,
+                                border_radius=30,
+                                content=Text(
+                                    value="Login"
+                                ),
+                                on_click=lambda _: self.login,
+                            ),
+
+                            Container(
+                                content=Text(
+                                    value='Forgot password',
+                                    color=BLUE,
+                                    size=12
+                                ),
+                                on_click=lambda _: self.page.go(
+                                    '/forgotpassword')
+                            ),
+
+                            Container(
+                                content=Text(
+                                    value='Create account',
+                                    color='#4e73df',
+                                    size=12
+                                ),
+                                on_click=lambda _: self.page.go(
+                                    '/signup')
+                            ),
                         ]
                     )
                 )
             ]
         )
+
+    def login(self):
+        ...
