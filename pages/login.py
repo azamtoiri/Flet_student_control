@@ -84,24 +84,29 @@ class Login(Container):
                                 on_click=lambda _: self.login,
                             ),
 
-                            Container(
-                                content=Text(
-                                    value='Forgot password',
-                                    color=BLUE,
-                                    size=12
-                                ),
-                                on_click=lambda _: self.page.go(
-                                    '/forgotpassword')
-                            ),
-
-                            Container(
-                                content=Text(
-                                    value='Create account',
-                                    color='#4e73df',
-                                    size=12
-                                ),
-                                on_click=lambda _: self.page.go(
-                                    '/signup')
+                            Row(
+                                alignment=MainAxisAlignment.CENTER,
+                                spacing=50,
+                                controls=[
+                                    Container(
+                                        content=Text(
+                                            value='Forgot password',
+                                            color=BLUE,
+                                            size=12
+                                        ),
+                                        on_click=lambda _: self.page.go(
+                                            '/forgotpassword')
+                                    ),
+                                    Container(
+                                        content=Text(
+                                            value='Create account',
+                                            color='#4e73df',
+                                            size=12
+                                        ),
+                                        on_click=lambda _: self.page.go(
+                                            '/signup')
+                                    ),
+                                ]
                             ),
                         ]
                     )
