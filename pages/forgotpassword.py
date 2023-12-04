@@ -1,6 +1,7 @@
 from flet import *
 
 from utils.colors import *
+from utils.validation import Validator
 
 
 class ForgotPassword(Container):
@@ -9,6 +10,8 @@ class ForgotPassword(Container):
         self.expand = True
         self.bgcolor = BLUE
         self.alignment = alignment.center
+        self.error_border = border.all(width=1, color='red')
+        self.validator = Validator()
 
         self.email_box = Container(
             content=TextField(
@@ -66,7 +69,8 @@ class ForgotPassword(Container):
                                 border_radius=30,
                                 content=Text(
                                     value='Reset password'
-                                )
+                                ),
+                                on_click=self.reset_password,
                             ),
 
                             Row(
@@ -99,4 +103,9 @@ class ForgotPassword(Container):
                 )
             ]
         )
+
+    def reset_password(self, e):
+        if not self.validator.is_valid_email(self.email_box.content.value):
+            self.email_box.border = self.error_border
+            self.email_box.update()
 

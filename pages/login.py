@@ -1,6 +1,7 @@
 from flet import *
 
 from utils.colors import BLUE
+from utils.validation import Validator
 
 
 class Login(Container):
@@ -9,6 +10,8 @@ class Login(Container):
         self.expand = True
         self.alignment = alignment.center
         self.bgcolor = BLUE
+        self.validator = Validator()
+        self.error_border = border.all(width=1, color='red')
 
         self.email_box = Container(
             content=TextField(
@@ -82,12 +85,11 @@ class Login(Container):
                                 content=Text(
                                     value="Login"
                                 ),
-                                on_click=lambda _: self.login,
+                                on_click=self.login,
                             ),
 
                             Row(
-                                alignment=MainAxisAlignment.CENTER,
-                                spacing=50,
+                                alignment=MainAxisAlignment.END,
                                 controls=[
                                     Container(
                                         content=Text(
@@ -115,5 +117,11 @@ class Login(Container):
             ]
         )
 
-    def login(self):
-        ...
+    def login(self, e):
+        if not self.validator.is_valid_email(self.email_box.content.value):
+            self.email_box.border = self.error_border
+            self.email_box.update()
+        if not self.validator.is_valid_password(self.password_box.content.value):
+            self.password_box.border = self.error_border
+            self.password_box.update()
+
