@@ -175,6 +175,8 @@ class LeftNavBar(Container):
                         controls=[
                             # region: Top header container
                             Container(
+                                ink=True,
+                                on_click=lambda _: page.go('/student'),
                                 padding=padding.only(left=15),
                                 content=Row(
                                     controls=[
@@ -190,8 +192,9 @@ class LeftNavBar(Container):
 
                             Container(height=30),
 
-                            # region: 1st page
+                            # region: Home page
                             Container(
+                                ink=True,
                                 on_click=lambda _: page.go('/student/home'),
                                 width=255,
                                 height=56,
@@ -210,8 +213,10 @@ class LeftNavBar(Container):
                             ),
                             # endregion
 
-                            # region: 2nd page
+                            # region: Tasks page
                             Container(
+                                ink=True,
+                                # on_hover=self.on_hover,
                                 on_click=lambda _: page.go('/student/tasks'),
                                 width=255,
                                 height=56,
@@ -231,8 +236,9 @@ class LeftNavBar(Container):
                             ),
                             # endregion
 
-                            # region: 3rd page
+                            # region: Grades page
                             Container(
+                                ink=True,
                                 on_click=lambda _: page.go('/student/grades'),
                                 width=255,
                                 height=56,
@@ -252,9 +258,10 @@ class LeftNavBar(Container):
                             ),
                             # endregion
 
-                            # region: 4th page
+                            # region: Course page
                             Container(
-                                on_click=lambda _: page.go('/student/grades'),
+                                ink=True,
+                                on_click=lambda _: page.go('/student/courses'),
                                 width=255,
                                 height=56,
                                 # using bgcolor for active page
@@ -273,14 +280,13 @@ class LeftNavBar(Container):
                             ),
                             # endregion
 
-                            # region: 5nd page
+                            # region: Exit container
                             Container(
+                                ink=True,
                                 # do function for log out and go to Welcome page
-                                on_click=lambda _: page.go('/student/tasks'),
+                                on_click=lambda _: page.go('/'),
                                 width=255,
                                 height=56,
-                                # using bgcolor for active page
-                                # bgcolor=colors.with_opacity(0.1, color=SHEET),
                                 alignment=alignment.center,
                                 padding=padding.only(left=10),
                                 content=Row(
@@ -300,3 +306,8 @@ class LeftNavBar(Container):
                 # endregion
             ]
         )
+
+    @staticmethod
+    def on_hover(e):
+        e.control.bgcolor = "blue" if e.data == "true" else "red"
+        e.control.update()

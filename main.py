@@ -23,7 +23,7 @@ class Main(ft.UserControl):
             "/login": Login,
             "/signup": SignUp,
             "/student": StudentWelcome,
-            "/student/home": HomePage,
+            "/student/home": Student,
             "/student/tasks": TaskPage,
             "/student/grades": GradePage,
             "/student/courses": CoursePage,
