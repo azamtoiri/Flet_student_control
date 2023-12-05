@@ -1,7 +1,8 @@
+
 from flet import *
+from utils.colors import BLUE, DB_TEXT
 
 from service.auth import load_token, get_name, revoke_token
-from utils.colors import BLUE
 
 
 class Dashboard(Container):
@@ -15,7 +16,6 @@ class Dashboard(Container):
         self.content = Row(
             spacing=0,
             controls=[
-                self.current_user_name,
                 Container(
                     width=220,
                     bgcolor=BLUE,
