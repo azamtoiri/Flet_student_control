@@ -1,0 +1,5 @@
+LOGO_PATH = '../assets/Fox_Hub_logo.png'
+BLUE = '9caede'
+LEFT_COL_COLOR = '#363740'
+RIGHT_COL_COLOR = '#F7F8FC'
+SHEET = '#9FA2B4'
