@@ -1,6 +1,8 @@
 import flet as ft
 
 from pages import Login, SignUp, Welcome, Student
+from pages.subpage import HomePage, TaskPage, GradePage, CoursePage, StudentWelcome
+
 from utils.constants import LOGO_PATH
 
 
@@ -13,16 +15,20 @@ class Main(ft.UserControl):
 
     def init_helper(self):
         self.page.on_route_change = self.on_route_change
-        self.page.go('/')
+        self.page.go('/student')
 
     def on_route_change(self, route):
         new_page = {
             "/": Welcome,
             "/login": Login,
             "/signup": SignUp,
-            "/student": Student,
+            "/student": StudentWelcome,
+            "/student/home": HomePage,
+            "/student/tasks": TaskPage,
+            "/student/grades": GradePage,
+            "/student/courses": CoursePage,
         }[self.page.route](self.page)
-
+        print(self.page.route)
         self.page.views.clear()
         self.page.views.append(
             ft.View(
