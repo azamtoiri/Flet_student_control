@@ -10,6 +10,7 @@ python = "^3.11"
 flet = "^0.14.0"
 pyrebase4 = "^4.7.1"
 firebase-admin = "^6.2.0"
+plotly = "^5.18.0"
 
 
 [build-system]

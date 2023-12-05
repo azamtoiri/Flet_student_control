@@ -1,6 +1,7 @@
 ### main template
 ### main template
 ### Django ###
+*.pickle
 tailwindcss/
 *.json
 *.log
