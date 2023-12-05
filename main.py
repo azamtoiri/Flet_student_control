@@ -1,8 +1,7 @@
 import flet as ft
 
 from pages import Login, SignUp, Welcome, Student
-
-LOGO_PATH = '../assets/Fox_Hub_logo.png'
+from utils.constants import LOGO_PATH
 
 
 class Main(ft.UserControl):
