@@ -1,7 +1,7 @@
 from flet import *
 # TODO: Navigation between small pages
 # TODO: template for navbar
-from utils.constants import LEFT_COL_COLOR, RIGHT_COL_COLOR, LOGO_PATH, SHEET
+from utils.constants import LEFT_COL_COLOR, RIGHT_COL_COLOR, LOGO_PATH, SHEET, SHEET_BG_COLOR
 from utils.customs import LeftNavBar
 from pages.subpage import HomePage, TaskPage, GradePage, CoursePage
 
@@ -11,8 +11,9 @@ class Student(Container):
         super().__init__()
 
         page.padding = 0
+        self.page = page
         self.nav_bar = LeftNavBar(page)
-        # self.page.title = "Студент"
+        self.page.title = "Домашняя страница"
         self.expand = True
         # self.current_user_name = get_name(load_token())
 

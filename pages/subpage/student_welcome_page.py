@@ -8,9 +8,10 @@ class StudentWelcome(Container):
     def __init__(self, page: Page):
         super().__init__()
 
+        self.page = page
         page.padding = 0
         self.nav_bar = LeftNavBar(page)
-        # self.page.title = "Студент"
+        self.page.title = "Приветствие"
         self.expand = True
         # self.current_user_name = get_name(load_token())
 

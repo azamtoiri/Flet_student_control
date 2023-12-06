@@ -9,8 +9,9 @@ class TaskPage(Container):
         super().__init__()
 
         self.nav_bar = LeftNavBar(page)
-        page.padding = 0
-        # self.page.title = "Студент"
+        self.page = page
+        self.page.padding = 0
+        self.page.title = "Задания"
         self.expand = True
         # self.current_user_name = get_name(load_token())
 

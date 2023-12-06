@@ -8,9 +8,10 @@ class GradePage(Container):
     def __init__(self, page: Page):
         super().__init__()
 
+        self.page = page
         self.nav_bar = LeftNavBar(page)
         page.padding = 0
-        # self.page.title = "Студент"
+        self.page.title = "Курсы"
         self.expand = True
         # self.current_user_name = get_name(load_token())
 
