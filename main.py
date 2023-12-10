@@ -1,21 +1,21 @@
 import flet as ft
 
 from pages import Login, SignUp, Welcome, Student
-from pages.subpage import HomePage, TaskPage, GradePage, CoursePage, StudentWelcome
-
-from utils.constants import LOGO_PATH
+from pages.subpage import TaskPage, GradePage, CoursePage, StudentWelcome
 
 
 class Main(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__()
 
+        page.window_width = 1920
+        page.window_height = 1080
         self.page = page
         self.init_helper()
 
     def init_helper(self):
         self.page.on_route_change = self.on_route_change
-        self.page.go('/student')
+        self.page.go('/signup')
 
     def on_route_change(self, route):
         new_page = {

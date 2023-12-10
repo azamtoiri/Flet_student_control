@@ -8,8 +8,8 @@ class Login(CustomContainer):
         super().__init__(page)
         self.page.expand = True
         self.page.title = "Вход"
-        self.page.window_height = 980
-        self.page.window_width = 1820
+        # self.page.window_height = 980
+        # self.page.window_width = 1820
         self.page.vertical_alignment = ft.CrossAxisAlignment.CENTER
         self.page.horizontal_alignment = ft.MainAxisAlignment.CENTER
         self.alignment = ft.alignment.center
