@@ -145,8 +145,8 @@ class CustomContainer(Container):  # поставлены настройки г�
         super().__init__()
         self.page = page
         self.expand = True
-        self.page.window_height = 980
-        self.page.window_width = 1820
+        # self.page.window_height = 980
+        # self.page.window_width = 1820
         self.page.vertical_alignment = CrossAxisAlignment.CENTER
         self.page.horizontal_alignment = MainAxisAlignment.CENTER
         self.alignment = alignment.center
@@ -227,7 +227,7 @@ class LeftNavBar(Container):
                                 content=Row(
                                     controls=[
                                         Icon(
-                                            name=icons.PIE_CHART,
+                                            name=icons.TASK_ALT,
                                             size=20,
                                         ),
                                         Text(value="Задания", size=12, weight=FontWeight.BOLD)
