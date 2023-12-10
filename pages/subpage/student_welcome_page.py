@@ -9,7 +9,6 @@ class StudentWelcome(Container):
         super().__init__()
 
         self.page = page
-        page.padding = 0
         self.nav_bar = LeftNavBar(page)
         self.page.title = "Приветствие"
         self.expand = True

@@ -15,7 +15,7 @@ class Main(ft.UserControl):
 
     def init_helper(self):
         self.page.on_route_change = self.on_route_change
-        self.page.go('/signup')
+        self.page.go('/student')
 
     def on_route_change(self, route):
         new_page = {
@@ -28,7 +28,6 @@ class Main(ft.UserControl):
             "/student/grades": GradePage,
             "/student/courses": CoursePage,
         }[self.page.route](self.page)
-        print(self.page.route)
         self.page.views.clear()
         self.page.views.append(
             ft.View(
@@ -41,6 +40,3 @@ class Main(ft.UserControl):
 if __name__ == '__main__':
     ft.app(target=Main, host="192.168.0.112", port=58735)
 
-# TODO:
-#  ADD: App bar
-#  BUG: changing size of windows when routing between pages
