@@ -342,6 +342,7 @@ class LeftNavBar(Container):
             ]
         )
 
+    # code for optimizing
     def get_color_of_container(self, route) -> str:
         self.bg_color = ''
 
