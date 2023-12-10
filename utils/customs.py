@@ -3,7 +3,7 @@ import asyncio
 import flet_material as fm
 from flet import *
 
-from utils.constants import LOGO_PATH, SHEET
+from utils.constants import LOGO_PATH, SHEET_BG_COLOR
 
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
@@ -157,12 +157,16 @@ class CustomContainer(Container):  # поставлены настройки г�
         }
 
 
+# TODO: Optimize code for future
 class LeftNavBar(Container):
     def __init__(self, page: Page):
         super().__init__()
         self.page = page
-
-        self.bg_color = '1234'
+        self.bg_color_top_header = ''
+        self.bg_color_home = ''
+        self.bg_color_tasks = ''
+        self.bg_color_grades = ''
+        self.bg_color_courses = ''
 
         # region: Ink true or false
         self.ink_top_header = True
@@ -173,26 +177,20 @@ class LeftNavBar(Container):
 
         if self.page.route == "/student":
             self.ink_top_header = False,
+            self.bg_color_top_header = SHEET_BG_COLOR
         if self.page.route == "/student/home":
             self.ink_home = False
+            self.bg_color_home = SHEET_BG_COLOR
         if self.page.route == "/student/tasks":
             self.ink_tasks = False
+            self.bg_color_tasks = SHEET_BG_COLOR
         if self.page.route == "/student/grades":
             self.ink_grades = False
+            self.bg_color_grades = SHEET_BG_COLOR
         if self.page.route == "/student/courses":
             self.ink_courses = False
+            self.bg_color_courses = SHEET_BG_COLOR
         # endregion
-
-        color = colors.with_opacity(0.1, color=SHEET)
-        self.dict_bg_color = {
-            "/student": color,
-            "/student/home": color,
-            "/student/tasks": color,
-            "/student/grades": color,
-            "/student/courses": color,
-        }
-
-
 
         self.content = Row(
             spacing=0,
@@ -211,7 +209,7 @@ class LeftNavBar(Container):
                                 padding=padding.only(left=15),
                                 height=80,
                                 width=900,
-                                bgcolor=self.bg_color,
+                                bgcolor=self.bg_color_top_header,
                                 border_radius=10,
                                 content=Row(
                                     controls=[
@@ -233,7 +231,7 @@ class LeftNavBar(Container):
                                 on_click=lambda _: page.go('/student/home'),
                                 width=255,
                                 height=56,
-                                # bgcolor=colors.with_opacity(0.1, color=SHEET),
+                                bgcolor=self.bg_color_home,
                                 alignment=alignment.center,
                                 padding=padding.only(left=15),
                                 border_radius=10,
@@ -257,8 +255,7 @@ class LeftNavBar(Container):
                                 width=255,
                                 height=56,
                                 border_radius=10,
-                                # using bgcolor for active page
-                                # bgcolor=colors.with_opacity(0.1, color=SHEET),
+                                bgcolor=self.bg_color_tasks,
                                 alignment=alignment.center,
                                 padding=padding.only(left=15),
                                 content=Row(
@@ -280,8 +277,7 @@ class LeftNavBar(Container):
                                 width=255,
                                 height=56,
                                 border_radius=10,
-                                # using bgcolor for active page
-                                # bgcolor=colors.with_opacity(0.1, color=SHEET),
+                                bgcolor=self.bg_color_grades,
                                 alignment=alignment.center,
                                 padding=padding.only(left=15),
                                 content=Row(
@@ -303,8 +299,7 @@ class LeftNavBar(Container):
                                 width=255,
                                 height=56,
                                 border_radius=10,
-                                # using bgcolor for active page
-                                # bgcolor=colors.with_opacity(0.1, color=SHEET),
+                                bgcolor=self.bg_color_courses,
                                 alignment=alignment.center,
                                 padding=padding.only(left=15),
                                 content=Row(
@@ -346,6 +341,38 @@ class LeftNavBar(Container):
                 # endregion
             ]
         )
+
+    def get_color_of_container(self, route) -> str:
+        self.bg_color = ''
+
+        if self.page.route == "/student":
+            self.bg_color = SHEET_BG_COLOR
+            print(self.page.route)
+        else:
+            self.bg_color = ''
+        if self.page.route != "/student/home":
+            self.bg_color = SHEET_BG_COLOR
+            print(self.page.route)
+        else:
+            self.bg_color = ''
+        if self.page.route != "/student/tasks":
+            self.bg_color = SHEET_BG_COLOR
+            print(self.page.route)
+        else:
+            self.bg_color = ''
+        if self.page.route != "/student/grades":
+            self.bg_color = SHEET_BG_COLOR
+            print(self.page.route)
+        else:
+            self.bg_color = ''
+        if self.page.route != "/student/courses":
+            self.bg_color = SHEET_BG_COLOR
+            print(self.page.route)
+        else:
+            self.bg_color = ''
+        if route == self.page.route:
+            return SHEET_BG_COLOR
+        return ''
 
     @staticmethod
     def on_hover(e):

@@ -28,7 +28,6 @@ class Main(ft.UserControl):
             "/student/grades": GradePage,
             "/student/courses": CoursePage,
         }[self.page.route](self.page)
-        # print(self.page.route)
         self.page.views.clear()
         self.page.views.append(
             ft.View(
