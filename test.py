@@ -1,5 +1,7 @@
 from flet import *
 
+"""Test file for testing some code examples"""
+
 
 def main(page: Page):
     test = Container(
