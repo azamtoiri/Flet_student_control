@@ -3,7 +3,7 @@ from flet import *
 # TODO: template for navbar
 from utils.constants import LEFT_COL_COLOR, RIGHT_COL_COLOR, LOGO_PATH, SHEET, SHEET_BG_COLOR
 from utils.customs import LeftNavBar
-from pages.subpage import HomePage, TaskPage, GradePage, CoursePage
+from pages.student_pages import HomePage, TaskPage, GradePage, CoursePage
 
 
 class Student(Container):

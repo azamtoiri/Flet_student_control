@@ -1,7 +1,7 @@
 import flet as ft
 
 from pages import Login, SignUp, Welcome, Student
-from pages.subpage import TaskPage, GradePage, CoursePage, StudentWelcome
+from pages.student_pages import TaskPage, GradePage, CoursePage, StudentWelcome
 
 
 class Main(ft.UserControl):
