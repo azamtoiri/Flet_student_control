@@ -344,36 +344,18 @@ class LeftNavBar(Container):
 
     # code for optimizing
     def get_color_of_container(self, route) -> str:
-        self.bg_color = ''
-
-        if self.page.route == "/student":
-            self.bg_color = SHEET_BG_COLOR
-            print(self.page.route)
-        else:
-            self.bg_color = ''
-        if self.page.route != "/student/home":
-            self.bg_color = SHEET_BG_COLOR
-            print(self.page.route)
-        else:
-            self.bg_color = ''
-        if self.page.route != "/student/tasks":
-            self.bg_color = SHEET_BG_COLOR
-            print(self.page.route)
-        else:
-            self.bg_color = ''
-        if self.page.route != "/student/grades":
-            self.bg_color = SHEET_BG_COLOR
-            print(self.page.route)
-        else:
-            self.bg_color = ''
-        if self.page.route != "/student/courses":
-            self.bg_color = SHEET_BG_COLOR
-            print(self.page.route)
-        else:
-            self.bg_color = ''
-        if route == self.page.route:
+        if route == "/student":
             return SHEET_BG_COLOR
-        return ''
+        elif route == "/student/home":
+            return SHEET_BG_COLOR
+        elif route == "/student/tasks":
+            return SHEET_BG_COLOR
+        elif route == "/student/grades":
+            return SHEET_BG_COLOR
+        elif route == "/student/courses":
+            return SHEET_BG_COLOR
+        else:
+            return ''
 
     @staticmethod
     def on_hover(e):
