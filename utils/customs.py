@@ -1,4 +1,5 @@
 import asyncio
+from typing import Optional
 
 import flet_material as fm
 from flet import *
@@ -145,6 +146,7 @@ class CustomContainer(Container):  # поставлены настройки г�
         super().__init__()
         self.page = page
         self.expand = True
+        self.border_radius = 20
         # self.page.window_height = 980
         # self.page.window_width = 1820
         self.page.vertical_alignment = CrossAxisAlignment.CENTER
@@ -405,3 +407,78 @@ class LeftNavBar(CustomContainer):
     def on_hover(e):
         e.control.bgcolor = "blue" if e.data == "true" else "red"
         e.control.update()
+
+
+class LeftNavBar2(CustomContainer):
+    def __init__(self, page: Page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
+                 page_4: Optional[Control],
+                 page_5: Optional[Control]):
+        super().__init__(page)
+        self.page = page
+
+        def on_change(e):
+            c_index = e.control.selected_index
+            page_1.visible = True if c_index == 0 else False
+            page_2.visible = True if c_index == 1 else False
+            page_3.visible = True if c_index == 2 else False
+            page_4.visible = True if c_index == 3 else False
+            page_5.visible = True if c_index == 4 else False
+            self.page.update()
+
+        self.expand = False
+
+        self.page_1 = page_1
+        self.page_2 = page_2
+        self.page_3 = page_3
+        self.page_4 = page_4
+        self.page_5 = page_5
+
+        self.content = NavigationRail(
+            # bgcolor="blue",
+            on_change=on_change,
+            leading=Container(
+                content=Row(
+                    controls=[
+                        Image(src=LOGO_PATH, height=50, width=50),
+                        Text(value='FoxHub', size=14)
+                    ]
+                ),
+                on_click=lambda _: print("Hello")
+            ),
+            selected_index=0,
+            label_type=NavigationRailLabelType.SELECTED,
+            destinations=[
+                NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
+                                          selected_icon=icons.PIE_CHART,
+                                          label='Домашняя страница',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.SWITCH_ACCOUNT_OUTLINED,
+                                          selected_icon=icons.SWITCH_ACCOUNT,
+                                          label='Студенты',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.GOLF_COURSE_OUTLINED,
+                                          selected_icon=icons.GOLF_COURSE,
+                                          label='Мои курсы',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.MAP_OUTLINED,
+                                          selected_icon=icons.MAP,
+                                          label='Мои материалы',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
+                                          selected_icon=icons.EXIT_TO_APP,
+                                          label='Выйти',
+                                          # label_content=Text('Home'),
+                                          ),
+            ]
+        )
+
+    def on_change(self, e):
+        c_index = e.control.selected_index
+        self.page_1.visible = True if c_index == 0 else False
+        self.page_2.visible = True if c_index == 1 else False
+        self.page.update()
+        print('page.update()')

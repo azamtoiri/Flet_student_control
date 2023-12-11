@@ -3,6 +3,11 @@ from flet import *
 """Test file for testing some code examples"""
 
 
+def example(*args, **kwargs):
+    print(args)
+    print(kwargs)
+
+
 def main(page: Page):
     test = Container(
         content=Text("Clickable with Ink"),
@@ -32,4 +37,4 @@ if __name__ == '__main__':
         "/student/courses": colors.with_opacity(0.1, color='red'),
     }
 
-    app(main)
+    example(1, 2, 3, a=4, b=5)
