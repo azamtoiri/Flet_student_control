@@ -7,9 +7,11 @@ from pages.student_pages import TaskPage, GradePage, CoursePage, StudentWelcome
 class Main(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__()
+        page.theme = ft.theme.Theme(color_scheme_seed="blue")
 
-        page.window_width = 1920
-        page.window_height = 1080
+        # page.window_width = 1920
+        # page.window_height = 1080
+        # page.theme = ft.theme.Theme(color_scheme_seed="red")
         self.page = page
         self.init_helper()
 

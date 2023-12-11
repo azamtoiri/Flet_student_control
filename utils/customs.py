@@ -156,12 +156,43 @@ class CustomContainer(Container):  # поставлены настройки г�
             "Open Sans": "/fonts/OpenSans-Regular.ttf"
         }
 
+        self.scheme_change_buttons = [
+            ElevatedButton(
+                text='Change to Red',
+                icon=icons.SUNNY,
+                icon_color='red',
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="red"))
+            ),
+            ElevatedButton(
+                text='Change to Blue',
+                icon=icons.SUNNY,
+                icon_color='blue',
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="blue"))
+            ),
+            IconButton(
+                icons.SUNNY,
+                icon_color=colors.RED,
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="red"))
+            ),
+            IconButton(
+                icons.SUNNY,
+                icon_color=colors.BLUE,
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="blue"))
+            ),
+        ]
+
+    def change_theme(self, theme_: Theme):
+        self.page.theme = theme_
+        self.page.update()
+
 
 # TODO: Optimize code for future
-class LeftNavBar(Container):
+class LeftNavBar(CustomContainer):
     def __init__(self, page: Page):
-        super().__init__()
+        super().__init__(page)
+        self.expand = False
         self.page = page
+
         self.bg_color_top_header = ''
         self.bg_color_home = ''
         self.bg_color_tasks = ''
@@ -201,6 +232,7 @@ class LeftNavBar(Container):
                     # bgcolor=LEFT_COL_COLOR,
                     padding=padding.only(top=20, left=10, right=10),
                     content=Column(
+                        auto_scroll=True,
                         controls=[
                             # region: Top header container
                             Container(
@@ -335,6 +367,18 @@ class LeftNavBar(Container):
                                 )
                             ),
                             # endregion
+
+                            # Container(height=450),
+
+                            Divider(height=10),
+                            Row(
+                                alignment=alignment.center,
+                                vertical_alignment=CrossAxisAlignment.END,
+                                controls=[
+                                    self.scheme_change_buttons[2],
+                                    self.scheme_change_buttons[3],
+                                ]
+                            )
                         ]
                     ),
                 ),

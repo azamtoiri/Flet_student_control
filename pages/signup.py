@@ -56,6 +56,13 @@ class SignUp(CustomContainer):
             content=ft.Column(
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 controls=[
+                    ft.Row(
+                        alignment=ft.MainAxisAlignment.END,
+                        controls=[
+                            self.scheme_change_buttons[2],
+                            self.scheme_change_buttons[3],
+                        ]
+                    ),
                     self.logo,
                     ft.Text(
                         "FoxHub",

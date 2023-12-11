@@ -45,6 +45,9 @@ class Login(CustomContainer):
             height=45,
             on_click=lambda _: page.go('/signup'),
         )
+        # self.scheme_change_buttons[0].bgcolor = 'white',
+        # self.scheme_change_buttons[1].bgcolor = 'white',
+
         self.content = ft.Container(
             width=450, height=650,
             bgcolor=ft.colors.with_opacity(1, "white"),
@@ -54,6 +57,15 @@ class Login(CustomContainer):
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 # alignment=ft.alignment.center,
                 controls=[
+                    ft.Row(
+                        alignment=ft.MainAxisAlignment.END,
+                        controls=[
+                            # self.scheme_change_buttons[0],
+                            # self.scheme_change_buttons[1],
+                            self.scheme_change_buttons[2],
+                            self.scheme_change_buttons[3],
+                        ]
+                    ),
                     self.logo,
                     ft.Text(
                         "FoxHub",
@@ -84,7 +96,7 @@ class Login(CustomContainer):
                         controls=[
                             self.no_account, self.create_account_button,
                         ]
-                    )
+                    ),
                 ],
             ),
         )

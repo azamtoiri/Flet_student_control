@@ -14,8 +14,12 @@ def main(page: Page):
         ink=True,
         on_click=lambda e: print("clicked")
     )
+    button = ElevatedButton(
+        text='10290',
+    )
+    button.bgcolor = 'white'
 
-    page.add(test)
+    page.add(test, button)
     page.update()
 
 
@@ -27,4 +31,5 @@ if __name__ == '__main__':
         "/student/grades": colors.with_opacity(0.1, color='red'),
         "/student/courses": colors.with_opacity(0.1, color='red'),
     }
-    print(type(dict_bg_color["/student"]))
+
+    app(main)

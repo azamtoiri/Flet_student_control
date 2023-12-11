@@ -6,7 +6,8 @@ from utils import CustomContainer
 class Welcome(CustomContainer):
     def __init__(self, page: Page):
         super().__init__(page)
-
+        self.Button_text_for_theme = "Change to red"
+        self.count = 0
         self.page = page
         self.expand = True
         self.alignment = alignment.center
@@ -52,6 +53,15 @@ class Welcome(CustomContainer):
                             text='Регистрация',
                             on_click=lambda _: page.go('/signup')
                         ),
+                    ]
+                ),
+                # Scheme change buttons
+                Row(
+                    vertical_alignment=CrossAxisAlignment.END,
+                    alignment=MainAxisAlignment.END,
+                    controls=[
+                        self.scheme_change_buttons[0],  # red scheme
+                        self.scheme_change_buttons[1],  # blue scheme
                     ]
                 )
             ],
