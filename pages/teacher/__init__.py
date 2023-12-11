@@ -1,6 +1,1 @@
-from flet import *
-
-
-class ClassName(Container):
-    def __init__(self):
-        super().__init__()
+from pages.teacher.teacher_main import TeacherMain

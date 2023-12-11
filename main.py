@@ -2,6 +2,7 @@ import flet as ft
 
 from pages import Login, SignUp, Welcome, Student
 from pages.student_pages import TaskPage, GradePage, CoursePage, StudentWelcome
+from pages.teacher import TeacherMain
 
 
 class Main(ft.UserControl):
@@ -17,7 +18,7 @@ class Main(ft.UserControl):
 
     def init_helper(self):
         self.page.on_route_change = self.on_route_change
-        self.page.go('/student')
+        self.page.go('/teacher')
 
     def on_route_change(self, route):
         new_page = {
@@ -25,6 +26,7 @@ class Main(ft.UserControl):
             "/login": Login,
             "/signup": SignUp,
             "/student": StudentWelcome,
+            "/teacher": TeacherMain,
             "/student/home": Student,
             "/student/tasks": TaskPage,
             "/student/grades": GradePage,
