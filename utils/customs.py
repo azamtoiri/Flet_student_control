@@ -488,8 +488,6 @@ class TeacherLeftNavBar(CustomContainer):
             ]
         )
 
-        # TODO: how to exit from app bar
-
     def on_change(self, e):
         c_index = e.control.selected_index
         if c_index != 4:
