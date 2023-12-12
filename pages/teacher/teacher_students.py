@@ -10,9 +10,10 @@ class Students(CustomContainer):
 
         self.page = page
         self.visible = visible
+        self.page.title = "Teacher page"
+
 
         self.content = Container(
-            # width=1185,
             expand=True,
             bgcolor=RIGHT_COL_COLOR,
             alignment=alignment.center,
@@ -33,7 +34,7 @@ class Students2(CustomContainer):
 
         self.content = Container(
             expand=True,
-            bgcolor='red',
+            bgcolor=RIGHT_COL_COLOR,
             alignment=alignment.center,
             padding=padding.only(left=50, ),
             content=Text(
