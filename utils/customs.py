@@ -4,7 +4,7 @@ from typing import Optional
 import flet_material as fm
 from flet import *
 
-from utils.constants import LOGO_PATH, SHEET_BG_COLOR
+from utils.constants import LOGO_PATH, SHEET_BG_COLOR, LEFT_COL_COLOR
 
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
@@ -409,21 +409,11 @@ class LeftNavBar(CustomContainer):
         e.control.update()
 
 
-class LeftNavBar2(CustomContainer):
+class TeacherLeftNavBar(CustomContainer):
     def __init__(self, page: Page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
-                 page_4: Optional[Control],
-                 page_5: Optional[Control]):
+                 page_4: Optional[Control]):
         super().__init__(page)
         self.page = page
-
-        def on_change(e):
-            c_index = e.control.selected_index
-            page_1.visible = True if c_index == 0 else False
-            page_2.visible = True if c_index == 1 else False
-            page_3.visible = True if c_index == 2 else False
-            page_4.visible = True if c_index == 3 else False
-            page_5.visible = True if c_index == 4 else False
-            self.page.update()
 
         self.expand = False
 
@@ -431,22 +421,45 @@ class LeftNavBar2(CustomContainer):
         self.page_2 = page_2
         self.page_3 = page_3
         self.page_4 = page_4
-        self.page_5 = page_5
 
         self.content = NavigationRail(
-            # bgcolor="blue",
-            on_change=on_change,
-            leading=Container(
-                content=Row(
-                    controls=[
-                        Image(src=LOGO_PATH, height=50, width=50),
-                        Text(value='FoxHub', size=14)
-                    ]
-                ),
-                on_click=lambda _: print("Hello")
+            min_width=150,
+            bgcolor=colors.with_opacity(0.21, LEFT_COL_COLOR),
+            on_change=self.on_change,
+            leading=Column(
+                alignment=alignment.center,
+                horizontal_alignment=CrossAxisAlignment.CENTER,
+                controls=[
+                    Container(
+                        ink=True,
+                        on_click=lambda _: self.page.go('/teacher'),
+                        padding=padding.only(left=15),
+                        border_radius=20,
+                        width=145,
+                        height=60,
+                        content=Row(
+                            alignment=alignment.center,
+                            vertical_alignment=CrossAxisAlignment.CENTER,
+                            controls=[
+                                Image(src=LOGO_PATH, height=50, width=50),
+                                Text(value='FoxHub', size=14, weight=FontWeight.BOLD)
+                            ]
+                        ),
+                    ),
+                    Container(
+                        bgcolor=colors.with_opacity(0.1, 'grey'),
+                        border_radius=25,
+                        content=Row(
+                            controls=[
+                                self.scheme_change_buttons[2],
+                                self.scheme_change_buttons[3],
+                            ]
+                        )
+                    )
+                ]
             ),
             selected_index=0,
-            label_type=NavigationRailLabelType.SELECTED,
+            label_type=NavigationRailLabelType.ALL,
             destinations=[
                 NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
                                           selected_icon=icons.PIE_CHART,
@@ -470,15 +483,20 @@ class LeftNavBar2(CustomContainer):
                                           ),
                 NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
                                           selected_icon=icons.EXIT_TO_APP,
-                                          label='Выйти',
-                                          # label_content=Text('Home'),
+                                          label='Выход'
                                           ),
             ]
         )
 
+        # TODO: how to exit from app bar
+
     def on_change(self, e):
         c_index = e.control.selected_index
-        self.page_1.visible = True if c_index == 0 else False
-        self.page_2.visible = True if c_index == 1 else False
-        self.page.update()
-        print('page.update()')
+        if c_index != 4:
+            self.page_1.visible = True if c_index == 0 else False
+            self.page_2.visible = True if c_index == 1 else False
+            self.page_3.visible = True if c_index == 2 else False
+            self.page_4.visible = True if c_index == 3 else False
+            self.page.update()
+        else:
+            self.page.go('/') if c_index == 4 else None
