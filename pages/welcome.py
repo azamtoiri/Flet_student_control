@@ -6,8 +6,6 @@ from utils import CustomContainer
 class Welcome(CustomContainer):
     def __init__(self, page: Page):
         super().__init__(page)
-        self.Button_text_for_theme = "Change to red"
-        self.count = 0
         self.page = page
         self.expand = True
         self.alignment = alignment.center
