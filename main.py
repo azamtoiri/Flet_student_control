@@ -1,17 +1,11 @@
 import flet as ft
+from pages.application import Application
 
 
-def main(page: ft.Page):
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.title = "First run"
-
-    page.add(
-        ft.Text("First_run", size=100)
-    )
-
-    page.update()
+def main() -> None:
+    ft.app(target=Application)
+    # ft.app(target=Application, view=ft.WEB_BROWSER)
 
 
 if __name__ == '__main__':
-    ft.app(target=main)
+    main()
