@@ -2,6 +2,7 @@ from flet import *
 
 from views.common_views import WelcomeView, LoginView, RegisterView
 from utils.handler import Handler
+# TODO: Check, how tot set ok for value check on Fields
 
 
 class Application:
@@ -22,7 +23,7 @@ class Application:
 
         self.handler = Handler(self)
 
-        self.show_welcome_view()
+        self.show_register_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
