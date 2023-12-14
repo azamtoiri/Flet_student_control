@@ -1,6 +1,6 @@
 from flet import *
 
-from pages.common_views import WelcomeView, LoginView, RegisterView
+from views.common_views import WelcomeView, LoginView, RegisterView
 from utils.handler import Handler
 
 

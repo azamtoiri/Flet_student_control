@@ -1,5 +1,5 @@
 import flet as ft
-from pages.application import Application
+from views.application import Application
 
 
 def main() -> None:

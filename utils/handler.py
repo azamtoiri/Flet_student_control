@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from pages.application import Application
+    from views.application import Application
 
 
 class Handler:
