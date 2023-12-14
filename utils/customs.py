@@ -1,9 +1,10 @@
 import asyncio
+from typing import Optional
 
 import flet_material as fm
 from flet import *
 
-from utils.constants import LOGO_PATH
+from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
@@ -58,8 +59,6 @@ class CustomInputField(UserControl):
         self.status.animate_opacity = Animation(200, animation.AnimationCurve.LINEAR)
         self.status.animate_offset = Animation(300, animation.AnimationCurve.EASE)
         self.status.opacity = 0
-
-        self.set_ok()
 
         self.object = self.create_input(title)
 
@@ -168,3 +167,141 @@ class MixedView(View):
         self.title.width = FontWeight.BOLD
         self.title.expand = True
         # endregion
+
+
+class CustomContainer(Container):  # поставлены настройки главного окна
+    def __init__(self, page: Page):
+        super().__init__()
+        self.page = page
+        self.expand = True
+        self.border_radius = 20
+        # self.page.window_height = 980
+        # self.page.window_width = 1820
+        self.page.vertical_alignment = CrossAxisAlignment.CENTER
+        self.page.horizontal_alignment = MainAxisAlignment.CENTER
+        self.alignment = alignment.center
+
+        self.page.fonts = {
+            "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
+            "Open Sans": "/fonts/OpenSans-Regular.ttf"
+        }
+
+        self.scheme_change_buttons = [
+            ElevatedButton(
+                text='Change to Red',
+                icon=icons.SUNNY,
+                icon_color='red',
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="red"))
+            ),
+            ElevatedButton(
+                text='Change to Blue',
+                icon=icons.SUNNY,
+                icon_color='blue',
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="blue"))
+            ),
+            IconButton(
+                icons.SUNNY,
+                icon_color=colors.RED,
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="red"))
+            ),
+            IconButton(
+                icons.SUNNY,
+                icon_color=colors.BLUE,
+                on_click=lambda _: self.change_theme(theme.Theme(color_scheme_seed="blue"))
+            ),
+        ]
+
+    def change_theme(self, theme_: Theme):
+        self.page.theme = theme_
+        self.page.update()
+
+
+class LeftNavBar(CustomContainer):
+    def __init__(self, page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
+                 page_4: Optional[Control]):
+        super().__init__(page)
+        self.page = page
+
+        self.expand = False
+
+        self.page_1 = page_1
+        self.page_2 = page_2
+        self.page_3 = page_3
+        self.page_4 = page_4
+
+        self.content = NavigationRail(
+            min_width=150,
+            bgcolor=colors.with_opacity(0.21, LEFT_COL_COLOR),
+            on_change=self.on_change,
+            leading=Column(
+                alignment=alignment.center,
+                horizontal_alignment=CrossAxisAlignment.CENTER,
+                controls=[
+                    Container(
+                        ink=True,
+                        on_click=lambda _: self.page.go('/teacher'),
+                        padding=padding.only(left=15),
+                        border_radius=20,
+                        width=145,
+                        height=60,
+                        content=Row(
+                            alignment=alignment.center,
+                            vertical_alignment=CrossAxisAlignment.CENTER,
+                            controls=[
+                                Image(src=LOGO_PATH, height=50, width=50),
+                                Text(value='FoxHub', size=14, weight=FontWeight.BOLD)
+                            ]
+                        ),
+                    ),
+                    Container(
+                        bgcolor=colors.with_opacity(0.1, 'grey'),
+                        border_radius=25,
+                        content=Row(
+                            controls=[
+                                self.scheme_change_buttons[2],
+                                self.scheme_change_buttons[3],
+                            ]
+                        )
+                    )
+                ]
+            ),
+            selected_index=0,
+            label_type=NavigationRailLabelType.ALL,
+            destinations=[
+                NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
+                                          selected_icon=icons.PIE_CHART,
+                                          label='Домашняя страница',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.SWITCH_ACCOUNT_OUTLINED,
+                                          selected_icon=icons.SWITCH_ACCOUNT,
+                                          label='Студенты',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.GOLF_COURSE_OUTLINED,
+                                          selected_icon=icons.GOLF_COURSE,
+                                          label='Мои курсы',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.MAP_OUTLINED,
+                                          selected_icon=icons.MAP,
+                                          label='Мои материалы',
+                                          # label_content=Text('Home'),
+                                          ),
+                NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
+                                          selected_icon=icons.EXIT_TO_APP,
+                                          label='Выход'
+                                          ),
+            ]
+        )
+
+    def on_change(self, e):
+        c_index = e.control.selected_index
+        if c_index != 4:
+            self.page_1.visible = True if c_index == 0 else False
+            self.page_2.visible = True if c_index == 1 else False
+            self.page_3.visible = True if c_index == 2 else False
+            self.page_4.visible = True if c_index == 3 else False
+            self.page.update()
+        else:
+            self.page.go('/') if c_index == 4 else None
