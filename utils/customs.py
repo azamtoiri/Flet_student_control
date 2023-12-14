@@ -147,8 +147,6 @@ class CustomContainer(Container):  # поставлены настройки г�
         self.page = page
         self.expand = True
         self.border_radius = 20
-        # self.page.window_height = 980
-        # self.page.window_width = 1820
         self.page.vertical_alignment = CrossAxisAlignment.CENTER
         self.page.horizontal_alignment = MainAxisAlignment.CENTER
         self.alignment = alignment.center
