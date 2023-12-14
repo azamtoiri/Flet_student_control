@@ -14,6 +14,7 @@ class Handler:
 
         self.application.welcome_login_button.on_click = lambda e: self.welcome_login_click()
         self.application.welcome_register_button.on_click = lambda e: self.welcome_register_click()
+        self.application.welcome_login_button2.on_click = lambda e: self.welcome_register_click2()
 
         self.application.not_registered_button.on_click = lambda e: self.not_registered_click()
         self.application.already_registered_button.on_click = lambda e: self.already_registered_click()
@@ -35,3 +36,6 @@ class Handler:
 
     def already_registered_click(self):
         self.application.show_login_view()
+
+    def welcome_register_click2(self):
+        self.application.show_new_login()

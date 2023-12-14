@@ -1,6 +1,7 @@
 from flet import *
 
 from utils.constants import LOGO_PATH
+from utils.customs import CustomInputField
 
 
 class WelcomeView(View):
@@ -37,6 +38,11 @@ class WelcomeView(View):
         self.register_button.icon = icons.APP_REGISTRATION
         self.register_button.expand = True
 
+        self.login_button2 = ElevatedButton()
+        self.login_button2.text = 'Go to new login'
+        self.login_button2.icon = icons.APP_REGISTRATION_OUTLINED
+        self.login_button2.expand = True
+
         content = Column()
         content.width = 400
         content.alignment = MainAxisAlignment.CENTER
@@ -45,6 +51,7 @@ class WelcomeView(View):
         content.controls.append(Row([self.welcome_text]))
         content.controls.append(Row([self.login_button]))
         content.controls.append(Row([self.register_button]))
+        content.controls.append(Row([self.login_button2]))
 
         container = Container()
         container.content = content
@@ -114,3 +121,41 @@ class RegisterView(LoginView):
 
         self.register_button.text = 'Регистрация'
         self.login_button.text = 'Уже есть аккаунт?'
+
+
+class TestLogin(View):
+    def __init__(self):
+        super().__init__()
+        self.route = '/login2'
+        self.horizontal_alignment = CrossAxisAlignment.CENTER
+
+
+        self.title = Text()
+        self.title.value = "Login2 Page"
+        self.title.style = TextThemeStyle.DISPLAY_MEDIUM
+        self.title.text_align = TextAlign.CENTER
+        self.title.expand = True
+
+        self.username_field = CustomInputField(False, 'username')
+        self.password_field = CustomInputField(True, 'password')
+
+        self.login_button = ElevatedButton()
+        self.login_button.text = "Войти"
+        self.login_button.icon = icons.APP_REGISTRATION
+        self.login_button.bgcolor = colors.with_opacity(0.5, 'blue')
+        self.login_button.expand = True
+
+        content = Column()
+        content.width = 400
+        content.alignment = MainAxisAlignment.CENTER
+        content.controls.append(Row([self.title]))
+        content.controls.append(self.username_field)
+        content.controls.append(self.password_field)
+        content.controls.append(Row([self.login_button]))
+
+        container = Container()
+        container.content = content
+        container.border = border.all(1, colors.TRANSPARENT)
+        container.expand = True
+
+        self.controls.append(container)

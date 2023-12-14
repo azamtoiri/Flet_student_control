@@ -1,6 +1,6 @@
 from flet import *
 
-from pages.common_views import WelcomeView, LoginView, RegisterView
+from pages.common_views import WelcomeView, LoginView, RegisterView, TestLogin
 from utils.handler import Handler
 
 
@@ -13,11 +13,13 @@ class Application:
         self.welcome_view = WelcomeView()
         self.login_view = LoginView()
         self.register_view = RegisterView()
+        self.new_login = TestLogin()
 
         self.views = {
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
+            self.new_login.route: self.new_login,
         }
 
         self.handler = Handler(self)
@@ -65,4 +67,11 @@ class Application:
     @property
     def welcome_login_button(self):
         return self.welcome_view.login_button
+
+    @property
+    def welcome_login_button2(self):
+        return self.welcome_view.login_button2
+
+    def show_new_login(self):
+        self.page.go(self.new_login.route)
 
