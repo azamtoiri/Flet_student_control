@@ -1,6 +1,6 @@
 from flet import *
 
-from pages.common_views import WelcomeView, LoginView, RegisterView, TestLogin, TestRegisterView
+from pages.common_views import WelcomeView, LoginView, RegisterView
 from utils.handler import Handler
 
 
@@ -11,17 +11,13 @@ class Application:
         self.page.on_route_change = self.route_change
 
         self.welcome_view = WelcomeView()
-        self.login_view = TestLogin()
-        self.register_view = TestRegisterView()
-        # self.new_login_view = TestLogin()
-        # self.new_register_view = TestRegisterView()
+        self.login_view = LoginView()
+        self.register_view = RegisterView()
 
         self.views = {
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
-            # self.new_login_view.route: self.new_login_view,
-            # self.new_register_view.route: self.new_register_view,
         }
 
         self.handler = Handler(self)
@@ -69,11 +65,4 @@ class Application:
     @property
     def welcome_login_button(self):
         return self.welcome_view.login_button
-
-    @property
-    def welcome_login_button2(self):
-        return self.welcome_view.login_button2
-
-    def show_new_login(self):
-        self.page.go(self.new_login_view.route)
 
