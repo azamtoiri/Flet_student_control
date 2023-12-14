@@ -128,34 +128,74 @@ class TestLogin(View):
         super().__init__()
         self.route = '/login2'
         self.horizontal_alignment = CrossAxisAlignment.CENTER
+        self.vertical_alignment = MainAxisAlignment.CENTER
 
+        self.logo_icon = Image(src=LOGO_PATH)
+        self.logo_icon.width = 100
+        self.logo_icon.height = 100
+        self.logo_icon.expand = True
+
+        self.logo_text = Text()
+        self.logo_text.value = 'FoxHub'
+        self.logo_text.weight = FontWeight.BOLD
+        self.logo_text.text_align = TextAlign.CENTER
+        self.logo_text.color = colors.BLACK
+        self.logo_text.size = 30
+        self.logo_text.expand = True
 
         self.title = Text()
-        self.title.value = "Login2 Page"
-        self.title.style = TextThemeStyle.DISPLAY_MEDIUM
+        self.title.value = "Вход"
+        self.title.style = TextThemeStyle.TITLE_MEDIUM
         self.title.text_align = TextAlign.CENTER
         self.title.expand = True
 
         self.username_field = CustomInputField(False, 'username')
+
         self.password_field = CustomInputField(True, 'password')
 
         self.login_button = ElevatedButton()
         self.login_button.text = "Войти"
         self.login_button.icon = icons.APP_REGISTRATION
-        self.login_button.bgcolor = colors.with_opacity(0.5, 'blue')
+        self.login_button.width = 400
+        self.login_button.height = 45
         self.login_button.expand = True
+
+        self.text_dont_not_registered = Text()
+        self.text_dont_not_registered.value = "Еще нет аккаунта?"
+        self.text_dont_not_registered.size = 15
+        self.text_dont_not_registered.color = colors.with_opacity(0.50, colors.BLACK)
+
+        self.create_account_button = Container()
+        self.create_account_button.alignment = alignment.center
+        self.create_account_button.width = 150
+        self.create_account_button.height = 45
+        self.create_account_button.content = Text(
+            "Регистрация", color=colors.with_opacity(0.50, colors.BLUE))
 
         content = Column()
         content.width = 400
         content.alignment = MainAxisAlignment.CENTER
+        content.controls.append(Row([self.logo_icon]))
+        content.controls.append(Row([self.logo_text]))
         content.controls.append(Row([self.title]))
         content.controls.append(self.username_field)
         content.controls.append(self.password_field)
         content.controls.append(Row([self.login_button]))
 
+        content.controls.append(Row(
+            vertical_alignment=CrossAxisAlignment.CENTER,
+            alignment=MainAxisAlignment.CENTER,
+            controls=[self.text_dont_not_registered, self.create_account_button]
+        )
+        )
+
         container = Container()
+        container.bgcolor = colors.WHITE
+        container.border_radius = 8
         container.content = content
+        container.width = 450
+        container.height = 650
+        container.padding = padding.all(40)
         container.border = border.all(1, colors.TRANSPARENT)
-        container.expand = True
 
         self.controls.append(container)

@@ -1,7 +1,8 @@
 import asyncio
-from flet import *
 
 import flet_material as fm
+from flet import *
+
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
 BG_COLOR = colors.WHITE
@@ -24,6 +25,7 @@ class CustomInputField(UserControl):
                 border_color=BORDER_COLOR,
                 border_width=1,
                 cursor_width=0.5,
+                border_radius=8,
                 cursor_color=colors.BLACK,
                 color=BORDER_COLOR,
                 text_size=13,
