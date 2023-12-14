@@ -13,12 +13,13 @@ BG_COLOR = colors.WHITE
 class CustomInputField(UserControl):
     def __init__(self, password: bool, title: str):
         super().__init__()
-        
+
         self.error = Text()
         self.error.value = 'Incorrect login or password'
         self.error.color = colors.RED_300
         self.error.visible = False
 
+        # region: content for input box
         self.input_box_content = TextField()
         self.input_box_content.hint_text = title
         self.input_box_content.hint_style = TextStyle(color=BORDER_COLOR)
@@ -36,6 +37,7 @@ class CustomInputField(UserControl):
         self.input_box_content.on_focus = self.focus_shadow
         self.input_box_content.on_blur = self.blur_shadow
         self.input_box_content.on_change = self.set_loader_animation
+        # endregion
 
         self.input_box = Container()
         self.input_box.content = self.input_box_content
@@ -48,18 +50,16 @@ class CustomInputField(UserControl):
         self.loader.color = PRIMARY
         self.loader.bgcolor = colors.TRANSPARENT
 
-        self.status: fm.CheckBox = fm.CheckBox(
-            shape="circle",
-            value=False,
-            disabled=True,
-            offset=Offset(1, 0),
-            bottom=0,
-            right=1,
-            top=1,
-            animate_opacity=Animation(200, animation.AnimationCurve.LINEAR),
-            animate_offset=Animation(300, animation.AnimationCurve.EASE),
-            opacity=0,
-        )
+        self.status: fm.CheckBox = fm.CheckBox(shape="circle", value=False, disabled=True)
+        self.status.offset = Offset(1, 0)
+        self.status.bottom = 0
+        self.status.right = 1
+        self.status.top = 1
+        self.status.animate_opacity = Animation(200, animation.AnimationCurve.LINEAR)
+        self.status.animate_offset = Animation(300, animation.AnimationCurve.EASE)
+        self.status.opacity = 0
+
+        self.set_ok()
 
         self.object = self.create_input(title)
 
