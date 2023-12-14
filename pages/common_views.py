@@ -126,7 +126,7 @@ class RegisterView(LoginView):
 class TestLogin(MixedView):
     def __init__(self):
         super().__init__()
-        self.route = '/login2'
+        self.route = '/login'
 
         # region: InputFields
         self.username_field = CustomInputField(False, 'username')

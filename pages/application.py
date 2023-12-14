@@ -11,16 +11,16 @@ class Application:
         self.page.on_route_change = self.route_change
 
         self.welcome_view = WelcomeView()
-        self.login_view = LoginView()
+        self.login_view = TestLogin()
         self.register_view = TestRegisterView()
-        self.new_login_view = TestLogin()
+        # self.new_login_view = TestLogin()
         # self.new_register_view = TestRegisterView()
 
         self.views = {
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
-            self.new_login_view.route: self.new_login_view,
+            # self.new_login_view.route: self.new_login_view,
             # self.new_register_view.route: self.new_register_view,
         }
 
@@ -56,7 +56,7 @@ class Application:
 
     @property
     def not_registered_button(self):
-        return self.login_view.register_button
+        return self.login_view.create_account_button
 
     @property
     def already_registered_button(self):
