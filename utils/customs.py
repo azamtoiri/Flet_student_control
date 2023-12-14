@@ -12,37 +12,35 @@ BG_COLOR = colors.WHITE
 
 class CustomInputField(UserControl):
     def __init__(self, password: bool, title: str):
+        super().__init__()
+        
         self.error = Text()
         self.error.value = 'Incorrect login or password'
         self.error.color = colors.RED_300
         self.error.visible = False
 
-        self.input_box: Container = Container(
-            expand=True,
-            content=TextField(
-                hint_text=title,
-                hint_style=TextStyle(color=BORDER_COLOR),
-                height=50,
-                # few UI properties for the text-fields hard@
-                border_color=BORDER_COLOR,
-                border_width=1,
-                cursor_width=0.5,
-                border_radius=8,
-                cursor_color=colors.BLACK,
-                color=BORDER_COLOR,
-                text_size=13,
+        self.input_box_content = TextField()
+        self.input_box_content.hint_text = title
+        self.input_box_content.hint_style = TextStyle(color=BORDER_COLOR)
+        self.input_box_content.height = 50
+        self.input_box_content.border_color = BORDER_COLOR
+        self.input_box_content.border_width = 1
+        self.input_box_content.cursor_width = 0.5
+        self.input_box_content.border_radius = 8
+        self.input_box_content.cursor_color = colors.BLACK
+        self.input_box_content.color = BORDER_COLOR
+        self.input_box_content.text_size = 14
+        self.input_box_content.bgcolor = BG_COLOR
+        self.input_box_content.password = password
+        self.input_box_content.can_reveal_password = True
+        self.input_box_content.on_focus = self.focus_shadow
+        self.input_box_content.on_blur = self.blur_shadow
+        self.input_box_content.on_change = self.set_loader_animation
 
-                # bgcolor as per the theme
-                bgcolor=BG_COLOR,
-                password=password,
-                can_reveal_password=True,
-                on_focus=self.focus_shadow,
-                on_blur=self.blur_shadow,
-                on_change=self.set_loader_animation,
-            ),
-            animate=Animation(300, animation.AnimationCurve.EASE),
-            shadow=None,
-        )
+        self.input_box = Container()
+        self.input_box.content = self.input_box_content
+        self.input_box.animate = Animation(300, animation.AnimationCurve.EASE)
+        self.input_box.shadow = None
 
         self.loader = ProgressBar()
         self.loader.value = 0
@@ -64,8 +62,6 @@ class CustomInputField(UserControl):
         )
 
         self.object = self.create_input(title)
-
-        super().__init__()
 
     async def set_ok(self):
         self.loader.value = 0
@@ -120,20 +116,23 @@ class CustomInputField(UserControl):
         self.set_loader_animation(e=None)
 
     def create_input(self, title):
-        return Column(
-            spacing=5,
-            controls=[
-                Text(title, size=11, weight=FontWeight.BOLD, color=BORDER_COLOR),
-                Stack(
-                    controls=[
-                        self.input_box,
-                        self.status,
-                    ],
-                ),
-                self.loader,
-                self.error,
-            ],
-        )
+        title_text = Text()
+        title_text.value = title
+        title_text.size = 11
+        title_text.weight = FontWeight.BOLD
+        title_text.color = BORDER_COLOR
+
+        stack_ = Stack()
+        stack_.controls.append(self.input_box)
+        stack_.controls.append(self.status)
+
+        obj = Column()
+        obj.spacing = 5
+        obj.controls.append(title_text)
+        obj.controls.append(stack_)
+        obj.controls.append(self.loader)
+        obj.controls.append(self.error)
+        return obj
 
     def build(self):
         return self.object
