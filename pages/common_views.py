@@ -130,7 +130,6 @@ class RegisterView(MixedView):
         super().__init__()
         # view settings
         self.route = '/register'
-
         self.title.value = 'Регистрация'
 
         self.register_button = ElevatedButton()
@@ -141,7 +140,7 @@ class RegisterView(MixedView):
         self.login_button = Container()
         self.login_button.alignment = alignment.center
         self.login_button.content = Text(
-            value='Войти', color=colors.with_opacity(0.5, colors.BLUE)
+            value='Войти', size=15, color=colors.with_opacity(0.5, colors.BLUE)
         )
 
         self.already_hav_account = Text("У  вас уже есть аккаунт")
