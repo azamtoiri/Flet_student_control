@@ -3,6 +3,8 @@ import asyncio
 import flet_material as fm
 from flet import *
 
+from utils.constants import LOGO_PATH
+
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
 BG_COLOR = colors.WHITE
@@ -135,3 +137,35 @@ class CustomInputField(UserControl):
 
     def build(self):
         return self.object
+
+
+class MixedView(View):
+    def __init__(self):
+        super().__init__()
+        # def page settings
+        self.horizontal_alignment = CrossAxisAlignment.CENTER
+        self.vertical_alignment = MainAxisAlignment.CENTER
+
+        # region: Header
+        self.logo_icon = Image(src=LOGO_PATH)
+        self.logo_icon.width = 100
+        self.logo_icon.height = 100
+        self.logo_icon.expand = True
+
+        self.logo_text = Text()
+        self.logo_text.value = 'FoxHub'
+        self.logo_text.weight = FontWeight.BOLD
+        self.logo_text.text_align = TextAlign.CENTER
+        self.logo_text.color = colors.BLACK
+        self.logo_text.size = 30
+        self.logo_text.expand = True
+
+        self.title = Text()
+        self.title.value = "Вход"
+        self.title.style = TextThemeStyle.TITLE_MEDIUM
+        self.title.text_align = TextAlign.CENTER
+        self.title.color = colors.BLACK
+        self.title.size = 20
+        self.title.width = FontWeight.BOLD
+        self.title.expand = True
+        # endregion
