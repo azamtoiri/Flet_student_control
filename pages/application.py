@@ -1,6 +1,7 @@
 from flet import *
 
 from pages.common_views import WelcomeView, LoginView, RegisterView
+from utils.handler import Handler
 
 
 class Application:
@@ -18,6 +19,8 @@ class Application:
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
         }
+
+        self.handler = Handler(self)
 
         self.show_welcome_view()
 
@@ -45,15 +48,21 @@ class Application:
 
     @property
     def register_button(self) -> TextButton:
+        return self.register_view.register_button
+
+    @property
+    def not_registered_button(self):
         return self.login_view.register_button
 
     @property
+    def already_registered_button(self):
+        return self.register_view.login_button
+
+    @property
     def welcome_register_button(self):
-        return self.welcome_view.login_button
+        return self.welcome_view.register_button
 
     @property
     def welcome_login_button(self):
-        return self.welcome_view.register_button
+        return self.welcome_view.login_button
 
-    # @property
-    # def
