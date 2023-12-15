@@ -10,15 +10,12 @@ class Main(ft.UserControl):
         super().__init__()
         page.theme = ft.theme.Theme(color_scheme_seed="blue")
 
-        # page.window_width = 1920
-        # page.window_height = 1080
-        # page.theme = ft.theme.Theme(color_scheme_seed="red")
         self.page = page
         self.init_helper()
 
-    def init_helper(self):
+    def init_helper(self) -> None:
         self.page.on_route_change = self.on_route_change
-        self.page.go('/login')
+        self.page.go('/signup')
 
     def on_route_change(self, route):
         new_page = {
@@ -43,4 +40,3 @@ class Main(ft.UserControl):
 
 if __name__ == '__main__':
     ft.app(target=Main, host="192.168.0.112", port=58735)
-
