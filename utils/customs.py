@@ -496,3 +496,9 @@ class TeacherLeftNavBar(CustomContainer):
             self.page.update()
         else:
             self.page.go('/') if c_index == 4 else None
+
+
+# TODO: Create MixedContainer for Login and Register Views
+class MixedContainer(CustomContainer):
+    def __init__(self, page: Page):
+        super().__init__(page)

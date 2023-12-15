@@ -4,7 +4,7 @@ BASE_DIR = os.getcwd()
 
 
 def main():
-    command_ = 'flet ' + 'main.py' + ' -d'
+    command_ = 'flet ' + 'main.py' + ' -r'
     os.system(command_)
 
 
