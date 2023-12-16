@@ -39,4 +39,4 @@ class Main(ft.UserControl):
 
 
 if __name__ == '__main__':
-    ft.app(target=Main, host="192.168.0.112", port=58735)
+    ft.app(target=Main, view=ft.FLET_APP_WEB)
