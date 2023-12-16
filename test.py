@@ -1,43 +1,59 @@
 import flet as ft
 
 
-def main(page: ft.Page):
+async def main(page: ft.Page):
+    HEIGHT = 400
 
-    rail = ft.NavigationRail(
-        selected_index=0,
-        label_type=ft.NavigationRailLabelType.ALL,
-        # extended=True,
-        min_width=100,
-        min_extended_width=400,
-        leading=ft.FloatingActionButton(icon=ft.icons.CREATE, text="Add"),
-        group_alignment=-0.9,
-        destinations=[
-            ft.NavigationRailDestination(
-                icon=ft.icons.FAVORITE_BORDER, selected_icon=ft.icons.FAVORITE, label="First"
-            ),
-            ft.NavigationRailDestination(
-                icon_content=ft.Icon(ft.icons.BOOKMARK_BORDER),
-                selected_icon_content=ft.Icon(ft.icons.BOOKMARK),
-                label="Second",
-            ),
-            ft.NavigationRailDestination(
-                icon=ft.icons.SETTINGS_OUTLINED,
-                selected_icon_content=ft.Icon(ft.icons.SETTINGS),
-                label_content=ft.Text("Settings"),
-            ),
-        ],
-        on_change=lambda e: print("Selected destination:", e.control.selected_index),
+    def items(count):
+        items = []
+        for i in range(1, count + 1):
+            items.append(
+                ft.Container(
+                    content=ft.Text(value=str(i)),
+                    alignment=ft.alignment.center,
+                    width=30,
+                    height=30,
+                    bgcolor=ft.colors.AMBER,
+                    border_radius=ft.border_radius.all(5),
+                )
+            )
+        return items
+
+    async def slider_change(e):
+        col.height = float(e.control.value)
+        await col.update_async()
+
+    width_slider = ft.Slider(
+        min=0,
+        max=HEIGHT,
+        divisions=20,
+        value=HEIGHT,
+        label="{value}",
+        width=500,
+        on_change=slider_change,
     )
 
-    page.add(
-        ft.Row(
-            [
-                rail,
-                ft.VerticalDivider(width=1),
-                ft.Column([ ft.Text("Body!")], alignment=ft.MainAxisAlignment.START, expand=True),
-            ],
-            expand=True,
-        )
+    col = ft.Column(
+        wrap=True,
+        spacing=10,
+        run_spacing=10,
+        controls=items(10),
+        height=HEIGHT,
     )
+
+    await page.add_async(ft.Column(
+        [
+            ft.Column(
+                [
+                    ft.Text(
+                        "Change the column height to see how child items wrap onto multiple columns:"
+                    ),
+                    width_slider,
+                ]
+            ),
+            ft.Container(content=col, bgcolor=ft.colors.AMBER_100),
+        ]
+    ))
+
 
 ft.app(target=main)
