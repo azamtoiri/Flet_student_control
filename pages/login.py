@@ -4,6 +4,7 @@ from utils import CustomInputField, CustomContainer
 from utils.constants import LOGO_PATH
 
 
+# TODO: create handler file
 class Login(CustomContainer):
     def __init__(self, page: ft.Page):
         super().__init__(page)
@@ -11,6 +12,7 @@ class Login(CustomContainer):
         self.page.title = "Вход"
         self.page.vertical_alignment = ft.CrossAxisAlignment.CENTER
         self.page.horizontal_alignment = ft.MainAxisAlignment.CENTER
+
         self.alignment = ft.alignment.center
 
         # fields
