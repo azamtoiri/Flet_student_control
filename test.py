@@ -1,59 +1,29 @@
 import flet as ft
 
+from utils.customs import CustomInputField
 
-async def main(page: ft.Page):
-    HEIGHT = 400
 
+def main(page: ft.Page):
     def items(count):
         items = []
         for i in range(1, count + 1):
             items.append(
-                ft.Container(
-                    content=ft.Text(value=str(i)),
-                    alignment=ft.alignment.center,
-                    width=30,
-                    height=30,
-                    bgcolor=ft.colors.AMBER,
-                    border_radius=ft.border_radius.all(5),
-                )
+                ft.TextField(False, f"{i}")
             )
         return items
 
-    async def slider_change(e):
-        col.height = float(e.control.value)
-        await col.update_async()
+    col = ft.Column()
+    col.alignment = ft.MainAxisAlignment.CENTER
+    col.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    col.wrap = True
+    col.controls = items(8)
+    col.height = 300
 
-    width_slider = ft.Slider(
-        min=0,
-        max=HEIGHT,
-        divisions=20,
-        value=HEIGHT,
-        label="{value}",
-        width=500,
-        on_change=slider_change,
-    )
+    page.add(ft.Column(
+        controls=[ft.Container(alignment=ft.alignment.center, content=col)]
 
-    col = ft.Column(
-        wrap=True,
-        spacing=10,
-        run_spacing=10,
-        controls=items(10),
-        height=HEIGHT,
-    )
-
-    await page.add_async(ft.Column(
-        [
-            ft.Column(
-                [
-                    ft.Text(
-                        "Change the column height to see how child items wrap onto multiple columns:"
-                    ),
-                    width_slider,
-                ]
-            ),
-            ft.Container(content=col, bgcolor=ft.colors.AMBER_100),
-        ]
     ))
 
 
-ft.app(target=main)
+if __name__ == '__main__':
+    ft.app(target=main)
