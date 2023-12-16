@@ -352,3 +352,46 @@ nav_bar_destinations = [
                               label='Выход'
                               ),
 ]
+
+
+# need to refactor on Container for do shadow, focus and other
+class CustomTextField(TextField):
+    def __init__(self, password: bool, title: str) -> None:
+        super().__init__()
+        # text_style.on_change = self.set_loader_animation
+
+        self.password = password
+        self.hint_text = title
+        self.hint_style = TextStyle(color=BORDER_COLOR)
+        self.can_reveal_password = password
+        self.bgcolor = BG_COLOR
+        self.text_size = 14
+        self.height = 50
+        self.border_width = 1
+        self.cursor_width = 0.5
+        self.border_radius = 8
+        self.cursor_color = colors.BLACK
+        self.border_color = BORDER_COLOR
+        self.color = BORDER_COLOR
+        self.on_focus = self.on_focus
+        self.on_blur = self.on_blur
+        self.shadow = None
+
+    def on_focus(self):
+        """Focus shadow when focusing"""
+        # self.error.visible = False
+        self.border_color = BORDER_COLOR
+        self.shadow = BoxShadow(
+            spread_radius=6,
+            blur_radius=8,
+            color=colors.with_opacity(0.25, BORDER_COLOR),
+            offset=Offset(4, 4)
+        )
+        self.update()
+        # self.set_loader_animation(e=None)
+
+    def on_blur(self):
+        """ Blur when the textfield loses focus"""
+        self.shadow = None
+        self.border_color = BORDER_COLOR
+        # self.set_loader_animation(e=None)
