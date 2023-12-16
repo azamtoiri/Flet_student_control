@@ -28,7 +28,7 @@ class Application:
 
         self.handler = Handler(self)
 
-        self.show_student_view()
+        self.show_register_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)

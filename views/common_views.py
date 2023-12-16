@@ -1,7 +1,7 @@
 from flet import *
 
 from utils.constants import LOGO_PATH
-from utils.customs import CustomInputField, MixedView
+from utils.customs import CustomInputField, MixedView, CustomTextField
 
 
 class WelcomeView(View):
@@ -133,14 +133,14 @@ class RegisterView(MixedView):
         self.title.value = 'Регистрация'
 
         # region: InputFields
-        self.surname = CustomInputField(False, "Фамилия")
-        self.name = CustomInputField(False, "Имя")
-        self.second_name = CustomInputField(False, "Отчество")
-        self.group = CustomInputField(False, "Группа")
-        self.age = CustomInputField(False, "Возраст")
-        self.email = CustomInputField(False, "Email")
-        self.password = CustomInputField(True, "Пароль")
-        self.password2 = CustomInputField(True, "Пароль")
+        self.surname_fields = CustomTextField(False, "Фамилия")
+        self.name_fields = CustomTextField(False, "Имя")
+        self.second_name_fields = CustomTextField(False, "Отчество")
+        self.group_fields = CustomTextField(False, "Группа")
+        self.age_fields = CustomTextField(False, "Возраст")
+        self.email_fields = CustomTextField(False, "Email")
+        self.password_fields = CustomTextField(True, "Пароль")
+        self.password2_fields = CustomTextField(True, "Пароль")
         # endregion
 
         # region: Buttons
@@ -162,32 +162,27 @@ class RegisterView(MixedView):
         self.already_hav_account.color = colors.with_opacity(0.5, colors.BLACK)
         # endregion
 
-        left_column = Column()
-        left_column.controls.append(self.surname)
-        left_column.controls.append(self.name)
-        left_column.controls.append(self.second_name)
-        left_column.controls.append(self.group)
-
-        right_column = Column()
-        right_column.controls.append(self.age)
-        right_column.controls.append(self.email)
-        right_column.controls.append(self.password)
-        right_column.controls.append(self.password2)
+        fields_col = Column([
+            self.surname_fields,
+            self.name_fields,
+            self.second_name_fields,
+            self.group_fields,
+            self.age_fields,
+            self.email_fields,
+            self.password_fields,
+            self.password2_fields
+        ])
+        fields_col.wrap = True
+        fields_col.height = 250
 
         content = Column()
-        # content.width = 400
+        content.scroll = ScrollMode.AUTO
         content.alignment = MainAxisAlignment.CENTER
         content.controls.append(Row([self.logo_icon]))
         content.controls.append(Row([self.logo_text]))
         content.controls.append(Row([self.title]))
-        content.controls.append(self.name)
-        content.controls.append(self.surname)
-        content.controls.append(Row([self.age]))
-        # content.controls.append(Row(
-        #     vertical_alignment=CrossAxisAlignment.CENTER,
-        #     alignment=MainAxisAlignment.CENTER,
-        #     controls=[left_column, right_column]))
-        content.controls.append(Row([self.register_button]))
+        content.controls.append(Row(alignment=MainAxisAlignment.CENTER, controls=[fields_col]))
+        content.controls.append(Row(alignment=MainAxisAlignment.CENTER, controls=[self.register_button]))
         content.controls.append(Row(
             vertical_alignment=CrossAxisAlignment.CENTER,
             alignment=MainAxisAlignment.CENTER,
@@ -197,11 +192,9 @@ class RegisterView(MixedView):
         container.bgcolor = colors.WHITE
         container.border_radius = 8
         container.content = content
-        container.width = 450
-        # container.height = 650
-        container.alignment = alignment.center
+        container.width = 800
+        container.height = 650
         container.padding = padding.all(40)
         container.border = border.all(1, colors.TRANSPARENT)
-        container.expand = True
 
         self.controls.append(container)
