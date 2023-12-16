@@ -216,6 +216,7 @@ class CustomContainer(Container):  # поставлены настройки г�
         self.page.update()
 
 
+# idea for label_type add function to change modes and button also
 class LeftNavBar(CustomContainer):
     def __init__(self, page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
                  page_4: Optional[Control]):
@@ -305,3 +306,49 @@ class LeftNavBar(CustomContainer):
             self.page.update()
         else:
             self.page.go('/') if c_index == 4 else None
+
+
+nav_bar_leading = Container(
+    alignment=alignment.center,
+    ink=True,
+    border_radius=20,
+    content=Column(
+        controls=[
+            Image(src=LOGO_PATH, height=50, width=50),
+            Text(value='FoxHub', size=14, weight=FontWeight.BOLD)
+        ]
+    ),
+    on_click=lambda _: print('heelo')
+)
+# can add drop-out nav_bar to this FloatingActionButton
+nav_bar_leading_2 = Container(
+    content=Column(
+        [
+            Image(src=LOGO_PATH, height=50, width=50),
+            FloatingActionButton(text="FoxHub", autofocus=True)
+        ]
+    )
+)
+
+nav_bar_destinations = [
+    NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
+                              selected_icon=icons.PIE_CHART,
+                              label_content=Text(value='Домашняя страница', text_align=TextAlign.CENTER),
+                              ),
+    NavigationRailDestination(icon=icons.SWITCH_ACCOUNT_OUTLINED,
+                              selected_icon=icons.SWITCH_ACCOUNT,
+                              label='Студенты',
+                              ),
+    NavigationRailDestination(icon=icons.GOLF_COURSE_OUTLINED,
+                              selected_icon=icons.GOLF_COURSE,
+                              label='Мои курсы',
+                              ),
+    NavigationRailDestination(icon=icons.MAP_OUTLINED,
+                              selected_icon=icons.MAP,
+                              label_content=Text(value='Мои материалы', text_align=TextAlign.CENTER),
+                              ),
+    NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
+                              selected_icon=icons.EXIT_TO_APP,
+                              label='Выход'
+                              ),
+]
