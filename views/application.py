@@ -2,6 +2,9 @@ from flet import *
 
 from views.common_views import WelcomeView, LoginView, RegisterView
 from utils.handler import Handler
+from views.student_pages.student_main import StudentView
+
+
 # TODO: Check, how tot set ok for value check on Fields
 
 
@@ -14,16 +17,18 @@ class Application:
         self.welcome_view = WelcomeView()
         self.login_view = LoginView()
         self.register_view = RegisterView()
+        self.student_view = StudentView()
 
         self.views = {
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
+            self.student_view.route: self.student_view,
         }
 
         self.handler = Handler(self)
 
-        self.show_register_view()
+        self.show_student_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
@@ -34,6 +39,7 @@ class Application:
                 self.page.views.append(view)
                 break
 
+    # region: Showing views
     def show_register_view(self) -> None:
         self.page.go(self.register_view.route)
 
@@ -42,6 +48,10 @@ class Application:
 
     def show_welcome_view(self):
         self.page.go(self.welcome_view.route)
+
+    def show_student_view(self):
+        self.page.go(self.student_view.route)
+    # endregion
 
     @property
     def login_button(self) -> OutlinedButton:
