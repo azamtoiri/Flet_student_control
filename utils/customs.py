@@ -72,14 +72,11 @@ class CustomInputField(UserControl):
         stack_.controls.append(self.input_box)
         stack_.controls.append(self.status)  # check box status
 
-        self.obj = Column()
+        self.obj = Container(height=80)
+        self.obj.content = Column(
+            [title_text, stack_, self.loader, self.error]
+        )
         self.obj.spacing = 5
-        self.obj.controls.append(title_text)
-        self.obj.controls.append(stack_)
-        self.obj.controls.append(self.loader)  # progress bar
-        self.obj.controls.append(self.error)  # error message
-        # endregion
-
         self.object = self.obj
 
     async def set_ok(self):
@@ -134,74 +131,8 @@ class CustomInputField(UserControl):
         self.update()
         self.set_loader_animation(e=None)
 
-    def create_input(self, title):
-        title_text = Text()
-        title_text.value = title
-        title_text.size = 11
-        title_text.weight = FontWeight.BOLD
-        title_text.color = BORDER_COLOR
-
-        stack_ = Stack()
-        stack_.controls.append(self.input_box)
-        stack_.controls.append(self.status)  # check box status
-
-        self.obj.spacing = 5
-        self.obj.controls.append(title_text)
-        self.obj.controls.append(stack_)
-        self.obj.controls.append(self.loader)  # progress bar
-        self.obj.controls.append(self.error)  # error message
-        return self.obj
-
     def build(self):
         return self.object
-
-
-# need to refactor on Container for do shadow, focus and other
-class CustomTextField(Container):
-    def __init__(self, password: bool, title: str) -> None:
-        super().__init__()
-        # text_style.on_change = self.set_loader_animation
-        self.input_box = TextField()
-        self.input_box.password = password
-        self.input_box.hint_text = title
-        self.input_box.hint_style = TextStyle(color=BORDER_COLOR)
-        self.input_box.can_reveal_password = password
-        self.input_box.bgcolor = BG_COLOR
-        self.input_box.text_size = 14
-        self.input_box.height = 50
-        self.input_box.border_width = 1
-        self.input_box.cursor_width = 0.5
-        self.input_box.border_radius = 8
-        self.input_box.cursor_color = colors.BLACK
-        self.input_box.border_color = BORDER_COLOR
-        self.input_box.color = BORDER_COLOR
-        self.input_box.on_focus = self.focus_shadow
-        self.input_box.on_blur = self.blur_shadow
-
-        self.content = self.input_box
-        self.shadow = None
-        self.animate = Animation(300, animation.AnimationCurve.EASE)
-
-    def focus_shadow(self, e):
-        """Focus shadow when focusing"""
-        # self.error.visible = False
-        # self.input_box.border_color = BORDER_COLOR
-        self.input_box.border_color = BORDER_COLOR
-        self.shadow = BoxShadow(
-            spread_radius=6,
-            blur_radius=8,
-            color=colors.with_opacity(0.25, BORDER_COLOR),
-            offset=Offset(4, 4)
-        )
-        self.update()
-        # self.set_loader_animation(e=None)
-
-    def blur_shadow(self, e):
-        """ Blur when the textfield loses focus"""
-        self.shadow = None
-        self.input_box.border_color = BORDER_COLOR
-        self.update()
-        # self.set_loader_animation(e=None)
 
 
 class MixedView(View):
