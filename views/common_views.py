@@ -1,7 +1,7 @@
 from flet import *
 
 from utils.constants import LOGO_PATH
-from utils.customs import CustomInputField, MixedView, CustomTextField
+from utils.customs import CustomInputField, MixedView
 
 
 class WelcomeView(View):
@@ -132,15 +132,20 @@ class RegisterView(MixedView):
         self.route = '/register'
         self.title.value = 'Регистрация'
 
+        class MixedCustomInputField(CustomInputField):  # for rule DRY
+            def __init__(self, password: bool, title: str):
+                super().__init__(password, title)
+                self.obj.width = 300
+
         # region: InputFields
-        self.surname_fields = CustomTextField(False, "Фамилия")
-        self.name_fields = CustomTextField(False, "Имя")
-        self.second_name_fields = CustomTextField(False, "Отчество")
-        self.group_fields = CustomTextField(False, "Группа")
-        self.age_fields = CustomTextField(False, "Возраст")
-        self.email_fields = CustomTextField(False, "Email")
-        self.password_fields = CustomTextField(True, "Пароль")
-        self.password2_fields = CustomTextField(True, "Пароль")
+        self.surname_field = MixedCustomInputField(False, "Фамилия")
+        self.name_field = MixedCustomInputField(False, "Имя")
+        self.second_name_field = MixedCustomInputField(False, "Отчество")
+        self.group_field = MixedCustomInputField(False, "Группа")
+        self.age_field = MixedCustomInputField(False, "Возраст")
+        self.email_field = MixedCustomInputField(False, "Email")
+        self.password_field = MixedCustomInputField(True, "Пароль")
+        self.password2_field = MixedCustomInputField(True, "Пароль")
         # endregion
 
         # region: Buttons
@@ -148,6 +153,7 @@ class RegisterView(MixedView):
         self.register_button.text = 'Создать аккаунт'
         self.register_button.width = 400
         self.register_button.height = 45
+        self.register_button.icon = icons.KEY
 
         self.login_button = Container()
         self.login_button.alignment = alignment.center
@@ -163,17 +169,17 @@ class RegisterView(MixedView):
         # endregion
 
         fields_col = Column([
-            self.surname_fields,
-            self.name_fields,
-            self.second_name_fields,
-            self.group_fields,
-            self.age_fields,
-            self.email_fields,
-            self.password_fields,
-            self.password2_fields
+            self.surname_field,
+            self.name_field,
+            self.second_name_field,
+            self.group_field,
+            self.age_field,
+            self.email_field,
+            self.password_field,
+            self.password2_field
         ])
         fields_col.wrap = True
-        fields_col.height = 250
+        fields_col.height = 350
 
         content = Column()
         content.scroll = ScrollMode.AUTO
@@ -186,15 +192,16 @@ class RegisterView(MixedView):
         content.controls.append(Row(
             vertical_alignment=CrossAxisAlignment.CENTER,
             alignment=MainAxisAlignment.CENTER,
-            controls=[self.already_hav_account, self.login_button]))
+            controls=[self.already_hav_account, self.login_button]
+        ))
 
         container = Container()
         container.bgcolor = colors.WHITE
         container.border_radius = 8
         container.content = content
         container.width = 800
-        container.height = 650
-        container.padding = padding.all(40)
+        container.height = 700
+        container.padding = padding.all(20)
         container.border = border.all(1, colors.TRANSPARENT)
 
         self.controls.append(container)
