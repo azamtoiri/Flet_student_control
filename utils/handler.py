@@ -1,4 +1,8 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
+
+from db.database import DataBase
+from db.model import User
+from utils import constants
 
 if TYPE_CHECKING:
     from views.application import Application
@@ -7,7 +11,13 @@ if TYPE_CHECKING:
 class Handler:
 
     def __init__(self, application: 'Application') -> None:
+        """Этот класс будет обрабатывать все события"""
         self.application = application
+
+        # region: DB
+        self.database = DataBase(constants.DB_NAME)
+        self.user: Optional[User] = None
+        # endregion
 
         self.application.login_button.on_click = lambda e: self.login_click()  # login button on login_view
         self.application.register_button.on_click = lambda e: self.register_click()
@@ -24,7 +34,9 @@ class Handler:
             form = self.application.get_login_form()
             username = form.get('username')
             password = form.get('password')
-            print(form)
+
+            # check have user?
+            user = self.database.login_user(username, password)
         except Exception as e:
             print(e)
 
