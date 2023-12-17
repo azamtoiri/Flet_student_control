@@ -142,7 +142,7 @@ class RegisterView(MixedView):
         self.name_field = MixedCustomInputField(False, "Имя")  # Имя
         self.second_name_field = MixedCustomInputField(False, "Отчество")  # Отчество
         self.group_field = MixedCustomInputField(False, "Группа")  # Группа
-        self.rank_field = MixedCustomInputField(False, "Звание")  # Звание
+        self.course_field = MixedCustomInputField(False, "Курс")  # Звание
         self.age_field = MixedCustomInputField(False, "Возраст")  # Возраст
         self.email_field = MixedCustomInputField(False, "Email")  # Email
         self.username_field = MixedCustomInputField(False, "Имя пользователя - Логин")  # Имя пользователя - Логин
@@ -175,7 +175,7 @@ class RegisterView(MixedView):
             self.name_field,
             self.second_name_field,
             self.group_field,
-            self.rank_field,
+            self.course_field,
             self.age_field,
             self.email_field,
             self.username_field,

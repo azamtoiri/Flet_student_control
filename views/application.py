@@ -98,6 +98,7 @@ class Application:
         name = str(self.register_view.name_field.input_box_content.value).strip()
         second_name = str(self.register_view.second_name_field.input_box_content.value).strip()
         group = str(self.register_view.group_field.input_box_content.value).strip()
+        course = str(self.register_view.course_field.input_box_content.value).strip()
         age = str(self.register_view.age_field.input_box_content.value).strip()
         email = str(self.register_view.email_field.input_box_content.value).strip()
         username = str(self.register_view.username_field.input_box_content.value).strip()
@@ -109,6 +110,7 @@ class Application:
             'name': name if len(name) else None,
             'second_name': second_name if len(second_name) else None,
             'group': group if len(group) else None,
+            'course': course if len(course) else None,
             'age': age if len(age) else None,
             'email': email if len(email) else None,
             'username': username if len(username) else None,

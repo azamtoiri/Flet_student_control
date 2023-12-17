@@ -36,6 +36,7 @@ class Handler:
             name = form.get('name')
             second_name = form.get('second_name')
             group = form.get('group')
+            course = form.get('course')
             age = form.get('age')
             email = form.get('email')
             username = form.get('username')
