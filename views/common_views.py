@@ -138,14 +138,16 @@ class RegisterView(MixedView):
                 self.obj.width = 300
 
         # region: InputFields
-        self.surname_field = MixedCustomInputField(False, "Фамилия")
-        self.name_field = MixedCustomInputField(False, "Имя")
-        self.second_name_field = MixedCustomInputField(False, "Отчество")
-        self.group_field = MixedCustomInputField(False, "Группа")
-        self.age_field = MixedCustomInputField(False, "Возраст")
-        self.email_field = MixedCustomInputField(False, "Email")
-        self.password_field = MixedCustomInputField(True, "Пароль")
-        self.password2_field = MixedCustomInputField(True, "Пароль")
+        self.last_name = MixedCustomInputField(False, "Фамилия")  # Фамилия
+        self.name_field = MixedCustomInputField(False, "Имя")  # Имя
+        self.second_name_field = MixedCustomInputField(False, "Отчество")  # Отчество
+        self.group_field = MixedCustomInputField(False, "Группа")  # Группа
+        self.rank_field = MixedCustomInputField(False, "Звание")  # Звание
+        self.age_field = MixedCustomInputField(False, "Возраст")  # Возраст
+        self.email_field = MixedCustomInputField(False, "Email")  # Email
+        self.username_field = MixedCustomInputField(False, "Имя пользователя - Логин")  # Имя пользователя - Логин
+        self.password_field = MixedCustomInputField(True, "Пароль")  # Пароль
+        self.password2_field = MixedCustomInputField(True, "Введите пароль еще раз")  # Пароль
         # endregion
 
         # region: Buttons
@@ -169,17 +171,19 @@ class RegisterView(MixedView):
         # endregion
 
         fields_col = Column([
-            self.surname_field,
+            self.last_name,
             self.name_field,
             self.second_name_field,
             self.group_field,
+            self.rank_field,
             self.age_field,
             self.email_field,
+            self.username_field,
             self.password_field,
             self.password2_field
         ])
         fields_col.wrap = True
-        fields_col.height = 350
+        fields_col.height = 450
 
         content = Column()
         content.scroll = ScrollMode.AUTO
@@ -200,7 +204,7 @@ class RegisterView(MixedView):
         container.border_radius = 8
         container.content = content
         container.width = 800
-        container.height = 700
+        # container.height = 700
         container.padding = padding.all(20)
         container.border = border.all(1, colors.TRANSPARENT)
 

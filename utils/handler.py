@@ -9,7 +9,7 @@ class Handler:
     def __init__(self, application: 'Application') -> None:
         self.application = application
 
-        self.application.login_button.on_click = lambda e: self.login_click()  # login button on login_veiw
+        self.application.login_button.on_click = lambda e: self.login_click()  # login button on login_view
         self.application.register_button.on_click = lambda e: self.register_click()
 
         self.application.welcome_login_button.on_click = lambda e: self.welcome_login_click()
@@ -32,12 +32,13 @@ class Handler:
         try:
             form = self.application.get_register_form()
 
-            surname = form.get('surname')
+            last_name = form.get('last_name')
             name = form.get('name')
             second_name = form.get('second_name')
             group = form.get('group')
             age = form.get('age')
             email = form.get('email')
+            username = form.get('username')
             password = form.get('password')
             password2 = form.get('password2')
             print(form)

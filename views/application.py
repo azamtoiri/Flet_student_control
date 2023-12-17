@@ -94,22 +94,24 @@ class Application:
         }
 
     def get_register_form(self) -> Dict[str, Optional[str]]:
-        surname = str(self.register_view.surname_field.input_box_content.value).strip()
+        last_name = str(self.register_view.last_name.input_box_content.value).strip()
         name = str(self.register_view.name_field.input_box_content.value).strip()
         second_name = str(self.register_view.second_name_field.input_box_content.value).strip()
         group = str(self.register_view.group_field.input_box_content.value).strip()
         age = str(self.register_view.age_field.input_box_content.value).strip()
         email = str(self.register_view.email_field.input_box_content.value).strip()
+        username = str(self.register_view.username_field.input_box_content.value).strip()
         password = str(self.register_view.password_field.input_box_content.value).strip()
         password2 = str(self.register_view.password2_field.input_box_content.value).strip()
 
         return {
-            'surname': surname if len(surname) else None,
+            'last_name': last_name if len(last_name) else None,
             'name': name if len(name) else None,
             'second_name': second_name if len(second_name) else None,
             'group': group if len(group) else None,
             'age': age if len(age) else None,
             'email': email if len(email) else None,
+            'username': username if len(username) else None,
             'password': password if len(password) else None,
             'password2': password2 if len(password2) else None,
         }
