@@ -70,9 +70,9 @@ class LoginView(MixedView):
         self.route = '/login'
 
         # region: InputFields
-        self.username_field = CustomInputField(False, 'username')
+        self.username_field = CustomInputField(False, 'Имя пользователя')
 
-        self.password_field = CustomInputField(True, 'password')
+        self.password_field = CustomInputField(True, 'Пароль')
         # endregion
 
         # region: Buttons
