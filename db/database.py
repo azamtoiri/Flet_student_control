@@ -4,7 +4,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 Base = declarative_base()
 
 
-# TODO: CRUD for DB
+# TODO: CRUD for db
 
 class DataBase:
     def __init__(self, db_name: str) -> None:
