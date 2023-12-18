@@ -14,7 +14,7 @@ class DataBase:
     def __init__(self, db_name: str) -> None:
         """Configure database"""
         engine = create_engine(f'sqlite:///{db_name}')
-        Base.metadata.create_all(engine)
+        # Base.metadata.create_all(engine)
         Session = sessionmaker(engine)
         self.session = Session()
         self.create_default_user()
