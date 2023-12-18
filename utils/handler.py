@@ -37,6 +37,7 @@ class Handler:
 
             # check have user?
             user = self.database.login_user(username, password)
+            self.application.show_student_view()
         except Exception as e:
             print(e)
 

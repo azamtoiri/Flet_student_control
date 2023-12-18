@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -23,7 +23,7 @@ class User(Base):
     age = Column(Integer)
     group = Column(String)
     course = Column(Integer)
-    username = Column(String)
+    username = Column(String, unique=True)
     password = Column(String)
     role_id = Column(Integer, ForeignKey('roles.role_id'))
     roles = relationship('Role', back_populates='users')
@@ -58,7 +58,3 @@ class Grade(Base):
     grade = Column(Integer)
     date = Column(Date)
     user = relationship('User', back_populates='grades')
-
-
-engine = create_engine(f'sqlite:///db.sqlite3', echo=True)
-Base.metadata.create_all(engine)

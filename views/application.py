@@ -30,7 +30,7 @@ class Application:
 
         self.handler = Handler(self)
 
-        self.show_register_view()
+        self.show_welcome_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
