@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 from db.model import User, Base
 from utils import constants
-from utils.exception import RequiredField, AlreadyRegistered
+from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 
 
 # TODO: CRUD for db
@@ -17,11 +17,11 @@ class DataBase:
         Base.metadata.create_all(engine)
         Session = sessionmaker(engine)
         self.session = Session()
-        # self.create_default_user()
+        self.create_default_user()
 
     def login_user(
             self, username: Optional[str], password: Optional[str]
-    ) -> 'User':
+    ) -> Type[User]:
         if username is None:
             raise RequiredField('username')
 
@@ -29,6 +29,10 @@ class DataBase:
             raise RequiredField('password')
 
         users = self.filter_users(username=username, password=password)
+        if not users:
+            raise NotRegistered('Invalid username or password')
+        else:
+            return users[0]
 
     def filter_users(self, **values) -> List[Type[User]]:
         return self.session.query(User).filter_by(**values).all()
