@@ -3,7 +3,7 @@ from typing import Optional, List, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-from db.model import User, Base
+from db.model import User, Base, engine
 from utils import constants
 from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 
@@ -13,8 +13,6 @@ from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 class DataBase:
     def __init__(self, db_name: str) -> None:
         """Configure database"""
-        engine = create_engine(f'sqlite:///{db_name}')
-        # Base.metadata.create_all(engine)
         Session = sessionmaker(engine)
         self.session = Session()
         self.create_default_user()
