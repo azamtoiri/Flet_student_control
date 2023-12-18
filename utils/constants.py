@@ -1,8 +1,7 @@
-from pathlib import Path
+from typing import cast, TypeVar, NewType, overload, Union, Callable, Optional
 
+from decouple import config
 from flet import colors
-
-BASE_DIR = Path().parent
 
 LOGO_PATH = '../assets/Fox_Hub_logo.png'
 BLUE = '9caede'
@@ -11,19 +10,53 @@ RIGHT_COL_COLOR = '#F7F8FC'
 SHEET = '#9FA2B4'
 
 SHEET_BG_COLOR = colors.with_opacity(0.1, color=SHEET)
-DB_NAME_SQLITE = BASE_DIR / 'db.sqlite3'
 
-DEFAULT_USERNAME = "admin"
-DEFAULT_PASSWORD = "admin"
-
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_USER = "postgres"
-DB_PASS = "1234"
-DB_NAME = "postgres"
+T = TypeVar("T")
+V = TypeVar("V")
+Sentinel = NewType("Sentinel", object)
+_MISSING = cast(Sentinel, object())
 
 
-def DATABASE_URL_psycopg2():
-    # DSN
-    # postgresql+psycopg://postgres:postgres@localhost:5432/sa
-    return f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+@overload
+def _get_config(search_path: str, cast: None = None, default: Union[V, Sentinel] = _MISSING) -> Union[str, V]:
+    ...
+
+
+@overload
+def _get_config(search_path: str, cast: Callable[[str], T], default: Union[V, Sentinel] = _MISSING) -> Union[T, V]:
+    ...
+
+
+def _get_config(
+        search_path: str,
+        cast: Optional[Callable[[str], object]] = None,
+        default: object = _MISSING,
+) -> object:
+    """Wrapper around decouple.config that can handle typing better."""
+    if cast is None:
+        cast = lambda x: x
+
+    if default is not _MISSING:
+        obj = config(search_path, cast=cast, default=default)
+    else:
+        obj = config(search_path, cast=cast)
+
+    return obj
+
+
+class Connection:
+    """Config connection to database"""
+
+    DATABASE_URL = _get_config("DATABASE_URL")  # postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}
+
+    DATABASE_USERNAME = _get_config("DATABASE_USERNAME", str, "postgres")
+    DATABASE_PASSWORD = _get_config("DATABASE_PASSWORD", str, "12345678")
+    DATABASE_PORT = _get_config("DATABASE_PORT", str, "5432")
+    DATABASE_HOSTNAME = _get_config("DATABASE_HOSTNAME", str, "postgres")
+    DATABASE_NAME = _get_config("DATABASE_NAME", str, default="postgres")
+
+
+class UserDefaults:
+    """User default setting"""
+    DEFAULT_USERNAME = _get_config("DEFAULT_USERNAME", str, "admin")
+    DEFAULT_PASSWORD = _get_config("DEFAULT_PASSWORD", str, "admin")

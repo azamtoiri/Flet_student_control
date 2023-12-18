@@ -15,7 +15,7 @@ class Handler:
         self.application = application
 
         # region: DB
-        self.database = DataBase(constants.DB_NAME)
+        self.database = DataBase()
         self.user: Optional[User] = None
         # endregion
 

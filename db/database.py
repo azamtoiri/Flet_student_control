@@ -4,27 +4,24 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 from db.model import User, Base
-from utils import constants
-from utils.constants import DATABASE_URL_psycopg2
+from utils.constants import Connection, UserDefaults
 from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
-
-postgres_url = DATABASE_URL_psycopg2()
 
 
 # TODO: CRUD for db
 
 class DataBase:
-    def __init__(self, db_name: str) -> None:
+    def __init__(self) -> None:
         """This class will configure our database."""
-        engine = create_engine(url=postgres_url, echo=True)
+        engine = create_engine(url=Connection.DATABASE_URL, echo=True)
         Base.metadata.create_all(engine)
         Session = sessionmaker(engine)
         self.session = Session()
         self.create_default_user()
 
     def create_default_user(self) -> None:
-        username = constants.DEFAULT_USERNAME
-        password = constants.DEFAULT_PASSWORD
+        username = UserDefaults.DEFAULT_USERNAME
+        password = UserDefaults.DEFAULT_PASSWORD
         if not self.filter_users(username=username):
             user = User(username=username, password=password)
             self.insert_user(user)
