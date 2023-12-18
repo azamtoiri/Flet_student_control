@@ -1,59 +1,64 @@
-from typing import TYPE_CHECKING
-
-from sqlalchemy import Column, Integer, String, ForeignKey, Date
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, create_engine
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
 
-class User(Base):
-    __tablename__ = 'Users'
-
-    UserID = Column(Integer, primary_key=True)
-    LastName = Column(String)
-    FirstName = Column(String)
-    MiddleName = Column(String)
-    # DateOfBirth = Column(Date)
-    Group = Column(String)
-    Course = Column(Integer)
-    Username = Column(String)
-    Password = Column(String)
-    RoleID = Column(Integer, ForeignKey('Roles.RoleID'))
-    roles = relationship('Role', back_populates='users')
-
-
 class Role(Base):
-    __tablename__ = 'Roles'
+    __tablename__ = 'roles'
 
-    RoleID = Column(Integer, primary_key=True)
-    RoleName = Column(String)
-    Description = Column(String)
+    role_id = Column(Integer, primary_key=True)
+    role_name = Column(String)
+    description = Column(String)
     users = relationship('User', back_populates='roles')
 
 
-class UserRoles(Base):
-    __tablename__ = 'UserRoles'
+class User(Base):
+    __tablename__ = 'users'
 
-    ID = Column(Integer, primary_key=True)
-    UserID = Column(Integer, ForeignKey('Users.UserID'))
-    RoleID = Column(Integer, ForeignKey('Roles.RoleID'))
+    user_id = Column(Integer, primary_key=True)
+    last_name = Column(String)
+    first_name = Column(String)
+    middle_name = Column(String)
+    age = Column(Integer)
+    group = Column(String)
+    course = Column(Integer)
+    username = Column(String)
+    password = Column(String)
+    role_id = Column(Integer, ForeignKey('roles.role_id'))
+    roles = relationship('Role', back_populates='users')
+    subjects = relationship('Subject', back_populates='user')
+    grades = relationship('Grade', back_populates='user')
+
+
+class UserRoles(Base):
+    __tablename__ = 'user_roles'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    role_id = Column(Integer, ForeignKey('roles.role_id'))
 
 
 class Subject(Base):
-    __tablename__ = 'Subjects'
+    __tablename__ = 'subjects'
 
-    SubjectID = Column(Integer, primary_key=True)
-    SubjectName = Column(String)
-    Description = Column(String)
-    UserID = Column(Integer, ForeignKey('Users.UserID'))
+    subject_id = Column(Integer, primary_key=True)
+    subject_name = Column(String)
+    description = Column(String)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
     user = relationship('User', back_populates='subjects')
 
 
 class Grade(Base):
-    __tablename__ = 'Grades'
+    __tablename__ = 'grades'
 
-    GradeID = Column(Integer, primary_key=True)
-    UserID = Column(Integer, ForeignKey('Users.UserID'))
-    SubjectID = Column(Integer, ForeignKey('Subjects.SubjectID'))
-    Grade = Column(Integer)
-    Date = Column(Date)
+    grade_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
+    grade = Column(Integer)
+    date = Column(Date)
+    user = relationship('User', back_populates='grades')
+
+
+engine = create_engine(f'sqlite:///db.sqlite3', echo=True)
+Base.metadata.create_all(engine)
