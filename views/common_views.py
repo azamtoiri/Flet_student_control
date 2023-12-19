@@ -131,7 +131,6 @@ class RegisterView(MixedView):
         super().__init__()
         # view settings
         self.route = '/register'
-        self.title.value = 'Регистрация'
 
         class MixedCustomInputField(CustomInputField):  # for rule DRY
             def __init__(self, password: bool, title: str):

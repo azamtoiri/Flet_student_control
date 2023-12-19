@@ -11,4 +11,6 @@ class AlreadyRegistered(Exception):
 
 
 class NotRegistered(Exception):
-    ...
+    def __init__(self, field: str):
+        self.field = field
+        super().__init__(f'Неправильный логин или пароль')
