@@ -35,9 +35,14 @@ class Handler:
             username = form.get('username')
             password = form.get('password')
 
+            # hide banners
+            self.application.hide_banner()
+            self.application.hide_login_form_error()
+
             # check have user?
             user = self.database.login_user(username, password)
             self.application.show_student_view()
+            self.application.display_success_snack(f'Welcome {username}')
 
             # ops, some required field is not informed, lets give a feedback.
         except RequiredField as error:
@@ -49,7 +54,7 @@ class Handler:
 
         # ok, some thing really bad hapened.
         except Exception as error:
-            print(error)
+            self.application.display_warning_banner(str(error))
 
     def register_click(self):  # registering
         try:
@@ -66,6 +71,9 @@ class Handler:
             password = form.get('password')
             password2 = form.get('password2')
 
+            # hide banners
+            self.application.hide_banner()
+
             self.database.register_user2(
                 first_name=first_name, last_name=last_name, middle_name=middle_name,
                 username=username, password=password
@@ -80,10 +88,10 @@ class Handler:
             self.application.display_register_form_error('username', str(error))
 
         except AlreadyRegistered as error:
+            self.application.display_warning_banner(str(error))
             self.application.display_register_form_error('username', str(error))
-
         except Exception as error:
-            print(error)
+            self.application.display_warning_banner(str(error))
 
     def welcome_login_click(self):  # change view
         self.application.show_login_view()
@@ -92,7 +100,9 @@ class Handler:
         self.application.show_register_view()
 
     def not_registered_click(self):  # change view to register
+        self.application.hide_banner()
         self.application.show_register_view()
 
     def already_registered_click(self):  # change view to log in
+        self.application.hide_banner()
         self.application.show_login_view()

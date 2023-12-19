@@ -3,6 +3,7 @@ from typing import Optional, Dict
 
 from flet import *
 
+from utils.banners import SuccessSnackBar, WarningBanner
 from utils.handler import Handler
 from views.common_views import WelcomeView, LoginView, RegisterView
 from views.student_pages.student_main import StudentView
@@ -22,6 +23,10 @@ class Application:
         self.login_view = LoginView()
         self.register_view = RegisterView()
         self.student_view = StudentView()
+
+        # hide banners
+        self.hide_banner()
+        self.hide_login_form_error()
 
         self.views = {
             self.welcome_view.route: self.welcome_view,
@@ -85,7 +90,7 @@ class Application:
 
     # endregion
 
-    # region: Getting forms
+    # region: Forms
     def get_login_form(self) -> Dict[str, Optional[str]]:
         username = str(self.login_view.username_field.input_box_content.value).strip()
         password = str(self.login_view.password_field.input_box_content.value).strip()
@@ -119,6 +124,18 @@ class Application:
             'password': password if len(password) else None,
             'password2': password2 if len(password2) else None,
         }
+
+    def set_login_form(self, username: str, password: str) -> None:
+        self.login_view.username_field.input_box_content.value = username
+        self.login_view.password_field.input_box_content = password
+        self.page.update()
+
+    # TODO: enter all fields
+    def set_register_form(self, username: str, password: str) -> None:
+        self.register_view.username_field.value = username
+        self.register_view.password_field.value = password
+        self.page.update()
+
     # endregion
 
     # region: Display errors
@@ -130,7 +147,6 @@ class Application:
             # fields[field].input_box_content.error_text = message
             asyncio.run(fields[field].set_fail(message))
             self.page.update()
-
 
     def display_register_form_error(self, field: str, message: str):
         first_name_field = self.register_view.first_name
@@ -159,4 +175,32 @@ class Application:
             # fields[field].input_box_content.error_text = message
             asyncio.run(fields[field].set_fail(message))
             self.page.update()
+
+    # endregion
+
+    # region: Banners
+    def hide_banner(self) -> None:
+        if self.page.banner is not None:
+            self.page.banner.open = False
+            self.page.update()
+
+    def hide_login_form_error(self) -> None:
+        self.login_view.username_field.error_text = None
+        self.login_view.password_field.error_text = None
+        self.page.update()
+
+    def display_success_snack(self, message: str) -> None:
+        snack_bar = SuccessSnackBar(message)
+        self.page.show_snack_bar(snack_bar)
+        self.page.update()
+
+    def display_warning_banner(self, message: str) -> None:
+        banner = WarningBanner(self.page, message)
+        self.page.show_banner(banner)
+        self.page.update()
+
+    def clear_login_form(self) -> None:
+        self.set_login_form('', '')
+
+
     # endregion
