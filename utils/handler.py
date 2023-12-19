@@ -1,9 +1,9 @@
+import asyncio
 from typing import TYPE_CHECKING, Optional
 
 from db.database import DataBase
 from db.model import User
-from utils import constants
-
+from utils.exception import NotRegistered, AlreadyRegistered, RequiredField
 if TYPE_CHECKING:
     from views.application import Application
 
@@ -38,8 +38,22 @@ class Handler:
             # check have user?
             user = self.database.login_user(username, password)
             self.application.show_student_view()
-        except Exception as e:
-            print(e)
+
+            # ops, some required field is not informed, lets give a feedback.
+        except RequiredField as error:
+            # asyncio.run(self.application.login_view.username_field.set_fail("required filed"))
+            self.application.display_login_form_error(error.field, str(error))
+
+        # ops, this user not exists, lets give a feedback.
+        except NotRegistered as error:
+            # asyncio.run(self.application.login_view.set_fail())
+            self.application.display_login_form_error('username', str(error))
+
+        # ok, some thing really bad hapened.
+        except Exception as error:
+            # asyncio.run(self.application.login_view.set_fail())
+            print(error)
+            # self.application.display_warning_banner(str(error))
 
     def register_click(self):  # registering
         try:

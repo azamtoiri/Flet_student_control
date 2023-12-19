@@ -1,29 +1,21 @@
-import flet as ft
+from flet import *
 
 from utils.customs import CustomInputField
 
 
-def main(page: ft.Page):
-    def items(count):
-        items = []
-        for i in range(1, count + 1):
-            items.append(
-                ft.TextField(False, f"{i}")
-            )
-        return items
+def main(page: Page):
+    def set_error_text(e, message):
+        text.input_box_content.error_text = message
+        text.input_box_content.update()
+        e.page.update()
 
-    col = ft.Column()
-    col.alignment = ft.MainAxisAlignment.CENTER
-    col.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    col.wrap = True
-    col.controls = items(8)
-    col.height = 300
+    text = CustomInputField(False, "TestText")
+    button = ElevatedButton("Click")
+    button.on_click = lambda e: set_error_text(e, "ERERERE")
+    button.expand = True
 
-    page.add(ft.Column(
-        controls=[ft.Container(alignment=ft.alignment.center, content=col)]
-
-    ))
+    page.add(text, button)
 
 
 if __name__ == '__main__':
-    ft.app(target=main)
+    app(target=main)

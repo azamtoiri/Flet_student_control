@@ -13,7 +13,7 @@ from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 class DataBase:
     def __init__(self) -> None:
         """This class will configure our database."""
-        engine = create_engine(url=Connection.DATABASE_URL, echo=True)
+        engine = create_engine(url=Connection.DATABASE_URL)
         Base.metadata.create_all(engine)
         Session = sessionmaker(engine)
         self.session = Session()

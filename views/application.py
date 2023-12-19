@@ -1,3 +1,4 @@
+import asyncio
 from typing import Optional, Dict
 
 from flet import *
@@ -14,6 +15,7 @@ class Application:
     def __init__(self, page: Page):
         self.page = page
         self.page.title = 'Student control'
+        self.page.window_height = 1000
         self.page.on_route_change = self.route_change
 
         self.welcome_view = WelcomeView()
@@ -117,4 +119,15 @@ class Application:
             'password': password if len(password) else None,
             'password2': password2 if len(password2) else None,
         }
+    # endregion
+
+    # region: Display errors
+    def display_login_form_error(self, field: str, message: str):
+        username_field = self.login_view.username_field
+        password_field = self.login_view.password_field
+        fields = {'username': username_field, 'password': password_field}
+        if field in fields.keys():
+            # fields[field].input_box_content.error_text = message
+            asyncio.run(fields[field].set_fail(message))
+            self.page.update()
     # endregion

@@ -99,6 +99,7 @@ class LoginView(MixedView):
         # endregion
 
         content = Column()
+        content.spacing = 20
         content.width = 400
         content.alignment = MainAxisAlignment.CENTER
         content.controls.append(Row([self.logo_icon]))
