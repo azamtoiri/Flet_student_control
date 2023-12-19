@@ -16,16 +16,16 @@ class Role(Base):
 class User(Base):
     __tablename__ = 'users'
 
-    user_id = Column(Integer, primary_key=True)
-    last_name = Column(String)
-    first_name = Column(String)
-    middle_name = Column(String)
-    age = Column(Integer)
-    group = Column(String)
-    course = Column(Integer)
-    username = Column(String, unique=True)
-    password = Column(String)
-    role_id = Column(Integer, ForeignKey('roles.role_id'))
+    user_id = Column(Integer, primary_key=True)  # id
+    last_name = Column(String)  # fam
+    first_name = Column(String)  # imya
+    middle_name = Column(String)  # отчество
+    age = Column(Integer)  # let
+    group = Column(String)  # группа
+    course = Column(Integer)  # курс
+    username = Column(String, unique=True)  # username for login
+    password = Column(String)  # password for login
+    role_id = Column(Integer, ForeignKey('roles.role_id'))  # role
     roles = relationship('Role', back_populates='users')
     subjects = relationship('Subject', back_populates='user')
     grades = relationship('Grade', back_populates='user')

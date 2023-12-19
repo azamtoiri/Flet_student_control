@@ -138,9 +138,9 @@ class RegisterView(MixedView):
                 self.obj.width = 300
 
         # region: InputFields
-        self.last_name = MixedCustomInputField(False, "Фамилия")  # Фамилия
-        self.name_field = MixedCustomInputField(False, "Имя")  # Имя
-        self.second_name_field = MixedCustomInputField(False, "Отчество")  # Отчество
+        self.first_name = MixedCustomInputField(False, "Фамилия")  # Фамилия
+        self.last_name_field = MixedCustomInputField(False, "Имя")  # Имя
+        self.middle_name_field = MixedCustomInputField(False, "Отчество")  # Отчество
         self.group_field = MixedCustomInputField(False, "Группа")  # Группа
         self.course_field = MixedCustomInputField(False, "Курс")  # Звание
         self.age_field = MixedCustomInputField(False, "Возраст")  # Возраст
@@ -148,6 +148,13 @@ class RegisterView(MixedView):
         self.username_field = MixedCustomInputField(False, "Имя пользователя - Логин")  # Имя пользователя - Логин
         self.password_field = MixedCustomInputField(True, "Пароль")  # Пароль
         self.password2_field = MixedCustomInputField(True, "Введите пароль еще раз")  # Пароль
+
+        # Adding filters on fields
+        self.first_name.input_box_content.input_filter = TextOnlyInputFilter()
+        self.last_name_field.input_box_content.input_filter = TextOnlyInputFilter()
+        self.middle_name_field.input_box_content.input_filter = TextOnlyInputFilter()
+        self.course_field.input_box_content.input_filter = NumbersOnlyInputFilter()
+
         # endregion
 
         # region: Buttons
@@ -171,9 +178,9 @@ class RegisterView(MixedView):
         # endregion
 
         fields_col = Column([
-            self.last_name,
-            self.name_field,
-            self.second_name_field,
+            self.first_name,
+            self.last_name_field,
+            self.middle_name_field,
             self.group_field,
             self.course_field,
             self.age_field,

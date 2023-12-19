@@ -41,27 +41,23 @@ class Handler:
 
             # ops, some required field is not informed, lets give a feedback.
         except RequiredField as error:
-            # asyncio.run(self.application.login_view.username_field.set_fail("required filed"))
             self.application.display_login_form_error(error.field, str(error))
 
         # ops, this user not exists, lets give a feedback.
         except NotRegistered as error:
-            # asyncio.run(self.application.login_view.set_fail())
             self.application.display_login_form_error('username', str(error))
 
         # ok, some thing really bad hapened.
         except Exception as error:
-            # asyncio.run(self.application.login_view.set_fail())
             print(error)
-            # self.application.display_warning_banner(str(error))
 
     def register_click(self):  # registering
         try:
             form = self.application.get_register_form()
 
+            first_name = form.get('first_name')
             last_name = form.get('last_name')
-            name = form.get('name')
-            second_name = form.get('second_name')
+            middle_name = form.get('middle_name')
             group = form.get('group')
             course = form.get('course')
             age = form.get('age')
@@ -69,9 +65,20 @@ class Handler:
             username = form.get('username')
             password = form.get('password')
             password2 = form.get('password2')
+
+            # if password2 is None:
+            #     raise RequiredField('password2')
+
+            # self.database.register_user2()
             print(form)
-        except Exception as e:
-            print(e)
+        except RequiredField as error:
+            self.application.display_login_form_error(error.field, str(error))
+
+        except NotRegistered as error:
+            self.application.display_login_form_error('username', str(error))
+
+        except Exception as error:
+            print(error)
 
     def welcome_login_click(self):  # change view
         self.application.show_login_view()

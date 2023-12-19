@@ -96,9 +96,9 @@ class Application:
         }
 
     def get_register_form(self) -> Dict[str, Optional[str]]:
-        last_name = str(self.register_view.last_name.input_box_content.value).strip()
-        name = str(self.register_view.name_field.input_box_content.value).strip()
-        second_name = str(self.register_view.second_name_field.input_box_content.value).strip()
+        first_name = str(self.register_view.first_name.input_box_content.value).strip()
+        last_name = str(self.register_view.last_name_field.input_box_content.value).strip()
+        middle_name = str(self.register_view.middle_name_field.input_box_content.value).strip()
         group = str(self.register_view.group_field.input_box_content.value).strip()
         course = str(self.register_view.course_field.input_box_content.value).strip()
         age = str(self.register_view.age_field.input_box_content.value).strip()
@@ -108,9 +108,9 @@ class Application:
         password2 = str(self.register_view.password2_field.input_box_content.value).strip()
 
         return {
+            'first_name': first_name if len(first_name) else None,
             'last_name': last_name if len(last_name) else None,
-            'name': name if len(name) else None,
-            'second_name': second_name if len(second_name) else None,
+            'middle_name': middle_name if len(middle_name) else None,
             'group': group if len(group) else None,
             'course': course if len(course) else None,
             'age': age if len(age) else None,
@@ -125,6 +125,24 @@ class Application:
     def display_login_form_error(self, field: str, message: str):
         username_field = self.login_view.username_field
         password_field = self.login_view.password_field
+        fields = {'username': username_field, 'password': password_field}
+        if field in fields.keys():
+            # fields[field].input_box_content.error_text = message
+            asyncio.run(fields[field].set_fail(message))
+            self.page.update()
+
+
+    def display_register_form_error(self, field: str, message: str):
+        last_name_field = self.register_view.first_name
+        name_field = self.register_view.last_name_field
+        second_name_field = self.register_view.middle_name_field
+        group_field = self.register_view.group_field
+        course_field = self.register_view.course_field
+        age_field = self.register_view.age_field
+        email_field = self.register_view.email_field
+        username_field = self.register_view.username_field
+        password_field = self.register_view.password_field
+        password_field2 = self.register_view.password2_field
         fields = {'username': username_field, 'password': password_field}
         if field in fields.keys():
             # fields[field].input_box_content.error_text = message
