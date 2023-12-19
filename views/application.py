@@ -133,9 +133,9 @@ class Application:
 
 
     def display_register_form_error(self, field: str, message: str):
-        last_name_field = self.register_view.first_name
-        name_field = self.register_view.last_name_field
-        second_name_field = self.register_view.middle_name_field
+        first_name_field = self.register_view.first_name
+        last_name_field = self.register_view.last_name_field
+        middle_name_field = self.register_view.middle_name_field
         group_field = self.register_view.group_field
         course_field = self.register_view.course_field
         age_field = self.register_view.age_field
@@ -143,7 +143,18 @@ class Application:
         username_field = self.register_view.username_field
         password_field = self.register_view.password_field
         password_field2 = self.register_view.password2_field
-        fields = {'username': username_field, 'password': password_field}
+        fields = {
+            'first_name': first_name_field,
+            'last_name': last_name_field,
+            'middle_name': middle_name_field,
+            'group': group_field,
+            "course": course_field,
+            "age": age_field,
+            "email": email_field,
+            'username': username_field,
+            'password': password_field,
+            'password2': password_field2
+        }
         if field in fields.keys():
             # fields[field].input_box_content.error_text = message
             asyncio.run(fields[field].set_fail(message))

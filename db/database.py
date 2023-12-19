@@ -73,28 +73,36 @@ class DataBase:
         return user
 
     def register_user2(
-            self, user: Optional[User], first_name, last_name, middle_name,
+            self, first_name, last_name, middle_name, username,
+            password
     ) -> User:
-        if user.first_name or user.last_name or user.middle_name is None:
-            raise RequiredField('name')
-        if user.last_name is None:
+        if first_name is None:
+            raise RequiredField('first_name')
+        if last_name is None:
             raise RequiredField('last_name')
-        if user.middle_name is None:
-            raise RequiredField('second_name')
+        if middle_name is None:
+            raise RequiredField('middle_name')
 
-        if user.username is None:
+        if username is None:
             raise RequiredField('username')
 
-        if user.password is None:
+        if password is None:
             raise RequiredField('password')
 
-        if self.filter_users(username=user.username):
+        if self.filter_users(username=username):
             raise AlreadyRegistered('username')
+
+        user = User(
+            first_name=first_name,
+            last_name=last_name,
+            middle_name=middle_name,
+            username=username,
+            password=password,
+        )
 
         self.insert_user(user)
 
         return user
-        # ...
 
     def login_user(
             self, username: Optional[str], password: Optional[str]

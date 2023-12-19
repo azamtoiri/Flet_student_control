@@ -1,9 +1,9 @@
-import asyncio
 from typing import TYPE_CHECKING, Optional
 
 from db.database import DataBase
 from db.model import User
-from utils.exception import NotRegistered, AlreadyRegistered, RequiredField
+from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
+
 if TYPE_CHECKING:
     from views.application import Application
 
@@ -66,16 +66,21 @@ class Handler:
             password = form.get('password')
             password2 = form.get('password2')
 
-            # if password2 is None:
-            #     raise RequiredField('password2')
+            self.database.register_user2(
+                first_name=first_name, last_name=last_name, middle_name=middle_name,
+                username=username, password=password
+            )
 
-            # self.database.register_user2()
-            print(form)
+            if password2 is None:
+                raise RequiredField('password2')
         except RequiredField as error:
-            self.application.display_login_form_error(error.field, str(error))
+            self.application.display_register_form_error(error.field, str(error))
 
         except NotRegistered as error:
-            self.application.display_login_form_error('username', str(error))
+            self.application.display_register_form_error('username', str(error))
+
+        except AlreadyRegistered as error:
+            self.application.display_register_form_error('username', str(error))
 
         except Exception as error:
             print(error)
