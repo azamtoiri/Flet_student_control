@@ -173,21 +173,12 @@ class MixedView(View):
 
 # section CustomContainer
 class CustomContainer(Container):  # поставлены настройки главного окна
-    def __init__(self, page: Page):
+    def __init__(self):
         super().__init__()
-        self.page = page
+        # self.page = page
         self.expand = True
         self.border_radius = 20
-        # self.page.window_height = 980
-        # self.page.window_width = 1820
-        self.page.vertical_alignment = CrossAxisAlignment.CENTER
-        self.page.horizontal_alignment = MainAxisAlignment.CENTER
         self.alignment = alignment.center
-
-        self.page.fonts = {
-            "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
-            "Open Sans": "/fonts/OpenSans-Regular.ttf"
-        }
 
         self.scheme_change_buttons = [
             ElevatedButton(
@@ -313,27 +304,15 @@ class LeftNavBar(CustomContainer):
 
 
 # section NavBarLeading - header
-nav_bar_leading = Container(
-    alignment=alignment.center,
-    ink=True,
-    border_radius=20,
-    content=Column(
-        controls=[
-            Image(src=LOGO_PATH, height=50, width=50),
-            Text(value='FoxHub', size=14, weight=FontWeight.BOLD)
-        ]
-    ),
-    on_click=lambda _: print('heelo')
-)
-
 # can add drop-out nav_bar to this FloatingActionButton
-nav_bar_leading_2 = Container(
-    content=Column(
-        [
-            Image(src=LOGO_PATH, height=50, width=50),
-            FloatingActionButton(text="FoxHub", autofocus=True)
-        ]
-    )
+nav_bar_leading = Column(
+    spacing=15,
+    alignment=MainAxisAlignment.CENTER,
+    controls=
+    [
+        Image(src=LOGO_PATH, height=60, width=60),
+        Text(value="FoxHub", text_align=TextAlign.CENTER, size=18, )
+    ]
 )
 
 # section Nav_bar_destinations

@@ -17,6 +17,10 @@ class Application(ApplicationUtils):
         self.page.title = 'Student control'
         self.page.window_height = 1000
         self.page.on_route_change = self.route_change
+        self.page.fonts = {
+            "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
+            "Open Sans": "/fonts/OpenSans-Regular.ttf"
+        }
 
         # hide banners
         self.hide_banner()
@@ -34,7 +38,7 @@ class Application(ApplicationUtils):
         self.handler = Handler(self)
 
         # showing view
-        self.show_welcome_view()
+        self.show_student_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
