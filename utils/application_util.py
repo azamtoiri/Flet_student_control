@@ -89,7 +89,7 @@ class ApplicationUtil:
         :return None
         """
         self.login_view.username_field.input_box_content.value = username
-        self.login_view.password_field.input_box_content = password
+        self.login_view.password_field.input_box_content.value = password
         self.page.update()
 
     def set_register_form(
