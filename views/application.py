@@ -2,7 +2,7 @@ import asyncio
 
 from flet import Page, RouteChangeEvent, TemplateRoute
 
-from utils.application_util import ApplicationUtil
+from utils.application_utils import ApplicationUtils
 from utils.banners import SuccessSnackBar, WarningBanner
 from utils.handler import Handler
 
@@ -10,7 +10,7 @@ from utils.handler import Handler
 # TODO: Check, how tot set ok for value check on Fields
 
 
-class Application(ApplicationUtil):
+class Application(ApplicationUtils):
     def __init__(self, page: Page):
         super().__init__(page)
         # self.page = page
@@ -57,46 +57,6 @@ class Application(ApplicationUtil):
 
     def show_student_view(self):
         self.page.go(self.student_view.route)
-
-    # endregion
-
-    # region: Display errors
-    def display_login_form_error(self, field: str, message: str):
-        username_field = self.login_view.username_field
-        password_field = self.login_view.password_field
-        fields = {'username': username_field, 'password': password_field}
-        if field in fields.keys():
-            # fields[field].input_box_content.error_text = message
-            asyncio.run(fields[field].set_fail(message))
-            self.page.update()
-
-    def display_register_form_error(self, field: str, message: str):
-        first_name_field = self.register_view.first_name
-        last_name_field = self.register_view.last_name_field
-        middle_name_field = self.register_view.middle_name_field
-        group_field = self.register_view.group_field
-        course_field = self.register_view.course_field
-        age_field = self.register_view.age_field
-        email_field = self.register_view.email_field
-        username_field = self.register_view.username_field
-        password_field = self.register_view.password_field
-        password_field2 = self.register_view.password2_field
-        fields = {
-            'first_name': first_name_field,
-            'last_name': last_name_field,
-            'middle_name': middle_name_field,
-            'group': group_field,
-            "course": course_field,
-            "age": age_field,
-            "email": email_field,
-            'username': username_field,
-            'password': password_field,
-            'password2': password_field2
-        }
-        if field in fields.keys():
-            # fields[field].input_box_content.error_text = message
-            asyncio.run(fields[field].set_fail(message))
-            self.page.update()
 
     # endregion
 
