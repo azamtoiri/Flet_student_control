@@ -94,15 +94,19 @@ class Handler:
             self.application.display_warning_banner(str(error))
 
     def welcome_login_click(self):  # change view
+        self.application.clear_login_form()
         self.application.show_login_view()
 
     def welcome_register_click(self):  # change view
+        self.application.clear_register_form()
         self.application.show_register_view()
 
     def not_registered_click(self):  # change view to register
+        self.application.clear_register_form()
         self.application.hide_banner()
         self.application.show_register_view()
 
     def already_registered_click(self):  # change view to log in
+        self.application.clear_login_form()
         self.application.hide_banner()
         self.application.show_login_view()

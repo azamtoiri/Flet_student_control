@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from flet import Page, OutlinedButton, ElevatedButton, TextButton
+from flet import Page, OutlinedButton, TextButton
 
 from views.common_views import WelcomeView, LoginView, RegisterView
 from views.student_pages.student_main import StudentView
@@ -83,15 +83,34 @@ class ApplicationUtil:
         }
 
     # Login form setter
-    def set_login_form(self, username: str, password: str) -> None:
+    def set_login_form(self, username: str = "", password: str = "") -> None:
+        """Set values on a login form
+        by defaults all is empty
+        :return None
+        """
         self.login_view.username_field.input_box_content.value = username
         self.login_view.password_field.input_box_content = password
         self.page.update()
 
-    # TODO: enter all fields
-    def set_register_form(self, username: str, password: str) -> None:
+    def set_register_form(
+            self, first_name: str = "", last_name: str = "", middle_name: str = "", group: str = "",
+            course: int = None, age: int = None, email: str = "", username: str = "", password: str = "",
+            password2: str = ""
+    ) -> None:
+        """Set values on a register form:
+        by defaults all is empty
+        :return None
+        """
+        self.register_view.first_name.input_box_content.value = first_name
+        self.register_view.last_name_field.input_box_content.value = last_name
+        self.register_view.middle_name_field.input_box_content.value = middle_name
+        self.register_view.group_field.input_box_content.value = group
+        self.register_view.course_field.input_box_content.value = course
+        self.register_view.age_field.input_box_content.value = age
+        self.register_view.email_field.input_box_content.value = email
         self.register_view.username_field.value = username
         self.register_view.password_field.value = password
+        self.register_view.password2_field.input_box_content.value = password2
         self.page.update()
 
     # endregion

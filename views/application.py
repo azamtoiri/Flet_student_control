@@ -124,4 +124,7 @@ class Application(ApplicationUtil):
     def clear_login_form(self) -> None:
         self.set_login_form('', '')
 
+    def clear_register_form(self) -> None:
+        self.set_register_form()
+
     # endregion
