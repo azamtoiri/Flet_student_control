@@ -1,5 +1,3 @@
-import asyncio
-
 from flet import Page, RouteChangeEvent, TemplateRoute
 
 from utils.application_utils import ApplicationUtils
