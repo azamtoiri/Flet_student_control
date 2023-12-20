@@ -19,6 +19,7 @@ class DataBase:
         self.session = Session()
         self.create_default_user()
 
+    # section user creating
     def create_default_user(self) -> None:
         username = UserDefaults.DEFAULT_USERNAME
         password = UserDefaults.DEFAULT_PASSWORD
@@ -26,6 +27,7 @@ class DataBase:
             user = User(username=username, password=password)
             self.insert_user(user)
 
+    # section CRUD
     def insert_user(self, user: 'User') -> None:
         if user.username is None:
             raise RequiredField('username')
@@ -53,26 +55,6 @@ class DataBase:
         return self.session.query(User).filter_by(**values).all()
 
     def register_user(
-            self, username: Optional[str], password: Optional[str]
-    ) -> 'User':
-        if username is None:
-            raise RequiredField('username')
-
-        if password is None:
-            raise RequiredField('password')
-
-        if self.filter_users(username=username):
-            raise AlreadyRegistered('username')
-
-        user = User(
-            username=username,
-            password=password,
-        )
-        self.insert_user(user)
-
-        return user
-
-    def register_user2(
             self, first_name, last_name, middle_name, username,
             password
     ) -> User:
@@ -104,6 +86,7 @@ class DataBase:
 
         return user
 
+    # TODO: Add password hashing
     def login_user(
             self, username: Optional[str], password: Optional[str]
     ) -> Type[User]:

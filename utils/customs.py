@@ -6,11 +6,13 @@ from flet import *
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
+# section constants
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
 BG_COLOR = colors.WHITE
 
 
+# section CustomInputField
 class CustomInputField(UserControl):
     def __init__(self, password: bool, title: str):
         super().__init__()
@@ -136,6 +138,7 @@ class CustomInputField(UserControl):
         return self.object
 
 
+# section MixedView
 class MixedView(View):
     def __init__(self):
         super().__init__()
@@ -168,6 +171,7 @@ class MixedView(View):
         # endregion
 
 
+# section CustomContainer
 class CustomContainer(Container):  # поставлены настройки главного окна
     def __init__(self, page: Page):
         super().__init__()
@@ -216,6 +220,7 @@ class CustomContainer(Container):  # поставлены настройки г�
 
 
 # idea for label_type add function to change modes and button also
+# section LeftNavBar
 class LeftNavBar(CustomContainer):
     def __init__(self, page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
                  page_4: Optional[Control]):
@@ -307,6 +312,7 @@ class LeftNavBar(CustomContainer):
             self.page.go('/') if c_index == 4 else None
 
 
+# section NavBarLeading - header
 nav_bar_leading = Container(
     alignment=alignment.center,
     ink=True,
@@ -319,6 +325,7 @@ nav_bar_leading = Container(
     ),
     on_click=lambda _: print('heelo')
 )
+
 # can add drop-out nav_bar to this FloatingActionButton
 nav_bar_leading_2 = Container(
     content=Column(
@@ -329,6 +336,8 @@ nav_bar_leading_2 = Container(
     )
 )
 
+# section Nav_bar_destinations
+# nav buttons
 nav_bar_destinations = [
     NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
                               selected_icon=icons.PIE_CHART,

@@ -21,6 +21,7 @@ class ApplicationUtil:
         self.student_view = StudentView()
 
     # region: @Properties
+    # section Buttons return
     @property  # login_button for login
     def login_button(self) -> OutlinedButton:
         return self.login_view.login_button
@@ -48,6 +49,7 @@ class ApplicationUtil:
     # endregion
 
     # region: Forms
+    # section Get forms
     def get_login_form(self) -> Dict[str, Optional[str]]:
         username = str(self.login_view.username_field.input_box_content.value).strip()
         password = str(self.login_view.password_field.input_box_content.value).strip()
@@ -83,6 +85,7 @@ class ApplicationUtil:
         }
 
     # Login form setter
+    # section Set val to forms
     def set_login_form(self, username: str = "", password: str = "") -> None:
         """Set values on a login form
         by defaults all is empty

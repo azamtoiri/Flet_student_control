@@ -19,6 +19,7 @@ class Handler:
         self.user: Optional[User] = None
         # endregion
 
+        # section Main
         self.application.login_button.on_click = lambda e: self.login_click()  # login button on login_view
         self.application.register_button.on_click = lambda e: self.register_click()
 
@@ -28,6 +29,7 @@ class Handler:
         self.application.not_registered_button.on_click = lambda e: self.not_registered_click()
         self.application.already_registered_button.on_click = lambda e: self.already_registered_click()
 
+    # section Clicks
     def login_click(self):  # logining
         try:
             # getting values
@@ -74,7 +76,7 @@ class Handler:
             # hide banners
             self.application.hide_banner()
 
-            self.database.register_user2(
+            self.database.register_user(
                 first_name=first_name, last_name=last_name, middle_name=middle_name,
                 username=username, password=password
             )
