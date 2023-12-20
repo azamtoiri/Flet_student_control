@@ -2,7 +2,13 @@ import asyncio
 from typing import Optional
 
 import flet_material as fm
-from flet import *
+from flet import (
+    UserControl, Text, colors, TextField, Container, ElevatedButton, TextStyle,
+    Animation, animation, ProgressBar, padding, Offset, FontWeight, Column, Stack,
+    BoxShadow, CrossAxisAlignment, MainAxisAlignment, alignment, View, Image, TextAlign,
+    TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
+    IconButton, Theme, Row
+)
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
