@@ -2,13 +2,13 @@
 
 [[package]]
 name = "anyio"
-version = "4.1.0"
+version = "4.2.0"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "anyio-4.1.0-py3-none-any.whl", hash = "sha256:56a415fbc462291813a94528a779597226619c8e78af7de0507333f700011e5f"},
-    {file = "anyio-4.1.0.tar.gz", hash = "sha256:5a0bec7085176715be77df87fc66d6c9d70626bd752fcc85f57cdbee5b3760da"},
+    {file = "anyio-4.2.0-py3-none-any.whl", hash = "sha256:745843b39e829e108e518c489b31dc757de7d2131d53fac32bd8df268227bfee"},
+    {file = "anyio-4.2.0.tar.gz", hash = "sha256:e1875bb4b4e2de1669f4bc7869b6d3f54231cdced71605e6e64c9be77e3be50f"},
 ]
 
 [package.dependencies]
@@ -261,6 +261,21 @@ files = [
 
 [package.dependencies]
 repath = ">=0.9.0,<0.10.0"
+
+[[package]]
+name = "flet-material"
+version = "0.3.3"
+description = "Material UI Library for Flet"
+optional = false
+python-versions = "*"
+files = [
+    {file = "flet-material-0.3.3.tar.gz", hash = "sha256:05f52bd6a2ba678f46d0e0438e52fbcf4cac60e14453318337d3c14fea466637"},
+    {file = "flet_material-0.3.3-py3-none-any.whl", hash = "sha256:db5281fb41294bb16b846bd89f577ba1649fe649db5e3bf245fd4e5d871dcbaf"},
+]
+
+[package.dependencies]
+click = ">=8.1.3"
+flet = ">=0.8.1"
 
 [[package]]
 name = "flet-runtime"
@@ -1083,4 +1098,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7b74fb2dcb9f7288d100f77434855e2cf2d331419597ed94a8cdb3bada59c4c9"
+content-hash = "1ac8042322741235a76a85e7a17d86c5065737582b9ec7086fa3b1206662a570"

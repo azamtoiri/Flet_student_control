@@ -11,6 +11,7 @@ flet = "^0.14.0"
 sqlalchemy = "^2.0.23"
 psycopg2 = "^2.9.9"
 python-decouple = "^3.8"
+flet-material = "^0.3.3"
 
 
 [build-system]
