@@ -20,6 +20,7 @@ class ApplicationUtils:
         self.login_view = LoginView()
         self.register_view = RegisterView()
         self.student_view = StudentView()
+        self.student_view.set_page(self.page)
 
     # region: @Properties
     # section Buttons return
