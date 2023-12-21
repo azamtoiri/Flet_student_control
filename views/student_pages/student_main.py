@@ -8,6 +8,7 @@ class StudentView(View):
     def __init__(self):
         super().__init__()
         self.route = '/student'
+        self.page = None
 
         # region: NavBar
         # section Nav bar
@@ -18,6 +19,9 @@ class StudentView(View):
         nav_bar.selected_index = 0
         nav_bar.group_alignment = -0.9
         nav_bar.leading = nav_bar_leading  # with text
+        nav_bar_leading.content.controls[1].on_click = lambda _: self.page.go('/login')
+        nav_bar.height = 1000
+        nav_bar.width = 100
         nav_bar.destinations = nav_bar_destinations
 
         nav_bar_container = Container()
@@ -55,3 +59,10 @@ class StudentView(View):
     def nav_bar_on_change(self, _event: ControlEvent):
         print(_event.control.selected_index)
         # if _event.control.selected_index == 4:
+        index = _event.control.selected_index
+        if index:
+            if index == 4:
+                self.page.go('/login')
+
+    def set_page(self, page: Page):
+        self.page = page

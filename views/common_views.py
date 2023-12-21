@@ -154,6 +154,7 @@ class RegisterView(MixedView):
         self.last_name_field.input_box_content.input_filter = TextOnlyInputFilter()
         self.middle_name_field.input_box_content.input_filter = TextOnlyInputFilter()
         self.course_field.input_box_content.input_filter = NumbersOnlyInputFilter()
+        self.age_field.input_box_content.input_filter = NumbersOnlyInputFilter()
 
         # endregion
 

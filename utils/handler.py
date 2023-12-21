@@ -80,9 +80,11 @@ class Handler:
                 first_name=first_name, last_name=last_name, middle_name=middle_name,
                 username=username, password=password
             )
-
             if password2 is None:
                 raise RequiredField('password2')
+
+            self.application.show_login_view()
+
         except RequiredField as error:
             self.application.display_register_form_error(error.field, str(error))
 
