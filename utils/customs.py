@@ -178,10 +178,9 @@ class MixedView(View):
 
 
 # section CustomContainer
-class CustomContainer(Container):  # поставлены настройки главного окна
+class CustomContainer(Container):  # поставлены настройки правого окна
     def __init__(self):
         super().__init__()
-        # self.page = page
         self.expand = True
         self.border_radius = 20
         self.alignment = alignment.center

@@ -1,4 +1,4 @@
-from flet import Page, RouteChangeEvent, TemplateRoute
+from flet import Page, RouteChangeEvent, TemplateRoute, Theme, PageTransitionTheme
 
 from utils.application_utils import ApplicationUtils
 from utils.banners import SuccessSnackBar, WarningBanner
@@ -11,6 +11,9 @@ from utils.handler import Handler
 class Application(ApplicationUtils):
     def __init__(self, page: Page):
         super().__init__(page)
+        page.theme = Theme(font_family='Verdana')
+        page.theme.page_transitions.windows = PageTransitionTheme.CUPERTINO
+
         # self.page = page
         self.page.title = 'Student control'
         self.page.window_height = 1000
@@ -30,6 +33,10 @@ class Application(ApplicationUtils):
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
             self.student_view.route: self.student_view,
+            self.student_home_view.route: self.student_home_view,
+            self.student_students_view.route: self.student_students_view,
+            self.student_materials_view.route: self.student_materials_view,
+            self.student_courses_view.route: self.student_courses_view,
         }
 
         # initialize handler
