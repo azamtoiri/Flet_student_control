@@ -2,72 +2,91 @@ import asyncio
 from typing import Optional
 
 import flet_material as fm
-from flet import *
+from flet import (
+    UserControl, Text, colors, TextField, Container, ElevatedButton, TextStyle,
+    Animation, animation, ProgressBar, padding, Offset, FontWeight, Column, Stack,
+    BoxShadow, CrossAxisAlignment, MainAxisAlignment, alignment, View, Image, TextAlign,
+    TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
+    IconButton, Theme, Row, Page
+)
 
-from utils.constants import LOGO_PATH, SHEET_BG_COLOR, LEFT_COL_COLOR
+from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
+# section constants
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
 BG_COLOR = colors.WHITE
 
 
+# section CustomInputField
 class CustomInputField(UserControl):
     def __init__(self, password: bool, title: str):
-        self.error = Text(
-            value='Incorrect login or password',
-            color=colors.RED_300,
-            visible=False,
-        )
-
-        self.input_box: Container = Container(
-            expand=True,
-            content=TextField(
-                hint_text=title,
-                hint_style=TextStyle(color=BORDER_COLOR),
-                height=50,
-                # few UI properties for the text-fields hard@
-                border_color=BORDER_COLOR,
-                border_width=1,
-                cursor_width=0.5,
-                cursor_color=colors.BLACK,
-                color=BORDER_COLOR,
-                text_size=13,
-
-                # bgcolor as per the theme
-                bgcolor=BG_COLOR,
-                password=password,
-                can_reveal_password=True,
-                on_focus=self.focus_shadow,
-                on_blur=self.blur_shadow,
-                on_change=self.set_loader_animation,
-            ),
-            animate=Animation(300, animation.AnimationCurve.EASE),
-            shadow=None,
-        )
-
-        self.loader: ProgressBar = ProgressBar(
-            value=0,
-            bar_height=1.25,
-            color=PRIMARY,
-            bgcolor=colors.TRANSPARENT,
-        )
-
-        self.status: fm.CheckBox = fm.CheckBox(
-            shape="circle",
-            value=False,
-            disabled=True,
-            offset=Offset(1, 0),
-            bottom=0,
-            right=1,
-            top=1,
-            animate_opacity=Animation(200, animation.AnimationCurve.LINEAR),
-            animate_offset=Animation(300, animation.AnimationCurve.EASE),
-            opacity=0,
-        )
-
-        self.object = self.create_input(title)
-
         super().__init__()
+
+        self.error = Text()
+        self.error.value = 'Incorrect login or password'
+        self.error.color = colors.RED_300
+        self.error.visible = False
+
+        # region: content for input box
+        self.input_box_content = TextField()
+        self.input_box_content.hint_text = title
+        self.input_box_content.hint_style = TextStyle(color=BORDER_COLOR)
+        self.input_box_content.border_color = BORDER_COLOR
+        self.input_box_content.border_width = 1
+        self.input_box_content.cursor_width = 0.5
+        self.input_box_content.border_radius = 8
+        self.input_box_content.cursor_color = colors.BLACK
+        self.input_box_content.color = BORDER_COLOR
+        self.input_box_content.text_size = 14
+        self.input_box_content.bgcolor = BG_COLOR
+        self.input_box_content.password = password
+        self.input_box_content.can_reveal_password = password
+        self.input_box_content.on_focus = self.focus_shadow
+        self.input_box_content.on_blur = self.blur_shadow
+        self.input_box_content.on_change = self.set_loader_animation
+        # endregion
+
+        self.input_box = Container()
+        self.input_box.content = self.input_box_content
+        self.input_box.animate = Animation(300, animation.AnimationCurve.EASE)
+
+        # region: Loader
+        self.loader = ProgressBar()
+        self.loader.value = 0
+        self.loader.bar_height = 1.25
+        self.loader.color = PRIMARY
+        self.loader.bgcolor = colors.TRANSPARENT
+        # endregion
+
+        self.status: fm.CheckBox = fm.CheckBox(shape="circle", value=False, disabled=True)
+        self.status.offset = Offset(1, 0)
+        self.status.bottom = 0
+        self.status.right = 1
+        self.status.top = 1
+        self.status.animate_opacity = Animation(200, animation.AnimationCurve.LINEAR)
+        self.status.animate_offset = Animation(300, animation.AnimationCurve.EASE)
+        self.status.opacity = 0
+
+        # region: Build
+        title_text = Text()
+        title_text.value = title
+        title_text.size = 11
+        title_text.weight = FontWeight.BOLD
+        title_text.color = BORDER_COLOR
+
+        stack_ = Stack()
+        stack_.expand = True
+        stack_.controls.append(self.input_box)
+        # stack_.controls.append(self.status)  # check box status
+
+        self.obj = Container(height=80)
+        self.obj.content = Column(
+            spacing=0,
+            controls=[title_text, self.input_box, self.loader, ]
+        )
+        self.obj.spacing = 5
+        self.object = self.obj
 
     async def set_ok(self):
         self.loader.value = 0
@@ -82,12 +101,12 @@ class CustomInputField(UserControl):
         self.status.animate_checkbox(e=None)
         self.status.update()
 
-    async def set_fail(self):
+    async def set_fail(self, message: Optional[str] = "Error"):
         self.loader.value = 0
         self.loader.update()
 
-        self.input_box.content.border_color = colors.with_opacity(0.5, 'red')
-        self.error.visible = True
+        self.input_box_content.error_text = message
+        self.input_box_content.update()
         await asyncio.sleep(1)
         self.update()
 
@@ -103,8 +122,9 @@ class CustomInputField(UserControl):
     def focus_shadow(self, e):
         """Focus shadow when focusing"""
         self.error.visible = False
-        self.input_box.content.border_color = BORDER_COLOR
-        self.input_box.border_color = BORDER_COLOR
+        # self.input_box.content.border_color = BORDER_COLOR
+        # self.input_box.border_color = BORDER_COLOR
+        self.input_box_content.error_text = None
         self.input_box.shadow = BoxShadow(
             spread_radius=6,
             blur_radius=8,
@@ -117,42 +137,53 @@ class CustomInputField(UserControl):
     def blur_shadow(self, e):
         """ Blur when the textfield loses focus"""
         self.input_box.shadow = None
-        self.input_box.content.border_color = BORDER_COLOR
         self.update()
         self.set_loader_animation(e=None)
-
-    def create_input(self, title):
-        return Column(
-            spacing=5,
-            controls=[
-                Text(title, size=11, weight=FontWeight.BOLD, color=BORDER_COLOR),
-                Stack(
-                    controls=[
-                        self.input_box,
-                        self.status,
-                    ],
-                ),
-                self.loader,
-                self.error,
-            ],
-        )
 
     def build(self):
         return self.object
 
 
-class CustomContainer(Container):  # поставлены настройки главного окна
-    def __init__(self, page: Page):
+# section MixedView
+class MixedView(View):
+    def __init__(self):
         super().__init__()
-        self.page = page
+        # def page settings
+        self.horizontal_alignment = CrossAxisAlignment.CENTER
+        self.vertical_alignment = MainAxisAlignment.CENTER
+
+        # region: Header
+        self.logo_icon = Image(src=LOGO_PATH)
+        self.logo_icon.width = 100
+        self.logo_icon.height = 100
+        self.logo_icon.expand = True
+
+        self.logo_text = Text()
+        self.logo_text.value = 'FoxHub'
+        self.logo_text.weight = FontWeight.BOLD
+        self.logo_text.text_align = TextAlign.CENTER
+        self.logo_text.color = colors.BLACK
+        self.logo_text.size = 30
+        self.logo_text.expand = True
+
+        self.title = Text()
+        self.title.value = "Вход"
+        self.title.style = TextThemeStyle.TITLE_MEDIUM
+        self.title.text_align = TextAlign.CENTER
+        self.title.color = colors.BLACK
+        self.title.size = 20
+        self.title.width = FontWeight.BOLD
+        self.title.expand = True
+        # endregion
+
+
+# section CustomContainer
+class CustomContainer(Container):  # поставлены настройки правого окна
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.expand = True
         self.border_radius = 20
         self.alignment = alignment.center
-
-        self.page.fonts = {
-            "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
-            "Open Sans": "/fonts/OpenSans-Regular.ttf"
-        }
 
         self.scheme_change_buttons = [
             ElevatedButton(
@@ -184,229 +215,10 @@ class CustomContainer(Container):  # поставлены настройки г�
         self.page.update()
 
 
-# TODO: Optimize code for future
+# idea for label_type add function to change modes and button also
+# section LeftNavBar
 class LeftNavBar(CustomContainer):
-    def __init__(self, page: Page):
-        super().__init__(page)
-        self.expand = False
-        self.page = page
-
-        self.bg_color_top_header = ''
-        self.bg_color_home = ''
-        self.bg_color_tasks = ''
-        self.bg_color_grades = ''
-        self.bg_color_courses = ''
-
-        # region: Ink true or false
-        self.ink_top_header = True
-        self.ink_home = True
-        self.ink_tasks = True
-        self.ink_grades = True
-        self.ink_courses = True
-
-        if self.page.route == "/student":
-            self.ink_top_header = False,
-            self.bg_color_top_header = SHEET_BG_COLOR
-        if self.page.route == "/student/home":
-            self.ink_home = False
-            self.bg_color_home = SHEET_BG_COLOR
-        if self.page.route == "/student/tasks":
-            self.ink_tasks = False
-            self.bg_color_tasks = SHEET_BG_COLOR
-        if self.page.route == "/student/grades":
-            self.ink_grades = False
-            self.bg_color_grades = SHEET_BG_COLOR
-        if self.page.route == "/student/courses":
-            self.ink_courses = False
-            self.bg_color_courses = SHEET_BG_COLOR
-        # endregion
-
-        self.content = Row(
-            spacing=0,
-            controls=[
-                # region: Left nav bar
-                Container(
-                    width=255,
-                    # bgcolor=LEFT_COL_COLOR,
-                    padding=padding.only(top=20, left=10, right=10),
-                    content=Column(
-                        auto_scroll=True,
-                        controls=[
-                            # region: Top header container
-                            Container(
-                                ink=self.ink_top_header,
-                                on_click=lambda _: page.go('/student'),
-                                padding=padding.only(left=15),
-                                height=80,
-                                width=900,
-                                bgcolor=self.bg_color_top_header,
-                                border_radius=10,
-                                content=Row(
-                                    controls=[
-                                        Image(
-                                            src=LOGO_PATH,
-                                            height=50, width=50,
-                                        ),
-                                        Text(value="FoxHub", size=19, weight=FontWeight.BOLD)
-                                    ]
-                                )
-                            ),
-                            # endregion
-
-                            Container(height=10),
-
-                            # region: Home page
-                            Container(
-                                ink=self.ink_home,
-                                on_click=lambda _: page.go('/student/home'),
-                                width=255,
-                                height=56,
-                                bgcolor=self.bg_color_home,
-                                alignment=alignment.center,
-                                padding=padding.only(left=15),
-                                border_radius=10,
-                                content=Row(
-                                    controls=[
-                                        Icon(
-                                            name=icons.PIE_CHART,
-                                            size=20,
-                                        ),
-                                        Text(value="Домашняя страница", size=12, weight=FontWeight.BOLD)
-                                    ]
-                                )
-                            ),
-                            # endregion
-
-                            # region: Tasks page
-                            Container(
-                                ink=self.ink_tasks,
-                                # on_hover=self.on_hover,
-                                on_click=lambda _: page.go('/student/tasks'),
-                                width=255,
-                                height=56,
-                                border_radius=10,
-                                bgcolor=self.bg_color_tasks,
-                                alignment=alignment.center,
-                                padding=padding.only(left=15),
-                                content=Row(
-                                    controls=[
-                                        Icon(
-                                            name=icons.TASK_ALT,
-                                            size=20,
-                                        ),
-                                        Text(value="Задания", size=12, weight=FontWeight.BOLD)
-                                    ]
-                                )
-                            ),
-                            # endregion
-
-                            # region: Grades page
-                            Container(
-                                ink=self.ink_grades,
-                                on_click=lambda _: page.go('/student/grades'),
-                                width=255,
-                                height=56,
-                                border_radius=10,
-                                bgcolor=self.bg_color_grades,
-                                alignment=alignment.center,
-                                padding=padding.only(left=15),
-                                content=Row(
-                                    controls=[
-                                        Icon(
-                                            name=icons.GRADE,
-                                            size=20,
-                                        ),
-                                        Text(value="Оценки", size=12, weight=FontWeight.BOLD)
-                                    ]
-                                )
-                            ),
-                            # endregion
-
-                            # region: Courses page
-                            Container(
-                                ink=self.ink_courses,
-                                on_click=lambda _: page.go('/student/courses'),
-                                width=255,
-                                height=56,
-                                border_radius=10,
-                                bgcolor=self.bg_color_courses,
-                                alignment=alignment.center,
-                                padding=padding.only(left=15),
-                                content=Row(
-                                    controls=[
-                                        Icon(
-                                            name=icons.GOLF_COURSE,
-                                            size=20,
-                                        ),
-                                        Text(value="Курсы", size=12, weight=FontWeight.BOLD)
-                                    ]
-                                )
-                            ),
-                            # endregion
-
-                            # region: Exit container
-                            Container(
-                                ink=True,
-                                # do function for log out and go to Welcome page
-                                on_click=lambda _: page.go('/'),
-                                width=255,
-                                height=56,
-                                border_radius=10,
-                                alignment=alignment.center,
-                                padding=padding.only(left=15),
-                                content=Row(
-                                    controls=[
-                                        Icon(
-                                            name=icons.EXIT_TO_APP_ROUNDED,
-                                            size=20,
-                                        ),
-                                        Text(value="Выйти", size=12, weight=FontWeight.BOLD)
-                                    ]
-                                )
-                            ),
-                            # endregion
-
-                            # Container(height=450),
-
-                            Divider(height=10),
-                            Row(
-                                alignment=alignment.center,
-                                vertical_alignment=CrossAxisAlignment.END,
-                                controls=[
-                                    self.scheme_change_buttons[2],
-                                    self.scheme_change_buttons[3],
-                                ]
-                            )
-                        ]
-                    ),
-                ),
-                # endregion
-            ]
-        )
-
-    # code for optimizing
-    def get_color_of_container(self, route) -> str:
-        if route == "/student":
-            return SHEET_BG_COLOR
-        elif route == "/student/home":
-            return SHEET_BG_COLOR
-        elif route == "/student/tasks":
-            return SHEET_BG_COLOR
-        elif route == "/student/grades":
-            return SHEET_BG_COLOR
-        elif route == "/student/courses":
-            return SHEET_BG_COLOR
-        else:
-            return ''
-
-    @staticmethod
-    def on_hover(e):
-        e.control.bgcolor = "blue" if e.data == "true" else "red"
-        e.control.update()
-
-
-class TeacherLeftNavBar(CustomContainer):
-    def __init__(self, page: Page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
+    def __init__(self, page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
                  page_4: Optional[Control]):
         super().__init__(page)
         self.page = page
@@ -496,7 +308,45 @@ class TeacherLeftNavBar(CustomContainer):
             self.page.go('/') if c_index == 4 else None
 
 
+
 # TODO: Create MixedContainer for Login and Register Views
 class MixedContainer(CustomContainer):
     def __init__(self, page: Page):
         super().__init__(page)
+
+# section NavBarLeading - header
+# can add drop-out nav_bar to this FloatingActionButton
+nav_bar_leading = Column(
+    spacing=15,
+    alignment=MainAxisAlignment.CENTER,
+    controls=
+    [
+        Image(src=LOGO_PATH, height=60, width=60),
+        Text(value="FoxHub", text_align=TextAlign.CENTER, size=18, )
+    ]
+)
+
+# section Nav_bar_destinations
+# nav buttons
+nav_bar_destinations = [
+    NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
+                              selected_icon=icons.PIE_CHART,
+                              label_content=Text(value='Домашняя страница', text_align=TextAlign.CENTER),
+                              ),
+    NavigationRailDestination(icon=icons.SWITCH_ACCOUNT_OUTLINED,
+                              selected_icon=icons.SWITCH_ACCOUNT,
+                              label='Студенты',
+                              ),
+    NavigationRailDestination(icon=icons.GOLF_COURSE_OUTLINED,
+                              selected_icon=icons.GOLF_COURSE,
+                              label='Мои курсы',
+                              ),
+    NavigationRailDestination(icon=icons.MAP_OUTLINED,
+                              selected_icon=icons.MAP,
+                              label_content=Text(value='Мои материалы', text_align=TextAlign.CENTER),
+                              ),
+    NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
+                              selected_icon=icons.EXIT_TO_APP,
+                              label='Выход'
+                              ),
+]
