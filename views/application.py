@@ -32,8 +32,6 @@ class Application(ApplicationUtils):
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
-            self.student_view.route: self.student_view,
-            self.student_home_view.route: self.student_home_view,
         }
 
         # initialize handler
@@ -61,9 +59,6 @@ class Application(ApplicationUtils):
 
     def show_welcome_view(self):
         self.page.go(self.welcome_view.route)
-
-    def show_student_view(self):
-        self.page.go(self.student_view.route)
 
     # endregion
 

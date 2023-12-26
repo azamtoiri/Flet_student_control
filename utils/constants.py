@@ -2,7 +2,6 @@ from typing import cast, TypeVar, NewType, overload, Union, Callable, Optional
 
 from decouple import config
 from flet import colors
-
 LOGO_PATH = '../assets/Fox_Hub_logo.png'
 BLUE = '9caede'
 LEFT_COL_COLOR = '#363740'

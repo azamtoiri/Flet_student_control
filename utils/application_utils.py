@@ -4,13 +4,6 @@ from typing import Dict, Optional
 from flet import Page, OutlinedButton, TextButton
 
 from views.common_views import WelcomeView, LoginView, RegisterView
-from views.student_views.student_application import StudentView
-from views.student_views.student_views import (
-    StudentHomeView,
-    StudentStudentsView,
-    StudentMaterialsView,
-    StudentCoursesView
-)
 
 
 class ApplicationUtils:
@@ -25,11 +18,6 @@ class ApplicationUtils:
         self.welcome_view = WelcomeView()
         self.login_view = LoginView()
         self.register_view = RegisterView()
-        self.student_view = StudentView()
-        self.student_view.set_page(self.page)
-
-        # test
-        self.student_home_view = StudentHomeView()
 
     # region: @Properties
     # section Buttons return
