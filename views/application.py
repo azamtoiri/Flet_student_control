@@ -34,9 +34,6 @@ class Application(ApplicationUtils):
             self.register_view.route: self.register_view,
             self.student_view.route: self.student_view,
             self.student_home_view.route: self.student_home_view,
-            self.student_students_view.route: self.student_students_view,
-            self.student_materials_view.route: self.student_materials_view,
-            self.student_courses_view.route: self.student_courses_view,
         }
 
         # initialize handler
@@ -52,6 +49,7 @@ class Application(ApplicationUtils):
         for route, view in self.views.items():
             if template_route.match(route):
                 self.page.views.append(view)
+                self.page.update()
                 break
 
     # region: Showing views
