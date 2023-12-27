@@ -23,6 +23,7 @@ class User(Base):
     age = Column(Integer)  # let
     group = Column(String)  # группа
     course = Column(Integer)  # курс
+    email = Column(String)  # email
     username = Column(String, unique=True)  # username for login
     password = Column(String)  # password for login
     role_id = Column(Integer, ForeignKey('roles.role_id'))  # role
