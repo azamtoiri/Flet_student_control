@@ -147,9 +147,10 @@ class Handler:
     # Basic log out
     def log_out_click(self) -> None:
         self.app.page.client_storage.set("is_auth", False)
+
         self.app.hide_banner()
+        self.app.set_loader_zero()
         self.app.hide_login_form_error()
-        self.app.clear_login_form()
         self.app.clear_login_form()
         self.app.show_login_view()
 
