@@ -1,7 +1,7 @@
 import asyncio
 from typing import Dict, Optional
 
-from flet import Page, OutlinedButton, TextButton
+from flet import Page, OutlinedButton, TextButton, PopupMenuItem, Container, ElevatedButton
 
 from views.common_views import WelcomeView, LoginView, RegisterView
 from views.st_veiw.st_courses_view import STCoursesView
@@ -44,44 +44,44 @@ class ApplicationUtils:
         return self.register_view.register_button
 
     @property  # "Регистрация" button on login_view
-    def not_registered_button(self):
+    def not_registered_button(self) -> Container:
         return self.login_view.create_account_button
 
     @property  # "Вход" button on register_view
-    def already_registered_button(self):
+    def already_registered_button(self) -> ElevatedButton:
         return self.register_view.login_button
 
     @property  # login button on welcome_view
-    def welcome_login_button(self):
+    def welcome_login_button(self) -> ElevatedButton:
         return self.welcome_view.login_button
 
     @property  # register button on welcome_view
-    def welcome_register_button(self):
+    def welcome_register_button(self) -> ElevatedButton:
         return self.welcome_view.register_button
 
     # region: ST Navigation view buttons
     @property
-    def st_navigation_view_home_container_button(self):
+    def st_navigation_view_home_container_button(self) -> Container:
         return self.st_navigation_view.home_container.main_container
 
     @property
-    def st_navigation_view_courses_container_button(self):
+    def st_navigation_view_courses_container_button(self) -> Container:
         return self.st_navigation_view.courses_container.main_container
 
     @property
-    def st_navigation_view_grades_container_button(self):
+    def st_navigation_view_grades_container_button(self) -> Container:
         return self.st_navigation_view.grades_container.main_container
 
     @property
-    def st_navigation_view_tasks_container_button(self):
+    def st_navigation_view_tasks_container_button(self) -> Container:
         return self.st_navigation_view.tasks_container.main_container
 
     @property
-    def st_navigation_view_profile_container_button(self):
+    def st_navigation_view_profile_container_button(self) -> Container:
         return self.st_navigation_view.profile_container.main_container
 
     @property
-    def st_navigation_view_logout_button(self):
+    def st_navigation_view_logout_button(self) -> Container:
         return self.st_navigation_view.logout_button
 
     # endregion
@@ -89,27 +89,27 @@ class ApplicationUtils:
     # region: ST Home view buttons
     # region: Logout Buttons
     @property  # home view
-    def st_home_view_log_out_button(self):
+    def st_home_view_log_out_button(self) -> PopupMenuItem:
         """Home view Log out button"""
         return self.st_home_view.log_out_button
 
     @property  # grades view
-    def st_grades_view_log_out_button(self):
+    def st_grades_view_log_out_button(self) -> PopupMenuItem:
         """Grades view Log out button"""
         return self.st_grades_view.log_out_button
 
     @property  # courses view
-    def st_courses_view_log_out_button(self):
+    def st_courses_view_log_out_button(self) -> PopupMenuItem:
         """Courses view Log out button"""
         return self.st_courses_view.log_out_button
 
     @property  # tasks view
-    def st_tasks_view_log_out_button(self):
+    def st_tasks_view_log_out_button(self) -> PopupMenuItem:
         """Tasks view Log out button"""
         return self.st_tasks_view.log_out_button
 
     @property  # profile view
-    def st_profile_view_log_out_button(self):
+    def st_profile_view_log_out_button(self) -> PopupMenuItem:
         """Profile view Log out button"""
         return self.st_profile_view.log_out_button
 
@@ -118,7 +118,6 @@ class ApplicationUtils:
     # endregion
 
     # region: Forms
-    # section Get forms
     def get_login_form(self) -> Dict[str, Optional[str]]:
         username = str(self.login_view.username_field.input_box_content.value).strip()
         password = str(self.login_view.password_field.input_box_content.value).strip()
@@ -154,8 +153,7 @@ class ApplicationUtils:
         }
 
     # Login form setter
-    # section Set val to forms
-    def set_login_form(self, username: str = "", password: str = "") -> None:
+    def set_login_form(self, username: str = None, password: str = None) -> None:
         """Set values on a login form
         by defaults all is empty
         :return None
@@ -165,9 +163,9 @@ class ApplicationUtils:
         self.page.update()
 
     def set_register_form(
-            self, first_name: str = "", last_name: str = "", middle_name: str = "", group: str = "",
-            course: int = None, age: int = None, email: str = "", username: str = "", password: str = "",
-            password2: str = ""
+            self, first_name: str = None, last_name: str = None, middle_name: str = None, group: str = None,
+            course: int = None, age: int = None, email: str = None, username: str = None, password: str = None,
+            password2: str = None
     ) -> None:
         """Set values on a register form:
         by defaults all is empty
@@ -188,8 +186,7 @@ class ApplicationUtils:
     # endregion
 
     # region: Display errors
-    # section Display errors
-    def display_login_form_error(self, field: str, message: str):
+    def display_login_form_error(self, field: str, message: str) -> None:
         username_field = self.login_view.username_field
         password_field = self.login_view.password_field
         fields = {'username': username_field, 'password': password_field}
@@ -198,7 +195,7 @@ class ApplicationUtils:
             asyncio.run(fields[field].set_fail(message))
             self.page.update()
 
-    def display_register_form_error(self, field: str, message: str):
+    def display_register_form_error(self, field: str, message: str) -> None:
         first_name_field = self.register_view.first_name
         last_name_field = self.register_view.last_name_field
         middle_name_field = self.register_view.middle_name_field
@@ -225,6 +222,11 @@ class ApplicationUtils:
             # fields[field].input_box_content.error_text = message
             asyncio.run(fields[field].set_fail(message))
             self.page.update()
+
+    def set_loader_zero(self) -> None:
+        """Set loaders of login form values to zero"""
+        self.login_view.username_field.loader.value = 0
+        self.login_view.password_field.loader.value = 0
 
     # Hide errors
     def hide_banner(self) -> None:
