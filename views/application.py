@@ -1,4 +1,6 @@
-from flet import Page, RouteChangeEvent, TemplateRoute, Theme, PageTransitionTheme
+from typing import Dict
+
+from flet import Page, RouteChangeEvent, TemplateRoute, Theme, PageTransitionTheme, View
 
 from utils.application_utils import ApplicationUtils
 from utils.banners import SuccessSnackBar, WarningBanner
@@ -15,29 +17,34 @@ class Application(ApplicationUtils):
         page.theme = Theme(font_family='Verdana')
         page.theme.page_transitions.windows = PageTransitionTheme.CUPERTINO
 
-        # self.page = page
+        self.page = page
         self.page.title = 'Student control'
         self.page.window_height = 1000
         self.page.on_route_change = self.route_change
         self.page.fonts = Fonts.URLS
+        self.page.client_storage.set('is_auth', False)
 
         # hide banners
         self.hide_banner()
         self.hide_login_form_error()
 
         # views which will be used
-        self.views = {
+        self.views: Dict[str, View] = {
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
 
-            # test
             self.st_navigation_view.route: self.st_navigation_view,
             self.st_home_view.route: self.st_home_view,
             self.st_courses_view.route: self.st_courses_view,
             self.st_grades_view.route: self.st_grades_view,
             self.st_tasks_view.route: self.st_tasks_view,
             self.st_profile_view.route: self.st_profile_view,
+        }
+        self.non_register_views: Dict[str, View] = {
+            self.welcome_view.route: self.welcome_view,
+            self.login_view.route: self.login_view,
+            self.register_view.route: self.register_view,
         }
 
         # initialize handler
@@ -49,12 +56,18 @@ class Application(ApplicationUtils):
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
         self.page.views.clear()
-
-        for route, view in self.views.items():
-            if template_route.match(route):
-                self.page.views.append(view)
-                self.page.update()
-                break
+        if self.page.client_storage.get("is_auth"):
+            for route, view in self.views.items():
+                if template_route.match(route):
+                    self.page.views.append(view)
+                    self.page.update()
+                    break
+        else:
+            for route, view in self.non_register_views.items():
+                if template_route.match(route):
+                    self.page.views.append(view)
+                    self.page.update()
+                    break
 
     # region: Showing views
     def show_login_view(self) -> None:

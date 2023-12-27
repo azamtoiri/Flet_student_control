@@ -71,6 +71,7 @@ class Handler:
             # check have user?
             user = self.database.login_user(username, password)
 
+            self.app.page.client_storage.set("is_auth", True)
             self.app.st_show_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
@@ -86,7 +87,7 @@ class Handler:
         except Exception as error:
             self.app.display_warning_banner(str(error))
 
-    def register_click(self):  # registering
+    def register_click(self) -> None:  # registering
         try:
             form = self.app.get_register_form()
 
@@ -125,26 +126,27 @@ class Handler:
         except Exception as error:
             self.app.display_warning_banner(str(error))
 
-    def welcome_login_click(self):  # change view
+    def welcome_login_click(self) -> None:  # change view
         self.app.clear_login_form()
         self.app.show_login_view()
 
-    def welcome_register_click(self):  # change view
+    def welcome_register_click(self) -> None:  # change view
         self.app.clear_register_form()
         self.app.show_register_view()
 
-    def not_registered_click(self):  # change view to register
+    def not_registered_click(self) -> None:  # change view to register
         self.app.clear_register_form()
         self.app.hide_banner()
         self.app.show_register_view()
 
-    def already_registered_click(self):  # change view to log in
+    def already_registered_click(self) -> None:  # change view to log in
         self.app.clear_login_form()
         self.app.hide_banner()
         self.app.show_login_view()
 
     # Basic log out
-    def log_out_click(self):
+    def log_out_click(self) -> None:
+        self.app.page.client_storage.set("is_auth", False)
         self.app.hide_banner()
         self.app.hide_login_form_error()
         self.app.clear_login_form()
@@ -152,19 +154,19 @@ class Handler:
         self.app.show_login_view()
 
     # region: ST Navigation view click functions
-    def st_navigation_view_home_click(self):
+    def st_navigation_view_home_click(self) -> None:
         self.app.show_st_home_view()
 
-    def st_navigation_view_courses_click(self):
+    def st_navigation_view_courses_click(self) -> None:
         self.app.show_st_courses_view()
 
-    def st_navigation_view_grades_click(self):
+    def st_navigation_view_grades_click(self) -> None:
         self.app.show_st_grades_view()
 
-    def st_navigation_view_profile_click(self):
+    def st_navigation_view_profile_click(self) -> None:
         self.app.show_st_profile_view()
 
-    def st_navigation_view_tasks_click(self):
+    def st_navigation_view_tasks_click(self) -> None:
         self.app.show_st_tasks_view()
 
     # endregion
