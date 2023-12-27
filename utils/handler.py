@@ -72,7 +72,7 @@ class Handler:
             user = self.database.login_user(username, password)
 
             self.app.page.client_storage.set("is_auth", True)
-            self.app.st_show_navigation_view()
+            self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
             # ops, some required field is not informed, lets give a feedback.

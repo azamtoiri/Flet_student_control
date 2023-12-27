@@ -14,14 +14,17 @@ from utils.handler import Handler
 class Application(ApplicationUtils):
     def __init__(self, page: Page):
         super().__init__(page)
-        page.theme = Theme(font_family='Verdana')
-        page.theme.page_transitions.windows = PageTransitionTheme.CUPERTINO
-
         self.page = page
+        self.page.theme = Theme(font_family='Verdana')
+        self.page.theme.page_transitions.windows = PageTransitionTheme.CUPERTINO
         self.page.title = 'Student control'
         self.page.window_height = 1000
+        # self.page.window_resizable = False
+        self.page.window_min_height = 900
+        self.page.window_min_width = 800
         self.page.on_route_change = self.route_change
         self.page.fonts = Fonts.URLS
+        # if auth is False can't go to the students and other pages
         self.page.client_storage.set('is_auth', False)
 
         # hide banners
@@ -80,7 +83,7 @@ class Application(ApplicationUtils):
         self.page.go(self.welcome_view.route)
 
     # test
-    def st_show_navigation_view(self):
+    def show_st_navigation_view(self):
         self.page.go(self.st_navigation_view.route)
 
     def show_st_home_view(self):
