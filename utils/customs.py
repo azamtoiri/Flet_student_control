@@ -7,7 +7,7 @@ from flet import (
     Animation, animation, ProgressBar, padding, Offset, FontWeight, Column, Stack,
     BoxShadow, CrossAxisAlignment, MainAxisAlignment, alignment, View, Image, TextAlign,
     TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
-    IconButton, Theme, Row, Page, PopupMenuItem, PopupMenuButton, margin, AppBar, InputFilter
+    IconButton, Theme, Row, Page, PopupMenuItem, PopupMenuButton, margin, AppBar, InputFilter, VerticalDivider
 )
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
@@ -328,10 +328,15 @@ class STMixedView(View):
         self.appbar_title = Row()
         self.back_button = IconButton(icons.ARROW_BACK)
         self.back_button.on_click = lambda e: self.show_st_navigation_view(e)
+        self.appbar_title.alignment = MainAxisAlignment.START
+        self.appbar_title.spacing = 0
         self.appbar_title.controls = [
             self.back_button,
-            Image(LOGO_PATH, width=50, height=50),
-            Text('FoxHub', size=20)
+            Container(width=10),
+            Image(LOGO_PATH, width=70, height=70),
+            Container(width=10),
+            Text('Fox', size=20, weight=FontWeight.BOLD),
+            Text('Hub', size=20)
         ]
         #
         # App bar actions
@@ -351,10 +356,9 @@ class STMixedView(View):
         self.appbar.leading_width = 100
         self.appbar.actions = self.appbar_actions
         self.appbar.bgcolor = colors.ORANGE_ACCENT
+        self.appbar.toolbar_height = 80
 
     def show_st_navigation_view(self, e):
-        e.data = False
-        print(e.data)
         self.page.go('/student/main')
 
 
@@ -368,7 +372,7 @@ class STContainer(UserControl):
         self.main_container.height = 150
         self.main_container.border_radius = 8
         self.main_container.content = content
-        self.main_container.on_hover = self.on_hover
+        # self.main_container.on_hover = self.on_hover
 
     def build(self):
         return self.main_container
