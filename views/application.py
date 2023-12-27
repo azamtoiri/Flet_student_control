@@ -6,9 +6,15 @@ from utils.application_utils import ApplicationUtils
 from utils.banners import SuccessSnackBar, WarningBanner
 from utils.constants import Fonts
 from utils.handler import Handler
+from utils.constants import Settings
 
 
 # TODO: Check, how tot set ok for value check on Fields
+
+if Settings.DEBUG:
+    import logging
+    logging.basicConfig(level=logging.DEBUG)
+    logging.getLogger("flet_core").setLevel(logging.DEBUG)
 
 
 class Application(ApplicationUtils):
@@ -79,26 +85,26 @@ class Application(ApplicationUtils):
     def show_register_view(self) -> None:
         self.page.go(self.register_view.route)
 
-    def show_welcome_view(self):
+    def show_welcome_view(self) -> None:
         self.page.go(self.welcome_view.route)
 
     # test
-    def show_st_navigation_view(self):
+    def show_st_navigation_view(self) -> None:
         self.page.go(self.st_navigation_view.route)
 
-    def show_st_home_view(self):
+    def show_st_home_view(self) -> None:
         self.page.go(self.st_home_view.route)
 
-    def show_st_courses_view(self):
+    def show_st_courses_view(self) -> None:
         self.page.go(self.st_courses_view.route)
 
-    def show_st_grades_view(self):
+    def show_st_grades_view(self) -> None:
         self.page.go(self.st_grades_view.route)
 
-    def show_st_tasks_view(self):
+    def show_st_tasks_view(self) -> None:
         self.page.go(self.st_tasks_view.route)
 
-    def show_st_profile_view(self):
+    def show_st_profile_view(self) -> None:
         self.page.go(self.st_profile_view.route)
 
     # endregion
