@@ -137,16 +137,16 @@ class RegisterView(MixedView):
                 self.obj.width = 300
 
         # region: InputFields
-        self.first_name = MixedCustomInputField(False, "Фамилия")  # Фамилия
-        self.last_name_field = MixedCustomInputField(False, "Имя")  # Имя
-        self.middle_name_field = MixedCustomInputField(False, "Отчество")  # Отчество
+        self.first_name = MixedCustomInputField(False, "Фамилия *")  # Фамилия
+        self.last_name_field = MixedCustomInputField(False, "Имя *")  # Имя
+        self.middle_name_field = MixedCustomInputField(False, "Отчество *")  # Отчество
         self.group_field = MixedCustomInputField(False, "Группа")  # Группа
         self.course_field = MixedCustomInputField(False, "Курс")  # Звание
         self.age_field = MixedCustomInputField(False, "Возраст")  # Возраст
         self.email_field = MixedCustomInputField(False, "Email")  # Email
-        self.username_field = MixedCustomInputField(False, "Имя пользователя - Логин")  # Имя пользователя - Логин
-        self.password_field = MixedCustomInputField(True, "Пароль")  # Пароль
-        self.password2_field = MixedCustomInputField(True, "Введите пароль еще раз")  # Пароль
+        self.username_field = MixedCustomInputField(False, "Имя пользователя - Логин *")  # Имя пользователя - Логин
+        self.password_field = MixedCustomInputField(True, "Пароль *")  # Пароль
+        self.password2_field = MixedCustomInputField(True, "Введите пароль еще раз *")  # Пароль
 
         # Adding filters on fields
         self.first_name.input_box_content.input_filter = TextOnlyInputFilterRu()

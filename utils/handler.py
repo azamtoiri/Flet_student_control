@@ -107,7 +107,7 @@ class Handler:
 
             self.database.register_user(
                 first_name=first_name, last_name=last_name, middle_name=middle_name,
-                username=username, password=password
+                username=username, password=password, group=group, course=course, age=age, email=email
             )
             if password2 is None:
                 raise RequiredField('password2')
