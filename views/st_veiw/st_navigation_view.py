@@ -1,7 +1,7 @@
 from flet import *
 
 from utils.constants import LOGO_PATH
-from utils.customs import STContainer
+from utils.customs import STContainer, STMixedView
 
 
 class Containers:
@@ -43,21 +43,12 @@ class STNavigationView(View, Containers):
         self.logo_image.expand = True
 
         self.controls = [
-            Row(alignment="center", controls=[self.logo_image]),
-            Row(alignment=MainAxisAlignment.CENTER,
-                controls=[
-                    Column([
-                        self.home_container,
-                        Container(height=40),
-                        self.courses_container,
-                    ]),  # left Column
-                    Container(width=400),  # Vertical divider
-                    Column([
-                        self.grades_container,
-                        Container(height=40),
-                        self.tasks_container,
-                    ]),  # right column
-                ]),
-            Row(alignment="center", controls=[self.profile_container]),  # bottom container
-            Row(alignment="end", controls=[self.logout_button]),  # left log out button
+            Row(alignment=MainAxisAlignment.CENTER, controls=[self.logo_image]),
+            Row(alignment=MainAxisAlignment.SPACE_EVENLY, controls=[self.home_container, self.courses_container]),
+            Container(height=40),
+            Row(alignment=MainAxisAlignment.SPACE_EVENLY, controls=[self.grades_container, self.tasks_container]),
+            Container(height=40),
+            Row(alignment=MainAxisAlignment.CENTER, controls=[self.profile_container]),  # bottom container
+            # left log out button
+            Row(alignment=MainAxisAlignment.END, controls=[self.logout_button])
         ]
