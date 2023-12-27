@@ -7,9 +7,8 @@ from flet import (
     Animation, animation, ProgressBar, padding, Offset, FontWeight, Column, Stack,
     BoxShadow, CrossAxisAlignment, MainAxisAlignment, alignment, View, Image, TextAlign,
     TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
-    IconButton, Theme, Row, Page
+    IconButton, Theme, Row, Page, PopupMenuItem, PopupMenuButton, margin, AppBar, InputFilter
 )
-from flet_core import PopupMenuItem, PopupMenuButton, margin, AppBar
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
@@ -89,7 +88,7 @@ class CustomInputField(UserControl):
         self.obj.spacing = 5
         self.object = self.obj
 
-    async def set_ok(self):
+    async def set_ok(self, message: Optional[str] = "Error"):
         self.loader.value = 0
         self.loader.update()
 
@@ -377,39 +376,6 @@ class STContainer(UserControl):
         e.control.update()
 
 
-# section NavBarLeading - header
-# can add drop-out nav_bar to this FloatingActionButton
-nav_bar_leading = Column(
-    spacing=15,
-    alignment=MainAxisAlignment.CENTER,
-    controls=
-    [
-        Image(src=LOGO_PATH, height=60, width=60),
-        Text(value="FoxHub", text_align=TextAlign.CENTER, size=18, )
-    ]
-)
-
-# section Nav_bar_destinations
-# nav buttons
-nav_bar_destinations = [
-    NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
-                              selected_icon=icons.PIE_CHART,
-                              label_content=Text(value='Домашняя страница', text_align=TextAlign.CENTER),
-                              ),
-    NavigationRailDestination(icon=icons.SWITCH_ACCOUNT_OUTLINED,
-                              selected_icon=icons.SWITCH_ACCOUNT,
-                              label='Студенты',
-                              ),
-    NavigationRailDestination(icon=icons.GOLF_COURSE_OUTLINED,
-                              selected_icon=icons.GOLF_COURSE,
-                              label='Мои курсы',
-                              ),
-    NavigationRailDestination(icon=icons.MAP_OUTLINED,
-                              selected_icon=icons.MAP,
-                              label_content=Text(value='Мои материалы', text_align=TextAlign.CENTER),
-                              ),
-    NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
-                              selected_icon=icons.EXIT_TO_APP,
-                              label='Выход'
-                              ),
-]
+class TextOnlyInputFilterRu(InputFilter):
+    def __init__(self):
+        super().__init__("^[а-яА-Яa-zA-Z]+$")

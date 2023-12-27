@@ -39,15 +39,15 @@ class Handler:
         self.app.st_navigation_view_tasks_container_button.on_click = (
             lambda e: self.st_navigation_view_tasks_click()
         )
-        self.app.st_navigation_view_logout_button.on_click = lambda e: self.logout_click()
+        self.app.st_navigation_view_logout_button.on_click = lambda e: self.log_out_click()
         # endregion
 
         # region: ST Home view log out button
-        self.app.st_home_view_log_out_button.on_click = lambda _: self.logout_click()
-        self.app.st_grades_view_log_out_button.on_click = lambda _: self.logout_click()
-        self.app.st_courses_view_log_out_button.on_click = lambda _: self.logout_click()
-        self.app.st_tasks_view_log_out_button.on_click = lambda _: self.logout_click()
-        self.app.st_profile_view_log_out_button.on_click = lambda _: self.logout_click()
+        self.app.st_home_view_log_out_button.on_click = lambda _: self.log_out_click()
+        self.app.st_grades_view_log_out_button.on_click = lambda _: self.log_out_click()
+        self.app.st_courses_view_log_out_button.on_click = lambda _: self.log_out_click()
+        self.app.st_tasks_view_log_out_button.on_click = lambda _: self.log_out_click()
+        self.app.st_profile_view_log_out_button.on_click = lambda _: self.log_out_click()
 
         # endregion
         self.app.welcome_login_button.on_click = lambda e: self.welcome_login_click()
@@ -144,7 +144,7 @@ class Handler:
         self.app.show_login_view()
 
     # Basic log out
-    def logout_click(self):
+    def log_out_click(self):
         self.app.hide_banner()
         self.app.hide_login_form_error()
         self.app.clear_login_form()

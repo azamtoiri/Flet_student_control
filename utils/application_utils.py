@@ -112,6 +112,7 @@ class ApplicationUtils:
     def st_profile_view_log_out_button(self):
         """Profile view Log out button"""
         return self.st_profile_view.log_out_button
+
     # endregion
 
     # endregion
@@ -225,4 +226,14 @@ class ApplicationUtils:
             asyncio.run(fields[field].set_fail(message))
             self.page.update()
 
+    # Hide errors
+    def hide_banner(self) -> None:
+        if self.page.banner is not None:
+            self.page.banner.open = False
+            self.page.update()
+
+    def hide_login_form_error(self) -> None:
+        self.login_view.username_field.input_box_content.error_text = None
+        self.login_view.password_field.input_box_content.error_text = None
+        self.page.update()
     # endregion

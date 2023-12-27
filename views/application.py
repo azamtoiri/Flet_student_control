@@ -44,7 +44,7 @@ class Application(ApplicationUtils):
         self.handler = Handler(self)
 
         # showing view
-        self.st_show_navigation_view()
+        self.show_welcome_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
@@ -88,15 +88,6 @@ class Application(ApplicationUtils):
     # endregion
 
     # region: Banners
-    def hide_banner(self) -> None:
-        if self.page.banner is not None:
-            self.page.banner.open = False
-            self.page.update()
-
-    def hide_login_form_error(self) -> None:
-        self.login_view.username_field.error_text = None
-        self.login_view.password_field.error_text = None
-        self.page.update()
 
     def display_success_snack(self, message: str) -> None:
         snack_bar = SuccessSnackBar(message)
