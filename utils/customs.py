@@ -308,12 +308,6 @@ class LeftNavBar(CustomContainer):
             self.page.go('/') if c_index == 4 else None
 
 
-# TODO: Create MixedContainer for Login and Register Views
-class MixedContainer(CustomContainer):
-    def __init__(self, page: Page):
-        super().__init__(page)
-
-
 class STMixedView(View):
     def __init__(self):
         super().__init__()
@@ -332,7 +326,10 @@ class STMixedView(View):
         # AppBar title
         #
         self.appbar_title = Row()
+        self.back_button = IconButton(icons.ARROW_BACK)
+        self.back_button.on_click = lambda e: self.show_st_navigation_view(e)
         self.appbar_title.controls = [
+            self.back_button,
             Image(LOGO_PATH, width=50, height=50),
             Text('FoxHub', size=20)
         ]
@@ -354,6 +351,11 @@ class STMixedView(View):
         self.appbar.leading_width = 100
         self.appbar.actions = self.appbar_actions
         self.appbar.bgcolor = colors.ORANGE_ACCENT
+
+    def show_st_navigation_view(self, e):
+        e.data = False
+        print(e.data)
+        self.page.go('/student/main')
 
 
 class STContainer(UserControl):

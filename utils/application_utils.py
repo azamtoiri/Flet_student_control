@@ -25,7 +25,6 @@ class ApplicationUtils:
         self.login_view = LoginView()
         self.register_view = RegisterView()
 
-        # test
         self.st_navigation_view = STNavigationView()
         self.st_home_view = STHomeView()
         self.st_courses_view = STCoursesView()
@@ -34,7 +33,6 @@ class ApplicationUtils:
         self.st_profile_view = STProfileView()
 
     # region: @Properties
-    # section Buttons return
     @property  # login_button for login
     def login_button(self) -> OutlinedButton:
         return self.login_view.login_button
@@ -112,6 +110,8 @@ class ApplicationUtils:
     def st_profile_view_log_out_button(self) -> PopupMenuItem:
         """Profile view Log out button"""
         return self.st_profile_view.log_out_button
+
+    # endregion
 
     # endregion
 

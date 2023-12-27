@@ -14,9 +14,9 @@ SHEET_BG_COLOR = colors.with_opacity(0.1, color=SHEET)
 
 class Fonts:
     URLS = {
-            "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
-            "Open Sans": "/fonts/OpenSans-Regular.ttf"
-        }
+        "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
+        "Open Sans": "/fonts/OpenSans-Regular.ttf"
+    }
 
 
 T = TypeVar("T")
@@ -50,6 +50,10 @@ def _get_config(
         obj = config(search_path, cast=cast)
 
     return obj
+
+
+class Settings:
+    DEBUG = _get_config("DEBUG", bool, default=False)
 
 
 class Connection:
