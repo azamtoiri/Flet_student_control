@@ -9,6 +9,7 @@ from flet import (
     TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
     IconButton, Theme, Row, Page
 )
+from flet_core import PopupMenuItem, PopupMenuButton, margin, AppBar
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
@@ -308,11 +309,73 @@ class LeftNavBar(CustomContainer):
             self.page.go('/') if c_index == 4 else None
 
 
-
 # TODO: Create MixedContainer for Login and Register Views
 class MixedContainer(CustomContainer):
     def __init__(self, page: Page):
         super().__init__(page)
+
+
+class STMixedView(View):
+    def __init__(self):
+        super().__init__()
+        self.horizontal_alignment = CrossAxisAlignment.CENTER
+        self.vertical_alignment = MainAxisAlignment.CENTER
+        #
+        # AppBar items
+        #
+        self.log_out_button = PopupMenuItem(text='Log Out')
+        self.appbar_items = [
+            self.log_out_button,
+            PopupMenuItem(),
+            PopupMenuItem(text='Settings'),
+        ]
+        #
+        # AppBar title
+        #
+        self.appbar_title = Row()
+        self.appbar_title.controls = [
+            Image(LOGO_PATH, width=50, height=50),
+            Text('FoxHub', size=20)
+        ]
+        #
+        # App bar actions
+        #
+        self.appbar_actions = Container(
+            content=PopupMenuButton(
+                items=self.appbar_items,
+            ),
+            margin=margin.only(left=50, right=25),
+        ),
+        #
+        # App bar
+        #
+        self.appbar = AppBar()
+        self.appbar.center_title = False
+        self.appbar.title = self.appbar_title
+        self.appbar.leading_width = 100
+        self.appbar.actions = self.appbar_actions
+        self.appbar.bgcolor = colors.ORANGE_ACCENT
+
+
+class STContainer(UserControl):
+    def __init__(self, content: Optional[Control] = None, *args, **kwargs):
+        super().__init__()
+
+        self.main_container = Container(*args, **kwargs)
+        self.main_container.bgcolor = colors.WHITE
+        self.main_container.width = 300
+        self.main_container.height = 150
+        self.main_container.border_radius = 8
+        self.main_container.content = content
+        self.main_container.on_hover = self.on_hover
+
+    def build(self):
+        return self.main_container
+
+    def on_hover(self, e):
+        e.control.bgcolor = "red" if e.data == "true" else "white"
+        e.control.update()
+
 
 # section NavBarLeading - header
 # can add drop-out nav_bar to this FloatingActionButton

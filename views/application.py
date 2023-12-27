@@ -2,6 +2,7 @@ from flet import Page, RouteChangeEvent, TemplateRoute, Theme, PageTransitionThe
 
 from utils.application_utils import ApplicationUtils
 from utils.banners import SuccessSnackBar, WarningBanner
+from utils.constants import Fonts
 from utils.handler import Handler
 
 
@@ -18,10 +19,7 @@ class Application(ApplicationUtils):
         self.page.title = 'Student control'
         self.page.window_height = 1000
         self.page.on_route_change = self.route_change
-        self.page.fonts = {
-            "Kanit": "https://raw.githubusercontent.com/google/fonts/master/ofl/kanit/Kanit-Bold.ttf",
-            "Open Sans": "/fonts/OpenSans-Regular.ttf"
-        }
+        self.page.fonts = Fonts.URLS
 
         # hide banners
         self.hide_banner()
@@ -32,13 +30,21 @@ class Application(ApplicationUtils):
             self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
+
+            # test
+            self.st_navigation_view.route: self.st_navigation_view,
+            self.st_home_view.route: self.st_home_view,
+            self.st_courses_view.route: self.st_courses_view,
+            self.st_grades_view.route: self.st_grades_view,
+            self.st_tasks_view.route: self.st_tasks_view,
+            self.st_profile_view.route: self.st_profile_view,
         }
 
         # initialize handler
         self.handler = Handler(self)
 
         # showing view
-        self.show_student_view()
+        self.st_show_navigation_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
@@ -59,6 +65,25 @@ class Application(ApplicationUtils):
 
     def show_welcome_view(self):
         self.page.go(self.welcome_view.route)
+
+    # test
+    def st_show_navigation_view(self):
+        self.page.go(self.st_navigation_view.route)
+
+    def show_st_home_view(self):
+        self.page.go(self.st_home_view.route)
+
+    def show_st_courses_view(self):
+        self.page.go(self.st_courses_view.route)
+
+    def show_st_grades_view(self):
+        self.page.go(self.st_grades_view.route)
+
+    def show_st_tasks_view(self):
+        self.page.go(self.st_tasks_view.route)
+
+    def show_st_profile_view(self):
+        self.page.go(self.st_profile_view.route)
 
     # endregion
 

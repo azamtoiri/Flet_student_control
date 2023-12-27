@@ -56,7 +56,8 @@ class DataBase:
 
     def register_user(
             self, first_name, last_name, middle_name, username,
-            password
+            password, group: Optional[str] = None, course: Optional[str] = None,
+            age: Optional[str] = None, email: Optional[str] = None
     ) -> User:
         if first_name is None:
             raise RequiredField('first_name')
@@ -80,6 +81,10 @@ class DataBase:
             middle_name=middle_name,
             username=username,
             password=password,
+            group=group,
+            course=course,
+            age=age,
+            email=email
         )
 
         self.insert_user(user)

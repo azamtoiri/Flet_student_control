@@ -4,6 +4,12 @@ from typing import Dict, Optional
 from flet import Page, OutlinedButton, TextButton
 
 from views.common_views import WelcomeView, LoginView, RegisterView
+from views.st_veiw.st_courses_view import STCoursesView
+from views.st_veiw.st_grades_veiw import STGradesView
+from views.st_veiw.st_home_view import STHomeView
+from views.st_veiw.st_navigation_view import STNavigationView
+from views.st_veiw.st_profile_view import STProfileView
+from views.st_veiw.st_tasks_view import STTasksView
 
 
 class ApplicationUtils:
@@ -18,6 +24,14 @@ class ApplicationUtils:
         self.welcome_view = WelcomeView()
         self.login_view = LoginView()
         self.register_view = RegisterView()
+
+        # test
+        self.st_navigation_view = STNavigationView()
+        self.st_home_view = STHomeView()
+        self.st_courses_view = STCoursesView()
+        self.st_grades_view = STGradesView()
+        self.st_tasks_view = STTasksView()
+        self.st_profile_view = STProfileView()
 
     # region: @Properties
     # section Buttons return
@@ -44,6 +58,61 @@ class ApplicationUtils:
     @property  # register button on welcome_view
     def welcome_register_button(self):
         return self.welcome_view.register_button
+
+    # region: ST Navigation view buttons
+    @property
+    def st_navigation_view_home_container_button(self):
+        return self.st_navigation_view.home_container.main_container
+
+    @property
+    def st_navigation_view_courses_container_button(self):
+        return self.st_navigation_view.courses_container.main_container
+
+    @property
+    def st_navigation_view_grades_container_button(self):
+        return self.st_navigation_view.grades_container.main_container
+
+    @property
+    def st_navigation_view_tasks_container_button(self):
+        return self.st_navigation_view.tasks_container.main_container
+
+    @property
+    def st_navigation_view_profile_container_button(self):
+        return self.st_navigation_view.profile_container.main_container
+
+    @property
+    def st_navigation_view_logout_button(self):
+        return self.st_navigation_view.logout_button
+
+    # endregion
+
+    # region: ST Home view buttons
+    # region: Logout Buttons
+    @property  # home view
+    def st_home_view_log_out_button(self):
+        """Home view Log out button"""
+        return self.st_home_view.log_out_button
+
+    @property  # grades view
+    def st_grades_view_log_out_button(self):
+        """Grades view Log out button"""
+        return self.st_grades_view.log_out_button
+
+    @property  # courses view
+    def st_courses_view_log_out_button(self):
+        """Courses view Log out button"""
+        return self.st_courses_view.log_out_button
+
+    @property  # tasks view
+    def st_tasks_view_log_out_button(self):
+        """Tasks view Log out button"""
+        return self.st_tasks_view.log_out_button
+
+    @property  # profile view
+    def st_profile_view_log_out_button(self):
+        """Profile view Log out button"""
+        return self.st_profile_view.log_out_button
+    # endregion
 
     # endregion
 

@@ -12,7 +12,7 @@ class Handler:
 
     def __init__(self, application: 'Application') -> None:
         """Этот класс будет обрабатывать все события"""
-        self.application = application
+        self.app = application
 
         # region: DB
         self.database = DataBase()
@@ -20,47 +20,75 @@ class Handler:
         # endregion
 
         # section Main
-        self.application.login_button.on_click = lambda e: self.login_click()  # login button on login_view
-        self.application.register_button.on_click = lambda e: self.register_click()
+        self.app.login_button.on_click = lambda e: self.login_click()  # login button on login_view
+        self.app.register_button.on_click = lambda e: self.register_click()
 
-        self.application.welcome_login_button.on_click = lambda e: self.welcome_login_click()
-        self.application.welcome_register_button.on_click = lambda e: self.welcome_register_click()
+        # region: ST Navigation View on_click
+        self.app.st_navigation_view_home_container_button.on_click = (
+            lambda e: self.st_navigation_view_home_click()
+        )
+        self.app.st_navigation_view_courses_container_button.on_click = (
+            lambda e: self.st_navigation_view_courses_click()
+        )
+        self.app.st_navigation_view_grades_container_button.on_click = (
+            lambda e: self.st_navigation_view_grades_click()
+        )
+        self.app.st_navigation_view_profile_container_button.on_click = (
+            lambda e: self.st_navigation_view_profile_click()
+        )
+        self.app.st_navigation_view_tasks_container_button.on_click = (
+            lambda e: self.st_navigation_view_tasks_click()
+        )
+        self.app.st_navigation_view_logout_button.on_click = lambda e: self.logout_click()
+        # endregion
 
-        self.application.not_registered_button.on_click = lambda e: self.not_registered_click()
-        self.application.already_registered_button.on_click = lambda e: self.already_registered_click()
+        # region: ST Home view log out button
+        self.app.st_home_view_log_out_button.on_click = lambda _: self.logout_click()
+        self.app.st_grades_view_log_out_button.on_click = lambda _: self.logout_click()
+        self.app.st_courses_view_log_out_button.on_click = lambda _: self.logout_click()
+        self.app.st_tasks_view_log_out_button.on_click = lambda _: self.logout_click()
+        self.app.st_profile_view_log_out_button.on_click = lambda _: self.logout_click()
+
+        # endregion
+        self.app.welcome_login_button.on_click = lambda e: self.welcome_login_click()
+        self.app.welcome_register_button.on_click = lambda e: self.welcome_register_click()
+
+        self.app.not_registered_button.on_click = lambda e: self.not_registered_click()
+        self.app.already_registered_button.on_click = lambda e: self.already_registered_click()
 
     # section Clicks
-    def login_click(self):  # logining
+    def login_click(self) -> None:  # logining
         try:
             # getting values
-            form = self.application.get_login_form()
+            form = self.app.get_login_form()
             username = form.get('username')
             password = form.get('password')
 
             # hide banners
-            self.application.hide_banner()
-            self.application.hide_login_form_error()
+            self.app.hide_banner()
+            self.app.hide_login_form_error()
 
             # check have user?
             user = self.database.login_user(username, password)
-            self.application.show_student_view()
-            self.application.display_success_snack(f'Welcome {username}')
+
+            self.app.st_show_navigation_view()
+            self.app.display_success_snack(f'Welcome {username}')
 
             # ops, some required field is not informed, lets give a feedback.
         except RequiredField as error:
-            self.application.display_login_form_error(error.field, str(error))
+            self.app.display_login_form_error(error.field, str(error))
 
         # ops, this user not exists, lets give a feedback.
         except NotRegistered as error:
-            self.application.display_login_form_error('username', str(error))
+            self.app.display_login_form_error('username', str(error))
 
         # ok, some thing really bad hapened.
         except Exception as error:
-            self.application.display_warning_banner(str(error))
+            self.app.display_warning_banner(str(error))
 
     def register_click(self):  # registering
         try:
-            form = self.application.get_register_form()
+            form = self.app.get_register_form()
 
             first_name = form.get('first_name')
             last_name = form.get('last_name')
@@ -74,7 +102,7 @@ class Handler:
             password2 = form.get('password2')
 
             # hide banners
-            self.application.hide_banner()
+            self.app.hide_banner()
 
             self.database.register_user(
                 first_name=first_name, last_name=last_name, middle_name=middle_name,
@@ -83,34 +111,60 @@ class Handler:
             if password2 is None:
                 raise RequiredField('password2')
 
-            self.application.show_login_view()
+            self.app.show_login_view()
 
         except RequiredField as error:
-            self.application.display_register_form_error(error.field, str(error))
+            self.app.display_register_form_error(error.field, str(error))
 
         except NotRegistered as error:
-            self.application.display_register_form_error('username', str(error))
+            self.app.display_register_form_error('username', str(error))
 
         except AlreadyRegistered as error:
-            self.application.display_warning_banner(str(error))
-            self.application.display_register_form_error('username', str(error))
+            self.app.display_warning_banner(str(error))
+            self.app.display_register_form_error('username', str(error))
         except Exception as error:
-            self.application.display_warning_banner(str(error))
+            self.app.display_warning_banner(str(error))
 
     def welcome_login_click(self):  # change view
-        self.application.clear_login_form()
-        self.application.show_login_view()
+        self.app.clear_login_form()
+        self.app.show_login_view()
 
     def welcome_register_click(self):  # change view
-        self.application.clear_register_form()
-        self.application.show_register_view()
+        self.app.clear_register_form()
+        self.app.show_register_view()
 
     def not_registered_click(self):  # change view to register
-        self.application.clear_register_form()
-        self.application.hide_banner()
-        self.application.show_register_view()
+        self.app.clear_register_form()
+        self.app.hide_banner()
+        self.app.show_register_view()
 
     def already_registered_click(self):  # change view to log in
-        self.application.clear_login_form()
-        self.application.hide_banner()
-        self.application.show_login_view()
+        self.app.clear_login_form()
+        self.app.hide_banner()
+        self.app.show_login_view()
+
+    # Basic log out
+    def logout_click(self):
+        self.app.hide_banner()
+        self.app.hide_login_form_error()
+        self.app.clear_login_form()
+        self.app.clear_login_form()
+        self.app.show_login_view()
+
+    # region: ST Navigation view click functions
+    def st_navigation_view_home_click(self):
+        self.app.show_st_home_view()
+
+    def st_navigation_view_courses_click(self):
+        self.app.show_st_courses_view()
+
+    def st_navigation_view_grades_click(self):
+        self.app.show_st_grades_view()
+
+    def st_navigation_view_profile_click(self):
+        self.app.show_st_profile_view()
+
+    def st_navigation_view_tasks_click(self):
+        self.app.show_st_tasks_view()
+
+    # endregion
