@@ -18,7 +18,7 @@ class ApplicationUtils:
     Теперь главный класс `Application` наследуется от этого класса
     """
 
-    def __init__(self, page: Page):
+    def __init__(self, page: Page) -> None:
         self.page = page
 
         self.welcome_view = WelcomeView()
@@ -82,40 +82,13 @@ class ApplicationUtils:
     def st_navigation_view_logout_button(self) -> Container:
         return self.st_navigation_view.logout_button
 
-    # endregion
+    # endregion: ST Navigation view buttons
 
     # region: ST Home view buttons
-    # region: Logout Buttons
-    @property  # home view
-    def st_home_view_log_out_button(self) -> PopupMenuItem:
-        """Home view Log out button"""
-        return self.st_home_view.log_out_button
 
-    @property  # grades view
-    def st_grades_view_log_out_button(self) -> PopupMenuItem:
-        """Grades view Log out button"""
-        return self.st_grades_view.log_out_button
+    # endregion: ST Home view buttons
 
-    @property  # courses view
-    def st_courses_view_log_out_button(self) -> PopupMenuItem:
-        """Courses view Log out button"""
-        return self.st_courses_view.log_out_button
-
-    @property  # tasks view
-    def st_tasks_view_log_out_button(self) -> PopupMenuItem:
-        """Tasks view Log out button"""
-        return self.st_tasks_view.log_out_button
-
-    @property  # profile view
-    def st_profile_view_log_out_button(self) -> PopupMenuItem:
-        """Profile view Log out button"""
-        return self.st_profile_view.log_out_button
-
-    # endregion
-
-    # endregion
-
-    # endregion
+    # endregion: @properties
 
     # region: Forms
     def get_login_form(self) -> Dict[str, Optional[str]]:
@@ -183,7 +156,7 @@ class ApplicationUtils:
         self.register_view.password2_field.input_box_content.value = password2
         self.page.update()
 
-    # endregion
+    # endregion: Forms
 
     # region: Display errors
     def display_login_form_error(self, field: str, message: str) -> None:
@@ -238,4 +211,5 @@ class ApplicationUtils:
         self.login_view.username_field.input_box_content.error_text = None
         self.login_view.password_field.input_box_content.error_text = None
         self.page.update()
-    # endregion
+
+    # endregion: Display errors

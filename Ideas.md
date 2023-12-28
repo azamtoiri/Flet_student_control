@@ -101,3 +101,8 @@ class Handler:
             lambda e: self.register_click()
         )
 ```
+
+# Keyboard enters
+
+Добавить поддержку нажатий клавиш на клавиатуре, 
+таких как enter вход backspace назад и тп
