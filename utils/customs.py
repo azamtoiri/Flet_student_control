@@ -1,6 +1,5 @@
 import asyncio
 from typing import Optional
-from flet import *
 import flet_material as fm
 from flet import (
     UserControl, Text, colors, TextField, Container, ElevatedButton, TextStyle,
@@ -8,19 +7,20 @@ from flet import (
     BoxShadow, CrossAxisAlignment, MainAxisAlignment, alignment, View, Image, TextAlign,
     TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
     IconButton, Theme, Row, Page, PopupMenuItem, PopupMenuButton, margin, AppBar, InputFilter, VerticalDivider,
-    LinearGradient
+    LinearGradient, AnimationCurve, Scale
 )
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
 
-# section constants
 PRIMARY = colors.PRIMARY
 BORDER_COLOR = colors.GREY
 BG_COLOR = colors.WHITE
 
 
-# section CustomInputField
 class CustomInputField(UserControl):
+    """
+    Custom Input Field uses for more beautiful input data on TextField
+    """
     def __init__(self, password: bool, title: str):
         super().__init__()
 
@@ -48,7 +48,7 @@ class CustomInputField(UserControl):
         self.input_box_content.on_change = self.set_loader_animation
         # endregion
 
-        self.input_box = Container()
+        self.input_box: Container = Container()
         self.input_box.content = self.input_box_content
         self.input_box.animate = Animation(300, animation.AnimationCurve.EASE)
 
@@ -89,7 +89,8 @@ class CustomInputField(UserControl):
         self.obj.spacing = 5
         self.object = self.obj
 
-    async def set_ok(self, message: Optional[str] = "Error"):
+    async def set_ok(self) -> None:
+        """does not work yet"""
         self.loader.value = 0
         self.loader.update()
 
@@ -102,7 +103,7 @@ class CustomInputField(UserControl):
         self.status.animate_checkbox(e=None)
         self.status.update()
 
-    async def set_fail(self, message: Optional[str] = "Error"):
+    async def set_fail(self, message: Optional[str] = "Error") -> None:
         self.loader.value = 0
         self.loader.update()
 
@@ -111,7 +112,7 @@ class CustomInputField(UserControl):
         await asyncio.sleep(1)
         self.update()
 
-    def set_loader_animation(self, e):
+    def set_loader_animation(self, e) -> None:
         # function starts the loader if the text field lengths ore not 0
         if len(self.input_box.content.value) != 0:
             self.loader.value = None
@@ -120,7 +121,7 @@ class CustomInputField(UserControl):
 
         self.loader.update()
 
-    def focus_shadow(self, e):
+    def focus_shadow(self, e) -> None:
         """Focus shadow when focusing"""
         self.error.visible = False
         # self.input_box.content.border_color = BORDER_COLOR
@@ -145,9 +146,11 @@ class CustomInputField(UserControl):
         return self.object
 
 
-# section MixedView
 class MixedView(View):
-    def __init__(self):
+    """
+    Mixed view created with rules DRY for Login and Register views
+    """
+    def __init__(self) -> None:
         super().__init__()
         # def page settings
         self.horizontal_alignment = CrossAxisAlignment.CENTER
@@ -178,9 +181,8 @@ class MixedView(View):
         # endregion
 
 
-# section CustomContainer
 class CustomContainer(Container):  # поставлены настройки правого окна
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.expand = True
         self.border_radius = 20
@@ -211,67 +213,16 @@ class CustomContainer(Container):  # поставлены настройки п�
             ),
         ]
 
-    def change_theme(self, theme_: Theme):
+    def change_theme(self, theme_: Theme) -> None:
         self.page.theme = theme_
         self.page.update()
 
 
-class STMixedView(View):
-    def __init__(self):
-        super().__init__()
-        self.horizontal_alignment = CrossAxisAlignment.CENTER
-        self.vertical_alignment = MainAxisAlignment.CENTER
-        #
-        # AppBar items
-        #
-        self.log_out_button = PopupMenuItem(text='Log Out')
-        self.appbar_items = [
-            self.log_out_button,
-            PopupMenuItem(),
-            PopupMenuItem(text='Settings'),
-        ]
-        #
-        # AppBar title
-        #
-        self.appbar_title = Row()
-        self.back_button = IconButton(icons.ARROW_BACK)
-        self.back_button.on_click = lambda e: self.show_st_navigation_view(e)
-        self.appbar_title.alignment = MainAxisAlignment.START
-        self.appbar_title.spacing = 0
-        self.appbar_title.controls = [
-            self.back_button,
-            Container(width=10),
-            Image(LOGO_PATH, width=70, height=70),
-            Container(width=10),
-            Text('Fox', size=20, weight=FontWeight.BOLD),
-            Text('Hub', size=20)
-        ]
-        #
-        # App bar actions
-        #
-        self.appbar_actions = Container(
-            content=PopupMenuButton(
-                items=self.appbar_items,
-            ),
-            margin=margin.only(left=50, right=25),
-        ),
-        #
-        # App bar
-        #
-        self.appbar = AppBar()
-        self.appbar.center_title = False
-        self.appbar.title = self.appbar_title
-        self.appbar.leading_width = 100
-        self.appbar.actions = self.appbar_actions
-        self.appbar.bgcolor = colors.ORANGE_ACCENT
-        self.appbar.toolbar_height = 80
-
-    def show_st_navigation_view(self, e):
-        self.page.go('/student/main')
-
-
 class STAppBar(AppBar):
-    def __init__(self):
+    """
+    Custom app bar, for all Students views
+    """
+    def __init__(self) -> None:
         super().__init__()
         self.center_title = False
         self.leading_width = 100
@@ -310,15 +261,19 @@ class STAppBar(AppBar):
         self.title = self.appbar_title
         self.actions = [self.appbar_actions]
 
-    def show_st_navigation_view(self, e):
+    def show_st_navigation_view(self, e) -> None:
         self.page.go('/student/main')
 
-    def exit(self, e):
+    def exit(self, e) -> None:
         self.page.client_storage.set('is_auth', False)
         self.page.go('/welcome')
 
 
 class STContainer(UserControl):
+    """
+    This Custom Student container
+    Usage: On navigation View Within Button, for moving on pages
+    """
     def __init__(self, content: Optional[Control] = None, *args, **kwargs):
         super().__init__()
 
@@ -352,5 +307,6 @@ class STContainer(UserControl):
 
 
 class TextOnlyInputFilterRu(InputFilter):
+    """Custom Input filter with the support Russian letter *only symbols"""
     def __init__(self):
         super().__init__("^[а-яА-Яa-zA-Z]+$")
