@@ -1,7 +1,7 @@
 import flet.canvas as cv
 from flet import *
 
-from utils.customs import STMixedView
+from utils.customs import STAppBar
 
 
 class State:
@@ -12,11 +12,13 @@ class State:
 state = State()
 
 
-class STProfileView(STMixedView):
+class STProfileView(View):
     def __init__(self):
         super().__init__()
         self.route = '/student/profile'
+        self.appbar = STAppBar()
 
+        # canvas for drawing
         self.cp = cv.Canvas(
             [
                 cv.Fill(

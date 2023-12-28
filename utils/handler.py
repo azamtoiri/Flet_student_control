@@ -1,5 +1,6 @@
-from flet import HoverEvent
 from typing import TYPE_CHECKING, Optional
+
+from flet import HoverEvent
 
 from db.database import DataBase
 from db.model import User
@@ -20,7 +21,6 @@ class Handler:
         self.user: Optional[User] = None
         # endregion
 
-        # section Main
         self.app.login_button.on_click = lambda e: self.login_click()  # login button on login_view
         self.app.register_button.on_click = lambda e: self.register_click()
 
@@ -44,20 +44,15 @@ class Handler:
         # endregion
 
         # region: ST Home view log out button
-        self.app.st_home_view_log_out_button.on_click = lambda _: self.log_out_click()
-        self.app.st_grades_view_log_out_button.on_click = lambda _: self.log_out_click()
-        self.app.st_courses_view_log_out_button.on_click = lambda _: self.log_out_click()
-        self.app.st_tasks_view_log_out_button.on_click = lambda _: self.log_out_click()
-        self.app.st_profile_view_log_out_button.on_click = lambda _: self.log_out_click()
 
         # endregion
+
         self.app.welcome_login_button.on_click = lambda e: self.welcome_login_click()
         self.app.welcome_register_button.on_click = lambda e: self.welcome_register_click()
 
         self.app.not_registered_button.on_click = lambda e: self.not_registered_click()
         self.app.already_registered_button.on_click = lambda e: self.already_registered_click()
 
-    # section Clicks
     def login_click(self) -> None:  # logining
         try:
             # getting values
@@ -175,6 +170,5 @@ class Handler:
     def st_navigation_view_tasks_click(self, e: HoverEvent) -> None:
         self.app.show_st_tasks_view()
         e.control.scale = 1
-
 
     # endregion

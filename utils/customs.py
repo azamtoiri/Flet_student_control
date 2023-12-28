@@ -304,11 +304,11 @@ class STAppBar(AppBar):
             Container(width=10),
             Image(LOGO_PATH, width=70, height=70),
             Container(width=10),
-            Text('Fox', size=20, weight=FontWeight.BOLD),
+            Text('SDF', size=20, weight=FontWeight.BOLD),
             Text('Hub', size=20)
         ]
         self.title = self.appbar_title
-        # self.actions = [self.appbar_actions]
+        self.actions = [self.appbar_actions]
 
     def show_st_navigation_view(self, e):
         self.page.go('/student/main')
