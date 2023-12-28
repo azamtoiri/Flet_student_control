@@ -31,7 +31,7 @@ class Application(ApplicationUtils):
         self.page.on_route_change = self.route_change
         self.page.fonts = Fonts.URLS
         # if auth is False can't go to the students and other pages
-        self.page.client_storage.set('is_auth', False)
+        self.page.client_storage.set('is_auth', True)
 
         # hide banners
         self.hide_banner()
@@ -60,7 +60,7 @@ class Application(ApplicationUtils):
         self.handler = Handler(self)
 
         # showing view
-        self.show_welcome_view()
+        self.show_st_navigation_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
