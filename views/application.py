@@ -5,7 +5,6 @@ from flet import Page, RouteChangeEvent, TemplateRoute, Theme, PageTransitionThe
 from utils.application_utils import ApplicationUtils
 from utils.banners import SuccessSnackBar, WarningBanner
 from utils.constants import Fonts
-from utils.customs import STAppBar
 from utils.handler import Handler
 from utils.constants import Settings
 
@@ -32,9 +31,7 @@ class Application(ApplicationUtils):
         self.page.on_route_change = self.route_change
         self.page.fonts = Fonts.URLS
         # if auth is False can't go to the students and other pages
-        self.page.client_storage.set('is_auth', True)
-
-        self._st_app_bar = STAppBar()
+        self.page.client_storage.set('is_auth', False)
 
         # hide banners
         self.hide_banner()
