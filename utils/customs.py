@@ -1,13 +1,14 @@
 import asyncio
 from typing import Optional
-
+from flet import *
 import flet_material as fm
 from flet import (
     UserControl, Text, colors, TextField, Container, ElevatedButton, TextStyle,
     Animation, animation, ProgressBar, padding, Offset, FontWeight, Column, Stack,
     BoxShadow, CrossAxisAlignment, MainAxisAlignment, alignment, View, Image, TextAlign,
     TextThemeStyle, theme, icons, Control, NavigationRailDestination, NavigationRail, NavigationRailLabelType,
-    IconButton, Theme, Row, Page, PopupMenuItem, PopupMenuButton, margin, AppBar, InputFilter, VerticalDivider
+    IconButton, Theme, Row, Page, PopupMenuItem, PopupMenuButton, margin, AppBar, InputFilter, VerticalDivider,
+    LinearGradient
 )
 
 from utils.constants import LOGO_PATH, LEFT_COL_COLOR
@@ -215,99 +216,6 @@ class CustomContainer(Container):  # поставлены настройки п�
         self.page.update()
 
 
-# idea for label_type add function to change modes and button also
-# section LeftNavBar
-class LeftNavBar(CustomContainer):
-    def __init__(self, page, page_1: Optional[Control], page_2: Optional[Control], page_3: Optional[Control],
-                 page_4: Optional[Control]):
-        super().__init__(page)
-        self.page = page
-
-        self.expand = False
-
-        self.page_1 = page_1
-        self.page_2 = page_2
-        self.page_3 = page_3
-        self.page_4 = page_4
-
-        self.content = NavigationRail(
-            min_width=150,
-            bgcolor=colors.with_opacity(0.21, LEFT_COL_COLOR),
-            on_change=self.on_change,
-            leading=Column(
-                alignment=alignment.center,
-                horizontal_alignment=CrossAxisAlignment.CENTER,
-                controls=[
-                    Container(
-                        ink=True,
-                        on_click=lambda _: self.page.go('/teacher'),
-                        padding=padding.only(left=15),
-                        border_radius=20,
-                        width=145,
-                        height=60,
-                        content=Row(
-                            alignment=alignment.center,
-                            vertical_alignment=CrossAxisAlignment.CENTER,
-                            controls=[
-                                Image(src=LOGO_PATH, height=50, width=50),
-                                Text(value='FoxHub', size=14, weight=FontWeight.BOLD)
-                            ]
-                        ),
-                    ),
-                    Container(
-                        bgcolor=colors.with_opacity(0.1, 'grey'),
-                        border_radius=25,
-                        content=Row(
-                            controls=[
-                                self.scheme_change_buttons[2],
-                                self.scheme_change_buttons[3],
-                            ]
-                        )
-                    )
-                ]
-            ),
-            selected_index=0,
-            label_type=NavigationRailLabelType.ALL,
-            destinations=[
-                NavigationRailDestination(icon=icons.PIE_CHART_OUTLINE,
-                                          selected_icon=icons.PIE_CHART,
-                                          label='Домашняя страница',
-                                          # label_content=Text('Home'),
-                                          ),
-                NavigationRailDestination(icon=icons.SWITCH_ACCOUNT_OUTLINED,
-                                          selected_icon=icons.SWITCH_ACCOUNT,
-                                          label='Студенты',
-                                          # label_content=Text('Home'),
-                                          ),
-                NavigationRailDestination(icon=icons.GOLF_COURSE_OUTLINED,
-                                          selected_icon=icons.GOLF_COURSE,
-                                          label='Мои курсы',
-                                          # label_content=Text('Home'),
-                                          ),
-                NavigationRailDestination(icon=icons.MAP_OUTLINED,
-                                          selected_icon=icons.MAP,
-                                          label='Мои материалы',
-                                          # label_content=Text('Home'),
-                                          ),
-                NavigationRailDestination(icon=icons.EXIT_TO_APP_OUTLINED,
-                                          selected_icon=icons.EXIT_TO_APP,
-                                          label='Выход'
-                                          ),
-            ]
-        )
-
-    def on_change(self, e):
-        c_index = e.control.selected_index
-        if c_index != 4:
-            self.page_1.visible = True if c_index == 0 else False
-            self.page_2.visible = True if c_index == 1 else False
-            self.page_3.visible = True if c_index == 2 else False
-            self.page_4.visible = True if c_index == 3 else False
-            self.page.update()
-        else:
-            self.page.go('/') if c_index == 4 else None
-
-
 class STMixedView(View):
     def __init__(self):
         super().__init__()
@@ -362,23 +270,84 @@ class STMixedView(View):
         self.page.go('/student/main')
 
 
+class STAppBar(AppBar):
+    def __init__(self):
+        super().__init__()
+        self.center_title = False
+        self.leading_width = 100
+        self.toolbar_height = 80
+        self.bgcolor = colors.ORANGE_ACCENT
+
+        self.back_button = IconButton(icons.ARROW_BACK)
+        self.back_button.on_click = lambda e: self.show_st_navigation_view(e)
+
+        self.log_out_button = PopupMenuItem(text='Выход')
+        self.log_out_button.on_click = lambda e: self.exit(e)
+        self.appbar_items = [
+            self.log_out_button,
+            PopupMenuItem(),
+            PopupMenuItem(text='Settings'),
+        ]
+
+        self.appbar_actions = Container(
+            content=PopupMenuButton(
+                items=self.appbar_items,
+            ),
+            margin=margin.only(left=50, right=25),
+        )
+
+        self.appbar_title = Row()
+        self.appbar_title.alignment = MainAxisAlignment.START
+        self.appbar_title.spacing = 0
+        self.appbar_title.controls = [
+            self.back_button,
+            Container(width=10),
+            Image(LOGO_PATH, width=70, height=70),
+            Container(width=10),
+            Text('Fox', size=20, weight=FontWeight.BOLD),
+            Text('Hub', size=20)
+        ]
+        self.title = self.appbar_title
+        # self.actions = [self.appbar_actions]
+
+    def show_st_navigation_view(self, e):
+        self.page.go('/student/main')
+
+    def exit(self, e):
+        self.page.client_storage.set('is_auth', False)
+        self.page.go('/welcome')
+
+
 class STContainer(UserControl):
     def __init__(self, content: Optional[Control] = None, *args, **kwargs):
         super().__init__()
 
+        self.container_linear_gradient = LinearGradient(
+            begin=alignment.top_left,
+            end=alignment.top_right,
+            colors=["#D64511", "#B63621"]
+        )
+
         self.main_container = Container(*args, **kwargs)
-        self.main_container.bgcolor = colors.WHITE
+        self.main_container.gradient = self.container_linear_gradient
+        # self.main_container.bgcolor = colors.WHITE
         self.main_container.width = 300
         self.main_container.height = 150
         self.main_container.border_radius = 8
         self.main_container.content = content
-        # self.main_container.on_hover = self.on_hover
+        self.main_container.scale = Scale(scale=1)
+        self.main_container.animate_scale = animation.Animation(800, AnimationCurve.BOUNCE_OUT)
+        self.main_container.on_hover = self.on_hover
 
     def build(self):
         return self.main_container
 
-    def on_hover(self, e):
-        e.control.bgcolor = "red" if e.data == "true" else "white"
+    @staticmethod
+    def on_hover(e):
+        if e.control.scale != 1.120:
+            e.control.scale = 1.120
+        else:
+            e.control.scale = 1
         e.control.update()
 
 

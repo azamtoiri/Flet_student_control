@@ -1,3 +1,4 @@
+from flet import HoverEvent
 from typing import TYPE_CHECKING, Optional
 
 from db.database import DataBase
@@ -25,19 +26,19 @@ class Handler:
 
         # region: ST Navigation View on_click
         self.app.st_navigation_view_home_container_button.on_click = (
-            lambda e: self.st_navigation_view_home_click()
+            lambda e: self.st_navigation_view_home_click(e)
         )
         self.app.st_navigation_view_courses_container_button.on_click = (
-            lambda e: self.st_navigation_view_courses_click()
+            lambda e: self.st_navigation_view_courses_click(e)
         )
         self.app.st_navigation_view_grades_container_button.on_click = (
-            lambda e: self.st_navigation_view_grades_click()
+            lambda e: self.st_navigation_view_grades_click(e)
         )
         self.app.st_navigation_view_profile_container_button.on_click = (
-            lambda e: self.st_navigation_view_profile_click()
+            lambda e: self.st_navigation_view_profile_click(e)
         )
         self.app.st_navigation_view_tasks_container_button.on_click = (
-            lambda e: self.st_navigation_view_tasks_click()
+            lambda e: self.st_navigation_view_tasks_click(e)
         )
         self.app.st_navigation_view_logout_button.on_click = lambda e: self.log_out_click()
         # endregion
@@ -155,19 +156,25 @@ class Handler:
         self.app.show_login_view()
 
     # region: ST Navigation view click functions
-    def st_navigation_view_home_click(self) -> None:
+    def st_navigation_view_home_click(self, e: HoverEvent) -> None:
         self.app.show_st_home_view()
+        e.control.scale = 1
 
-    def st_navigation_view_courses_click(self) -> None:
+    def st_navigation_view_courses_click(self, e: HoverEvent) -> None:
         self.app.show_st_courses_view()
+        e.control.scale = 1
 
-    def st_navigation_view_grades_click(self) -> None:
+    def st_navigation_view_grades_click(self, e: HoverEvent) -> None:
         self.app.show_st_grades_view()
+        e.control.scale = 1
 
-    def st_navigation_view_profile_click(self) -> None:
+    def st_navigation_view_profile_click(self, e: HoverEvent) -> None:
         self.app.show_st_profile_view()
+        e.control.scale = 1
 
-    def st_navigation_view_tasks_click(self) -> None:
+    def st_navigation_view_tasks_click(self, e: HoverEvent) -> None:
         self.app.show_st_tasks_view()
+        e.control.scale = 1
+
 
     # endregion
