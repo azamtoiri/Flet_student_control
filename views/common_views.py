@@ -67,7 +67,7 @@ class WelcomeView(View):
 class LoginView(MixedView):
     def __init__(self):
         super().__init__()
-        self.route = '/login'
+        self.route = '/authentication'
 
         # region: InputFields
         self.username_field = CustomInputField(False, 'Имя пользователя')

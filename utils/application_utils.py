@@ -27,14 +27,14 @@ class ApplicationUtils:
         self.register_view = RegisterView()
 
         self.st_navigation_view = STNavigationView()
-        self.st_home_view = STHomeView()
-        self.st_courses_view = STCoursesView()
-        self.st_grades_view = STGradesView()
-        self.st_tasks_view = STTasksView()
-        self.st_profile_view = STProfileView()
+        self.st_home_view = STHomeView(self)
+        self.st_courses_view = STCoursesView(self)
+        self.st_grades_view = STGradesView(self)
+        self.st_tasks_view = STTasksView(self)
+        self.st_profile_view = STProfileView(self)
 
     # region: @Properties
-    @property  # login_button for login
+    @property  # login_button for authentication
     def login_button(self) -> OutlinedButton:
         return self.login_view.login_button
 
@@ -50,7 +50,7 @@ class ApplicationUtils:
     def already_registered_button(self) -> ElevatedButton:
         return self.register_view.login_button
 
-    @property  # login button on welcome_view
+    @property  # authentication button on welcome_view
     def welcome_login_button(self) -> ElevatedButton:
         return self.welcome_view.login_button
 
@@ -128,7 +128,7 @@ class ApplicationUtils:
 
     # Login form setter
     def set_login_form(self, username: str = None, password: str = None) -> None:
-        """Set values on a login form
+        """Set values on a authentication form
         by defaults all is empty
         :return None
         """
@@ -211,7 +211,7 @@ class ApplicationUtils:
         self.page.update()
 
     def hide_snack_bar(self) -> None:
-        if self.page.snack_bar.open is not None:
+        if self.page.snack_bar is not None:
             self.page.snack_bar.open = False
             self.page.update()
 
@@ -250,7 +250,7 @@ class ApplicationUtils:
         self.set_register_form()
 
     def set_loader_zero(self) -> None:
-        """Set loaders of login form values to zero"""
+        """Set loaders of authentication form values to zero"""
         self.login_view.username_field.loader.value = 0
         self.login_view.password_field.loader.value = 0
 

@@ -266,6 +266,7 @@ class STAppBar(AppBar):
 
     def exit(self, e) -> None:
         self.page.client_storage.set('is_auth', False)
+        self.page.client_storage.clear()
         self.page.go('/welcome')
 
 

@@ -14,3 +14,8 @@ class NotRegistered(Exception):
     def __init__(self, field: str):
         self.field = field
         super().__init__(f'Неправильный логин или пароль')
+
+
+class NotAuthed(Exception):
+    def __init__(self):
+        super().__init__('Ошибка авторизации')
