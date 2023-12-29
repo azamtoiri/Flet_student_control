@@ -31,6 +31,7 @@ class Application(ApplicationUtils):
         self.page.on_route_change = self.route_change
         self.page.fonts = Fonts.URLS
         # if auth is False can't go to the students and other pages
+        self.page.client_storage.clear()
         self.page.client_storage.set('is_auth', False)
 
         # hide banners
@@ -60,7 +61,7 @@ class Application(ApplicationUtils):
         self.handler = Handler(self)
 
         # showing view
-        self.show_st_navigation_view()
+        self.show_welcome_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
@@ -106,25 +107,5 @@ class Application(ApplicationUtils):
 
     def show_st_profile_view(self) -> None:
         self.page.go(self.st_profile_view.route)
-
-    # endregion
-
-    # region: Banners
-
-    def display_success_snack(self, message: str) -> None:
-        snack_bar = SuccessSnackBar(message)
-        self.page.show_snack_bar(snack_bar)
-        self.page.update()
-
-    def display_warning_banner(self, message: str) -> None:
-        banner = WarningBanner(self.page, message)
-        self.page.show_banner(banner)
-        self.page.update()
-
-    def clear_login_form(self) -> None:
-        self.set_login_form('', '')
-
-    def clear_register_form(self) -> None:
-        self.set_register_form()
 
     # endregion
