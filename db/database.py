@@ -106,3 +106,12 @@ class DataBase:
             raise NotRegistered('Invalid username or password')
         else:
             return users[0]
+
+
+class UserDatabase(DataBase):
+    def __init__(self):
+        super().__init__()
+
+    def get_username(self, username: str) -> str:
+        _username = self.filter_users(username=username)
+        return _username[0].username

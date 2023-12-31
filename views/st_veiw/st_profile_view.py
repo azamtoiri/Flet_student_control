@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 import flet.canvas as cv
 from flet import *
 
 from utils.customs import STAppBar
+
+if TYPE_CHECKING:
+    from utils.application_utils import ApplicationUtils
 
 
 class State:
@@ -13,9 +18,11 @@ state = State()
 
 
 class STProfileView(View):
-    def __init__(self):
+    def __init__(self, _app: 'ApplicationUtils'):
         super().__init__()
         self.route = '/student/profile'
+        self.app = _app
+
         self.appbar = STAppBar()
 
         # canvas for drawing

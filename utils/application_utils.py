@@ -1,8 +1,9 @@
 import asyncio
 from typing import Dict, Optional
 
-from flet import Page, OutlinedButton, TextButton, PopupMenuItem, Container, ElevatedButton
+from flet import Page, OutlinedButton, TextButton, Container, ElevatedButton
 
+from utils.banners import SuccessSnackBar, WarningBanner, SuccessBanner
 from views.common_views import WelcomeView, LoginView, RegisterView
 from views.st_veiw.st_courses_view import STCoursesView
 from views.st_veiw.st_grades_veiw import STGradesView
@@ -27,13 +28,13 @@ class ApplicationUtils:
 
         self.st_navigation_view = STNavigationView()
         self.st_home_view = STHomeView()
-        self.st_courses_view = STCoursesView()
-        self.st_grades_view = STGradesView()
-        self.st_tasks_view = STTasksView()
-        self.st_profile_view = STProfileView()
+        self.st_courses_view = STCoursesView(self)
+        self.st_grades_view = STGradesView(self)
+        self.st_tasks_view = STTasksView(self)
+        self.st_profile_view = STProfileView(self)
 
     # region: @Properties
-    @property  # login_button for login
+    @property  # login_button for authentication
     def login_button(self) -> OutlinedButton:
         return self.login_view.login_button
 
@@ -49,7 +50,7 @@ class ApplicationUtils:
     def already_registered_button(self) -> ElevatedButton:
         return self.register_view.login_button
 
-    @property  # login button on welcome_view
+    @property  # authentication button on welcome_view
     def welcome_login_button(self) -> ElevatedButton:
         return self.welcome_view.login_button
 
@@ -101,7 +102,7 @@ class ApplicationUtils:
         }
 
     def get_register_form(self) -> Dict[str, Optional[str]]:
-        first_name = str(self.register_view.first_name.input_box_content.value).strip()
+        first_name = str(self.register_view.first_name_field.input_box_content.value).strip()
         last_name = str(self.register_view.last_name_field.input_box_content.value).strip()
         middle_name = str(self.register_view.middle_name_field.input_box_content.value).strip()
         group = str(self.register_view.group_field.input_box_content.value).strip()
@@ -127,7 +128,7 @@ class ApplicationUtils:
 
     # Login form setter
     def set_login_form(self, username: str = None, password: str = None) -> None:
-        """Set values on a login form
+        """Set values on a authentication form
         by defaults all is empty
         :return None
         """
@@ -144,7 +145,7 @@ class ApplicationUtils:
         by defaults all is empty
         :return None
         """
-        self.register_view.first_name.input_box_content.value = first_name
+        self.register_view.first_name_field.input_box_content.value = first_name
         self.register_view.last_name_field.input_box_content.value = last_name
         self.register_view.middle_name_field.input_box_content.value = middle_name
         self.register_view.group_field.input_box_content.value = group
@@ -169,7 +170,7 @@ class ApplicationUtils:
             self.page.update()
 
     def display_register_form_error(self, field: str, message: str) -> None:
-        first_name_field = self.register_view.first_name
+        first_name_field = self.register_view.first_name_field
         last_name_field = self.register_view.last_name_field
         middle_name_field = self.register_view.middle_name_field
         group_field = self.register_view.group_field
@@ -196,12 +197,9 @@ class ApplicationUtils:
             asyncio.run(fields[field].set_fail(message))
             self.page.update()
 
-    def set_loader_zero(self) -> None:
-        """Set loaders of login form values to zero"""
-        self.login_view.username_field.loader.value = 0
-        self.login_view.password_field.loader.value = 0
+    # endregion: Display errors
 
-    # Hide errors
+    # region: Hide errors
     def hide_banner(self) -> None:
         if self.page.banner is not None:
             self.page.banner.open = False
@@ -212,4 +210,53 @@ class ApplicationUtils:
         self.login_view.password_field.input_box_content.error_text = None
         self.page.update()
 
-    # endregion: Display errors
+    def hide_snack_bar(self) -> None:
+        if self.page.snack_bar is not None:
+            self.page.snack_bar.open = False
+            self.page.update()
+
+    def hide_register_form_error(self):
+        self.register_view.first_name_field.input_box_content.error_text = None
+        self.register_view.last_name_field.input_box_content.error_text = None
+        self.register_view.middle_name_field.input_box_content.error_text = None
+        self.register_view.group_field.input_box_content.error_text = None
+        self.register_view.course_field.input_box_content.error_text = None
+        self.register_view.age_field.input_box_content.error_text = None
+        self.register_view.email_field.input_box_content.error_text = None
+        self.register_view.username_field.input_box_content.error_text = None
+        self.register_view.password_field.input_box_content.error_text = None
+        self.register_view.password2_field.input_box_content.error_text = None
+
+    # endregion: Hide errors
+
+    # region: Display success
+    def display_success_snack(self, message: str) -> None:
+        snack_bar = SuccessSnackBar(message=message)
+        self.page.show_snack_bar(snack_bar)
+        self.page.update()
+
+    def display_warning_banner(self, message: str) -> None:
+        banner = WarningBanner(self.page, message)
+        self.page.show_banner(banner)
+        self.page.update()
+
+    def display_success_banner(self, message: str) -> None:
+        banner = SuccessBanner(self.page, message)
+        self.page.show_banner(banner)
+        self.page.update()
+
+    # endregion: Display success
+
+    # region: Clear - set functions
+    def clear_login_form(self) -> None:
+        self.set_login_form('', '')
+
+    def clear_register_form(self) -> None:
+        self.set_register_form()
+
+    def set_loader_zero(self) -> None:
+        """Set loaders of authentication form values to zero"""
+        self.login_view.username_field.loader.value = 0
+        self.login_view.password_field.loader.value = 0
+
+    # endregion: Clear - set functions

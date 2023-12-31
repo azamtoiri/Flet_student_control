@@ -40,7 +40,7 @@ class Handler:
         self.app.st_navigation_view_tasks_container_button.on_click = (
             lambda e: self.st_navigation_view_tasks_click(e)
         )
-        self.app.st_navigation_view_logout_button.on_click = lambda e: self.log_out_click()
+        self.app.st_navigation_view_logout_button.on_click = lambda e: self.log_out_click(e)
         # endregion
 
         # region: ST Home view log out button
@@ -67,7 +67,8 @@ class Handler:
             # check have user?
             user = self.database.login_user(username, password)
 
-            self.app.page.client_storage.set("is_auth", True)
+            self.app.page.session.set("is_auth", True)
+            self.app.page.session.set('username', username)
             self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
@@ -109,6 +110,7 @@ class Handler:
                 raise RequiredField('password2')
 
             self.app.show_login_view()
+            self.app.display_success_banner('Вы были успешно зарегистрированы!')
 
         except RequiredField as error:
             self.app.display_register_form_error(error.field, str(error))
@@ -123,37 +125,67 @@ class Handler:
             self.app.display_warning_banner(str(error))
 
     def welcome_login_click(self) -> None:  # change view
+        self.app.hide_banner()
+        self.app.hide_snack_bar()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
         self.app.clear_login_form()
         self.app.show_login_view()
 
     def welcome_register_click(self) -> None:  # change view
+        self.app.hide_snack_bar()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
         self.app.clear_register_form()
         self.app.show_register_view()
 
     def not_registered_click(self) -> None:  # change view to register
-        self.app.clear_register_form()
         self.app.hide_banner()
+        self.app.hide_snack_bar()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
+        self.app.clear_register_form()
         self.app.show_register_view()
 
     def already_registered_click(self) -> None:  # change view to log in
-        self.app.clear_login_form()
         self.app.hide_banner()
+        self.app.hide_snack_bar()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
+        self.app.clear_login_form()
         self.app.show_login_view()
 
     # Basic log out
-    def log_out_click(self) -> None:
-        self.app.page.client_storage.set("is_auth", False)
+    def log_out_click(self, e: Optional[HoverEvent]) -> None:
+        self.app.page.session.clear()
+        e.data = None
+        e.control.scale = 1
 
         self.app.hide_banner()
         self.app.set_loader_zero()
         self.app.hide_login_form_error()
         self.app.clear_login_form()
-        self.app.show_login_view()
+        self.app.show_welcome_view()
 
     # region: ST Navigation view click functions
     def st_navigation_view_home_click(self, e: HoverEvent) -> None:
+        # get username from client_storage
+        username = self.app.page.session.get('username')
+        # set username on st_home_view
+        self.app.st_home_view.set_username(username)
+
         self.app.show_st_home_view()
         e.control.scale = 1
+
+        self.app.page.update()
 
     def st_navigation_view_courses_click(self, e: HoverEvent) -> None:
         self.app.show_st_courses_view()
