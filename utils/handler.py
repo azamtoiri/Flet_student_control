@@ -68,6 +68,7 @@ class Handler:
             user = self.database.login_user(username, password)
 
             self.app.page.client_storage.set("is_auth", True)
+            self.app.page.client_storage.set('username', username)
             self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
@@ -154,6 +155,9 @@ class Handler:
     def st_navigation_view_home_click(self, e: HoverEvent) -> None:
         self.app.show_st_home_view()
         e.control.scale = 1
+        username = self.app.page.client_storage.get('username')
+        self.app.st_home_view.set_username(username)
+        self.app.page.update()
 
     def st_navigation_view_courses_click(self, e: HoverEvent) -> None:
         self.app.show_st_courses_view()
