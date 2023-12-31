@@ -40,7 +40,7 @@ class Handler:
         self.app.st_navigation_view_tasks_container_button.on_click = (
             lambda e: self.st_navigation_view_tasks_click(e)
         )
-        self.app.st_navigation_view_logout_button.on_click = lambda e: self.log_out_click()
+        self.app.st_navigation_view_logout_button.on_click = lambda e: self.log_out_click(e)
         # endregion
 
         # region: ST Home view log out button
@@ -164,8 +164,10 @@ class Handler:
         self.app.show_login_view()
 
     # Basic log out
-    def log_out_click(self) -> None:
+    def log_out_click(self, e: Optional[HoverEvent]) -> None:
         self.app.page.session.clear()
+        e.data = None
+        e.control.scale = 1
 
         self.app.hide_banner()
         self.app.set_loader_zero()
