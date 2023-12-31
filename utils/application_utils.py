@@ -3,7 +3,7 @@ from typing import Dict, Optional
 
 from flet import Page, OutlinedButton, TextButton, Container, ElevatedButton
 
-from utils.banners import SuccessSnackBar, WarningBanner
+from utils.banners import SuccessSnackBar, WarningBanner, SuccessBanner
 from views.common_views import WelcomeView, LoginView, RegisterView
 from views.st_veiw.st_courses_view import STCoursesView
 from views.st_veiw.st_grades_veiw import STGradesView
@@ -27,7 +27,7 @@ class ApplicationUtils:
         self.register_view = RegisterView()
 
         self.st_navigation_view = STNavigationView()
-        self.st_home_view = STHomeView(self)
+        self.st_home_view = STHomeView()
         self.st_courses_view = STCoursesView(self)
         self.st_grades_view = STGradesView(self)
         self.st_tasks_view = STTasksView(self)
@@ -231,12 +231,17 @@ class ApplicationUtils:
 
     # region: Display success
     def display_success_snack(self, message: str) -> None:
-        snack_bar = SuccessSnackBar(message)
+        snack_bar = SuccessSnackBar(message=message)
         self.page.show_snack_bar(snack_bar)
         self.page.update()
 
     def display_warning_banner(self, message: str) -> None:
         banner = WarningBanner(self.page, message)
+        self.page.show_banner(banner)
+        self.page.update()
+
+    def display_success_banner(self, message: str) -> None:
+        banner = SuccessBanner(self.page, message)
         self.page.show_banner(banner)
         self.page.update()
 

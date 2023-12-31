@@ -14,7 +14,6 @@ class STHomeView(View):
         self.route = '/student/home'
         self.appbar = STAppBar()
 
-        # Initialize db for getting values from db and show them on the view
         self._user_avatar = CircleAvatar(
             radius=110,
             foreground_image_url="assets/Fox_Hub_logo.png",
@@ -39,6 +38,7 @@ class STHomeView(View):
                 expand=True
             )
         ])
+
         # Background container for color and other
         self.main_container = Container(bgcolor='white', border_radius=8, padding=padding.all(10))
         self.main_container.content = self.content
@@ -46,9 +46,6 @@ class STHomeView(View):
         self.controls = [
             self.main_container
         ]
-
-    def get_username(self) -> str:
-        return self.app.page.client_storage.get('username')
 
     def set_username(self, username: str) -> None:
         self.username_text.value = username

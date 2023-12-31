@@ -110,6 +110,7 @@ class Handler:
                 raise RequiredField('password2')
 
             self.app.show_login_view()
+            self.app.display_success_banner('Вы были успешно зарегистрированы!')
 
         except RequiredField as error:
             self.app.display_register_form_error(error.field, str(error))
@@ -173,10 +174,14 @@ class Handler:
 
     # region: ST Navigation view click functions
     def st_navigation_view_home_click(self, e: HoverEvent) -> None:
+        # get username from client_storage
+        username = self.app.page.client_storage.get('username')
+        # set username on st_home_view
+        self.app.st_home_view.set_username(username)
+
         self.app.show_st_home_view()
         e.control.scale = 1
-        username = self.app.page.client_storage.get('username')
-        self.app.st_home_view.set_username(username)
+
         self.app.page.update()
 
     def st_navigation_view_courses_click(self, e: HoverEvent) -> None:
