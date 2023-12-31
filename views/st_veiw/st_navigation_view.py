@@ -35,6 +35,14 @@ class STNavigationView(View, Containers):
         self.logout_button.alignment = alignment.center
         self.logout_button.ink = True
         self.logout_button.on_hover = self.on_hover
+        self.logout_button.scale = 1
+        self.logout_button.animate_scale = animation.Animation(800, AnimationCurve.EASE_OUT)
+
+        self.logout_button.gradient = LinearGradient(
+            begin=alignment.top_left,
+            end=alignment.top_right,
+            colors=["#D64511", "#B63621"]
+        )
         #
         # Logo
         #
@@ -46,14 +54,18 @@ class STNavigationView(View, Containers):
         self.controls = [
             Row(alignment=MainAxisAlignment.CENTER, controls=[self.logo_image]),
             Row(alignment=MainAxisAlignment.SPACE_EVENLY, controls=[self.home_container, self.courses_container]),
-            Container(height=40),
+            Container(height=40, expand=True),
             Row(alignment=MainAxisAlignment.SPACE_EVENLY, controls=[self.grades_container, self.tasks_container]),
-            Container(height=40),
+            Container(height=40, expand=True),
             Row(alignment=MainAxisAlignment.CENTER, controls=[self.profile_container]),  # bottom container
             # left log out button
-            Row(alignment=MainAxisAlignment.END, controls=[self.logout_button])
+            Row(alignment=MainAxisAlignment.END, controls=[self.logout_button, Container(width=20)], expand=True)
         ]
 
     def on_hover(self, e: HoverEvent):
         """Container on hove"""
-        pass
+        if e.control.scale != 1.120:
+            e.control.scale = 1.120
+        else:
+            e.control.scale = 1
+        e.control.update()
