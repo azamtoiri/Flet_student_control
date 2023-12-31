@@ -27,11 +27,11 @@ class ApplicationUtils:
         self.register_view = RegisterView()
 
         self.st_navigation_view = STNavigationView()
-        self.st_home_view = STHomeView()
-        self.st_courses_view = STCoursesView()
-        self.st_grades_view = STGradesView()
-        self.st_tasks_view = STTasksView()
-        self.st_profile_view = STProfileView()
+        self.st_home_view = STHomeView(self)
+        self.st_courses_view = STCoursesView(self)
+        self.st_grades_view = STGradesView(self)
+        self.st_tasks_view = STTasksView(self)
+        self.st_profile_view = STProfileView(self)
 
     # region: @Properties
     @property  # login_button for login
