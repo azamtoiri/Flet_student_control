@@ -1,6 +1,6 @@
 from flet import *
 
-from utils.customs import STMixedView, STAppBar
+from utils.customs import STAppBar
 
 
 class STHomeView(View):

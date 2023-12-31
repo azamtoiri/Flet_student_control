@@ -1,7 +1,7 @@
 from flet import *
 
 from utils.constants import LOGO_PATH
-from utils.customs import STContainer, STMixedView
+from utils.customs import STContainer
 
 
 class Containers:
