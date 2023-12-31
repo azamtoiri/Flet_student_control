@@ -6,6 +6,7 @@ from utils.customs import STContainer
 
 class Containers:
     def __init__(self):
+        # TODO: Refactor code
         # home container
         self.home_container = STContainer(Text('Домашняя страница', color=colors.BLACK), alignment=alignment.center)
 

@@ -3,7 +3,7 @@ from typing import Optional, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from db.model import User, Base
+from db.model import User, Base, Subject
 from utils.constants import Connection, UserDefaults
 from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 
@@ -108,9 +108,12 @@ class DataBase:
             return users[0]
 
 
-class UserDatabase(DataBase):
+class CourseDatabase(DataBase):
     def __init__(self):
         super().__init__()
+
+    def get_all_courses(self, **values) -> list[Type[Subject]]:
+        return self.session.query(Subject).filter_by(**values).all()
 
     def get_username(self, username: str) -> str:
         _username = self.filter_users(username=username)
