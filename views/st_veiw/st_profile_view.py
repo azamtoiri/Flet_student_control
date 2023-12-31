@@ -22,6 +22,7 @@ class STProfileView(View):
         super().__init__()
         self.route = '/student/profile'
         self.app = _app
+
         self.appbar = STAppBar()
 
         # canvas for drawing

@@ -13,6 +13,7 @@ class STTasksView(View):
         super().__init__()
         self.route = '/student/tasks'
         self.app = _app
+
         self.appbar = STAppBar()
 
         self.controls = [

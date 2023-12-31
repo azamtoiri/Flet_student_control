@@ -4,8 +4,7 @@ from flet import HoverEvent
 
 from db.database import DataBase
 from db.model import User
-from utils.constants import Settings
-from utils.exception import NotRegistered, RequiredField, AlreadyRegistered, NotAuthed
+from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
 
 if TYPE_CHECKING:
     from views.application import Application
@@ -19,12 +18,10 @@ class Handler:
 
         # region: DB
         self.database = DataBase()
-        if Settings.DEBUG:
-            self.database.create_default_user()
         self.user: Optional[User] = None
         # endregion
 
-        self.app.login_button.on_click = lambda e: self.login_click()  # authentication button on login_view
+        self.app.login_button.on_click = lambda e: self.login_click()  # login button on login_view
         self.app.register_button.on_click = lambda e: self.register_click()
 
         # region: ST Navigation View on_click
@@ -70,10 +67,8 @@ class Handler:
             # check have user?
             user = self.database.login_user(username, password)
 
-            # saving temp data to client storage
             self.app.page.client_storage.set("is_auth", True)
-            self.app.page.client_storage.set("username", username)
-
+            self.app.page.client_storage.set('username', username)
             self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
@@ -171,47 +166,33 @@ class Handler:
         self.app.page.client_storage.clear()
 
         self.app.hide_banner()
-        self.app.hide_snack_bar()
         self.app.set_loader_zero()
         self.app.hide_login_form_error()
-        self.app.hide_register_form_error()
-
         self.app.clear_login_form()
         self.app.show_welcome_view()
 
     # region: ST Navigation view click functions
     def st_navigation_view_home_click(self, e: HoverEvent) -> None:
-        if self.check_is_auth():
-            self.app.show_st_home_view()
-            e.control.scale = 1
+        self.app.show_st_home_view()
+        e.control.scale = 1
+        username = self.app.page.client_storage.get('username')
+        self.app.st_home_view.set_username(username)
+        self.app.page.update()
 
     def st_navigation_view_courses_click(self, e: HoverEvent) -> None:
-        if self.check_is_auth():
-            self.app.show_st_courses_view()
-            e.control.scale = 1
+        self.app.show_st_courses_view()
+        e.control.scale = 1
 
     def st_navigation_view_grades_click(self, e: HoverEvent) -> None:
-        if self.check_is_auth():
-            self.app.show_st_grades_view()
-            e.control.scale = 1
+        self.app.show_st_grades_view()
+        e.control.scale = 1
 
     def st_navigation_view_profile_click(self, e: HoverEvent) -> None:
-        if self.check_is_auth():
-            self.app.show_st_profile_view()
-            e.control.scale = 1
+        self.app.show_st_profile_view()
+        e.control.scale = 1
 
     def st_navigation_view_tasks_click(self, e: HoverEvent) -> None:
-        if self.check_is_auth():
-            self.app.show_st_tasks_view()
-            e.control.scale = 1
+        self.app.show_st_tasks_view()
+        e.control.scale = 1
 
     # endregion
-
-    def check_is_auth(self) -> None:
-        try:
-            if not self.app.page.client_storage.get('is_auth'):
-                raise NotAuthed()
-        except NotAuthed as error:
-            self.app.hide_snack_bar()
-            self.app.show_welcome_view()
-            self.app.display_warning_banner(str(error))

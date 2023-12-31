@@ -1,5 +1,7 @@
-from flet import *
 from typing import TYPE_CHECKING
+
+from flet import *
+
 from utils.customs import STAppBar
 
 if TYPE_CHECKING:
