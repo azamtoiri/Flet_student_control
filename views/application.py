@@ -33,6 +33,7 @@ class Application(ApplicationUtils):
         # if auth is False can't go to the students and other pages
         self.page.client_storage.clear()
         self.page.client_storage.set('is_auth', False)
+        self.page.scroll = "always"
 
         # hide banners
         self.hide_banner()

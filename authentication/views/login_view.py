@@ -5,7 +5,7 @@ from authentication.utils.customs import MixedView, CustomInputField
 class LoginView(MixedView):
     def __init__(self):
         super().__init__()
-        self.route = '/authentication'
+        self.route = '/login'
 
         # region: InputFields
         self.username_field = CustomInputField(False, 'Имя пользователя')

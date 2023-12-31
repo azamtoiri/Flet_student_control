@@ -1,20 +1,18 @@
 import asyncio
-from abc import ABC, abstractproperty
+from abc import ABC
 from typing import Dict, Optional
 
 from flet import (Page,
                   RouteChangeEvent, TemplateRoute, Theme, PageTransitionTheme, View, Container,
                   ElevatedButton, TextButton, OutlinedButton)
 
-from utils.constants import Fonts
-from utils.constants import Settings
-
 from authentication.utils.customs import SuccessSnackBar, WarningBanner
 from authentication.utils.handler import Handler
 from authentication.views.login_view import LoginView
 from authentication.views.register_view import RegisterView
-
-from views.common_views import WelcomeView
+from utils.base_app import BaseApp
+from utils.constants import Fonts
+from utils.constants import Settings
 
 if Settings.DEBUG:
     import logging
@@ -23,55 +21,15 @@ if Settings.DEBUG:
     logging.getLogger("flet_core").setLevel(logging.DEBUG)
 
 
-class AuthAppProperties(ABC):
-    # region: @Properties
-    @abstractproperty  # login_button for authentication
-    def login_button(self) -> OutlinedButton:
-        ...
-        # return self.login_view.login_button
-
-    @abstractproperty  # register_button for registering
-    def register_button(self) -> TextButton:
-        ...
-
-    @abstractproperty  # "Регистрация" button on login_view
-    def not_registered_button(self) -> Container:
-        ...
-
-    @abstractproperty  # "Вход" button on register_view
-    def already_registered_button(self) -> ElevatedButton:
-        ...
-
-    @abstractproperty  # authentication button on welcome_view
-    def welcome_login_button(self) -> ElevatedButton:
-        ...
-
-    @abstractproperty  # register button on welcome_view
-    def welcome_register_button(self) -> ElevatedButton:
-        ...
-
-    # endregion: @properties
-
-
-class AuthApp(AuthAppProperties, ABC):
+class AuthApp(BaseApp, ABC):
     def __init__(self, page: Page):
-        super().__init__()
+        super().__init__(page)
         self.page = page
-        self.page.theme = Theme(font_family='Verdana')
-        self.page.theme.page_transitions.windows = PageTransitionTheme.CUPERTINO
-        self.page.title = 'Auth Student Control'
-        self.page.window_height = 1000
-        # self.page.window_resizable = False
-        self.page.window_min_height = 900
-        self.page.window_min_width = 800
-        self.page.on_route_change = self.route_change
-        self.page.fonts = Fonts.URLS
-        # if auth is False can't go to the students and other pages
+
         self.page.client_storage.clear()
         self.page.client_storage.set('is_auth', False)
 
         # Views
-        self.welcome_view = WelcomeView()
         self.login_view = LoginView()
         self.register_view = RegisterView()
 
@@ -79,7 +37,6 @@ class AuthApp(AuthAppProperties, ABC):
 
         # views which will be used
         self.views: Dict[str, View] = {
-            self.welcome_view.route: self.welcome_view,
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
 
@@ -88,16 +45,6 @@ class AuthApp(AuthAppProperties, ABC):
         self.handler = Handler(self)
 
         # showing view
-        self.show_welcome_view()
-
-    def route_change(self, _event: RouteChangeEvent) -> None:
-        template_route = TemplateRoute(self.page.route)
-        self.page.views.clear()
-        for route, view in self.views.items():
-            if template_route.match(route):
-                self.page.views.append(view)
-                self.page.update()
-                break
 
     # region: Showing views
     def show_login_view(self) -> None:
@@ -105,12 +52,6 @@ class AuthApp(AuthAppProperties, ABC):
 
     def show_register_view(self) -> None:
         self.page.go(self.register_view.route)
-
-    def show_welcome_view(self) -> None:
-        self.page.go(self.welcome_view.route)
-
-    def show_st_navigation_view(self) -> None:
-        self.page.go('/students/main')
 
     # endregion
 
@@ -130,14 +71,6 @@ class AuthApp(AuthAppProperties, ABC):
     @property  # "Вход" button on register_view
     def already_registered_button(self) -> ElevatedButton:
         return self.register_view.login_button
-
-    @property  # authentication button on welcome_view
-    def welcome_login_button(self) -> ElevatedButton:
-        return self.welcome_view.login_button
-
-    @property  # register button on welcome_view
-    def welcome_register_button(self) -> ElevatedButton:
-        return self.welcome_view.register_button
 
     # endregion: @properties
 
@@ -175,6 +108,7 @@ class AuthApp(AuthAppProperties, ABC):
             'password': password if len(password) else None,
             'password2': password2 if len(password2) else None,
         }
+
     # endregion: Get forms
 
     # region: Form setters

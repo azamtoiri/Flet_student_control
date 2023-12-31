@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 from db.database import DataBase
 from db.model import User
 from utils.constants import Settings
-from utils.exception import NotRegistered, RequiredField, AlreadyRegistered, NotAuthed
+from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
 
 if TYPE_CHECKING:
     from authentication.auth_app import AuthApp
@@ -24,9 +24,6 @@ class Handler:
 
         self.app.login_button.on_click = lambda e: self.login_click()  # authentication button on login_view
         self.app.register_button.on_click = lambda e: self.register_click()
-
-        self.app.welcome_login_button.on_click = lambda e: self.welcome_login_click()
-        self.app.welcome_register_button.on_click = lambda e: self.welcome_register_click()
 
         self.app.not_registered_button.on_click = lambda e: self.not_registered_click()
         self.app.already_registered_button.on_click = lambda e: self.already_registered_click()
@@ -49,7 +46,6 @@ class Handler:
             self.app.page.client_storage.set("is_auth", True)
             self.app.page.client_storage.set("username", username)
 
-            self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
             # ops, some required field is not informed, lets give a feedback.

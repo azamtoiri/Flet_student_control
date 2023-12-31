@@ -1,7 +1,7 @@
 from flet import *
 
 from utils.constants import LOGO_PATH
-from utils.customs import STContainer, STMixedView
+from utils.customs import STContainer
 
 
 class Containers:
@@ -22,7 +22,7 @@ class Containers:
 class STNavigationView(View, Containers):
     def __init__(self) -> None:
         super().__init__()
-        self.route = '/student/main'
+        self.route = '/student/main_app'
         #
         # Button
         #
