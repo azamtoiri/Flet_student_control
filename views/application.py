@@ -31,8 +31,8 @@ class Application(ApplicationUtils):
         self.page.on_route_change = self.route_change
         self.page.fonts = Fonts.URLS
         # if auth is False can't go to the students and other pages
-        self.page.client_storage.clear()
-        self.page.client_storage.set('is_auth', False)
+        self.page.session.clear()
+        self.page.session.set('is_auth', False)
 
         # hide banners
         self.hide_banner()
@@ -66,7 +66,7 @@ class Application(ApplicationUtils):
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
         self.page.views.clear()
-        if self.page.client_storage.get("is_auth"):
+        if self.page.session.get("is_auth"):
             for route, view in self.views.items():
                 if template_route.match(route):
                     self.page.views.append(view)

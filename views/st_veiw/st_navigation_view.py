@@ -34,6 +34,7 @@ class STNavigationView(View, Containers):
         self.logout_button.border_radius = 8
         self.logout_button.alignment = alignment.center
         self.logout_button.ink = True
+        self.logout_button.on_hover = self.on_hover
         #
         # Logo
         #
@@ -52,3 +53,7 @@ class STNavigationView(View, Containers):
             # left log out button
             Row(alignment=MainAxisAlignment.END, controls=[self.logout_button])
         ]
+
+    def on_hover(self, e: HoverEvent):
+        """Container on hove"""
+        pass

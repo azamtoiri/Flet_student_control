@@ -67,8 +67,8 @@ class Handler:
             # check have user?
             user = self.database.login_user(username, password)
 
-            self.app.page.client_storage.set("is_auth", True)
-            self.app.page.client_storage.set('username', username)
+            self.app.page.session.set("is_auth", True)
+            self.app.page.session.set('username', username)
             self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
@@ -136,8 +136,9 @@ class Handler:
 
     def welcome_register_click(self) -> None:  # change view
         self.app.hide_snack_bar()
-        self.app.hide_banner()
+        self.app.set_loader_zero()
         self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
 
         self.app.clear_register_form()
         self.app.show_register_view()
@@ -164,7 +165,7 @@ class Handler:
 
     # Basic log out
     def log_out_click(self) -> None:
-        self.app.page.client_storage.clear()
+        self.app.page.session.clear()
 
         self.app.hide_banner()
         self.app.set_loader_zero()
@@ -175,7 +176,7 @@ class Handler:
     # region: ST Navigation view click functions
     def st_navigation_view_home_click(self, e: HoverEvent) -> None:
         # get username from client_storage
-        username = self.app.page.client_storage.get('username')
+        username = self.app.page.session.get('username')
         # set username on st_home_view
         self.app.st_home_view.set_username(username)
 

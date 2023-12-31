@@ -42,7 +42,7 @@ class SuccessSnackBar(ft.SnackBar):
         self.message.color = ft.colors.WHITE
         self.message.size = 20
         self.message.expand = True
-        # self.duration = 3
+        self.duration = 1500  # ms
 
         self.behavior = ft.SnackBarBehavior.FLOATING
         self.elevation = 1000
