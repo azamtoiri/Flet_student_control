@@ -10,13 +10,18 @@ from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 
 # TODO: CRUD for db
 
-class DataBase:
+class BaseDataBase:
     def __init__(self) -> None:
         """This class will configure our database."""
         engine = create_engine(url=Connection.DATABASE_URL)
         Base.metadata.create_all(engine)
         Session = sessionmaker(engine)
         self.session = Session()
+
+
+class DataBase(BaseDataBase):
+    def __init__(self) -> None:
+        super().__init__()
         self.create_default_user()
 
     # section user creating
@@ -108,13 +113,6 @@ class DataBase:
             return users[0]
 
 
-class CourseDatabase(DataBase):
-    def __init__(self):
-        super().__init__()
-
+class CourseDatabase(BaseDataBase):
     def get_all_courses(self, **values) -> list[Type[Subject]]:
         return self.session.query(Subject).filter_by(**values).all()
-
-    def get_username(self, username: str) -> str:
-        _username = self.filter_users(username=username)
-        return _username[0].username

@@ -23,30 +23,27 @@ class STCoursesView(View):
         self.tasks = ResponsiveRow()
 
         self._card = Card(
-                col={"md": 12, "lg": 4},
-                content=Container(
-                    content=Column(
-                        [
-                            ListTile(
-                                leading=Icon(icons.ALBUM),
-                                title=Text("The Enchanted Nightingale"),
-                                subtitle=Text(
-                                    "Music by Julie Gable. Lyrics by Sidney Stein."
-                                ),
+            col={"md": 12, "lg": 4},
+            content=Container(
+                content=Column(
+                    [
+                        ListTile(
+                            leading=Icon(icons.ALBUM),
+                            title=Text("The Enchanted Nightingale"),
+                            subtitle=Text(
+                                "Music by Julie Gable. Lyrics by Sidney Stein."
                             ),
-                            Row(
-                                [TextButton("Buy tickets"), TextButton("Listen")],
-                                alignment=MainAxisAlignment.END,
-                            ),
-                        ]
-                    ),
-                    width=400,
-                    padding=10,
-                )
+                        ),
+                        Row(
+                            [TextButton("Buy tickets"), TextButton("Listen")],
+                            alignment=MainAxisAlignment.END,
+                        ),
+                    ]
+                ),
+                width=400,
+                padding=10,
             )
-
-        for _ in range(100):
-            self.tasks.controls.append(self._card)
+        )
 
         self.filter = Tabs(
             scrollable=False,
@@ -57,7 +54,7 @@ class STCoursesView(View):
 
         self.content = Column(
             [
-                Row([self.search, FloatingActionButton(icon=icons.SEARCH, on_click=self.add_text)]),
+                Row([self.search, FloatingActionButton(icon=icons.SEARCH, on_click=lambda e: self.add_text(e))]),
                 Column([
                     self.filter,
                     self.tasks
@@ -77,11 +74,22 @@ class STCoursesView(View):
         pass
 
     def add_text(self, e):
-        for _ in range(1):
-            self.tasks.controls.append(
-                self._card,
-                # Text(f'teasdfasdfsadfsadfasdfsadfsdfsdfsdfwerwext{_}', size=30, color=colors.BLACK,
-                #      col={"md": 12, "lg": 4},
-                #      )
-            )
-            self.page.update()
+        self.tasks.controls.append()
+        self.tasks.update()
+
+    def add_course(self, _course_name: str, _course_description: str) -> None:
+        course_title = Text()
+        course_title.value = _course_name
+
+        course_description = Text()
+        course_description.value = _course_description
+
+        sign_course_button = TextButton("Записаться на курс")
+        show_course_button = TextButton("Перейти к курсу")
+
+        self._card = Card(col={"md": 12, "lg": 4})
+        self._card.content = Container(content=Column([
+            ListTile(leading=Icon(icons.TASK), title=course_title, subtitle=course_description),
+            Row([sign_course_button, show_course_button], alignment=MainAxisAlignment.END)
+        ]), width=400, padding=10)
+        self.tasks.controls.append(self._card)

@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Optional
 
 from flet import HoverEvent
 
-from db.database import DataBase
+from db.database import DataBase, CourseDatabase
 from db.model import User
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
 
@@ -18,6 +18,7 @@ class Handler:
 
         # region: DB
         self.database = DataBase()
+        self.course_db = CourseDatabase()
         self.user: Optional[User] = None
         # endregion
 
@@ -188,6 +189,22 @@ class Handler:
         self.app.page.update()
 
     def st_navigation_view_courses_click(self, e: HoverEvent) -> None:
+        """
+        Show courses view before get courses from db and set them
+        :param e:
+        :return:
+        """
+        courses = self.course_db.get_all_courses()
+        if courses is None:
+            return
+
+        for i in range(len(courses)):
+            self.app.st_courses_view.add_course(courses[i].subject_name, courses[i].description)
+
+            # setting to the session storage course id {"course_name": id}
+            self.app.page.session.set(courses[i].subject_name, courses[i].subject_id)
+            self.app.page.update()
+
         self.app.show_st_courses_view()
         e.control.scale = 1
 
