@@ -1,7 +1,6 @@
 import flet as ft
 
-from views.application import Application
-from main_app.main import MainApp
+from Flet_student_control.main_app.main import MainApp
 
 
 def main() -> None:

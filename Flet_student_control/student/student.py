@@ -1,16 +1,14 @@
-from abc import ABC
 from typing import Dict
 
 from flet import *
 
-from student.utils.handler import Handler
-from student.views.st_courses_view import STCoursesView
-from student.views.st_grades_veiw import STGradesView
-from student.views.st_home_view import STHomeView
-from student.views.st_navigation_view import STNavigationView
-from student.views.st_profile_view import STProfileView
-from student.views.st_tasks_view import STTasksView
-from utils.base_app import BaseApp
+from Flet_student_control.student.utils.handler import Handler
+from Flet_student_control.student.views.st_courses_view import STCoursesView
+from Flet_student_control.student.views.st_grades_veiw import STGradesView
+from Flet_student_control.student.views.st_home_view import STHomeView
+from Flet_student_control.student.views.st_navigation_view import STNavigationView
+from Flet_student_control.student.views.st_profile_view import STProfileView
+from Flet_student_control.student.views.st_tasks_view import STTasksView
 from utils.constants import Settings
 
 if Settings.DEBUG:
@@ -42,7 +40,7 @@ class StudentApp:
             self.profile_view.route: self.profile_view,
             self.tasks_view.route: self.tasks_view
         }
-        print('Student initialized')
+
         # initialize handler
         self.handler = Handler(self)
 

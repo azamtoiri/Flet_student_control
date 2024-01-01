@@ -1,15 +1,14 @@
 from flet import *
 
-from utils.customs import STAppBar
+from utils.controls.customs import STAppBar
 
 
-class STTasksView(View):
+class STGradesView(View):
     def __init__(self):
         super().__init__()
-        self.route = '/student/tasks'
-
+        self.route = '/student/grades'
         self.appbar = STAppBar()
 
         self.controls = [
-            Text("Tasks Page")
+            Text("Grades Page")
         ]

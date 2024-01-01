@@ -4,6 +4,38 @@
 
 This branch is not tested
 
+# !Routing
+Routing on this structure will be carried out on main application
+
+```python
+class MainApp(BaseApp, ABC):
+    def __init__(self, page: Page):
+        super().__init__(page)
+        self.page = page
+        self.page.client_storage.clear()
+        self.page.client_storage.set('is_auth', False)
+
+        # Views
+        self.welcome_view = ApplicationView()
+
+        # views which will be used
+        self.views: Dict[str, View] = {
+            self.welcome_view.route: self.welcome_view,
+        }
+
+        # All apps
+        self.some_app = SomeAppp(self.page)
+
+        # initialize our routes from other apps
+        self.initialize_app_routes(self.some_app)
+
+        # initialize handler
+        self.handler = MainHandler(self)
+
+        self.show_welcome_view()
+```
+### !!!definitely in the order shown
+
 > Only desktop version of sites
 
 
@@ -94,3 +126,15 @@ class ApplicationView(View):
 ```
 
 Global Utils well be on the root of the project on `utils` folder
+
+
+For comfort was created file `run.py` which runs file main.py
+
+```shell
+python run.py
+```
+
+Or you can run as default 
+```shell
+flet run main.py
+```

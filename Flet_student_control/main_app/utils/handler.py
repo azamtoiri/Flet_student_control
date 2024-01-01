@@ -5,10 +5,10 @@ from utils.base_handler import BaseHandler
 from db.database import DataBase
 from db.model import User
 from utils.constants import Settings
-from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
+from utils.exception import NotRegistered, RequiredField
 
 if TYPE_CHECKING:
-    from main_app.main import MainApp
+    from Flet_student_control.main_app.main import MainApp
 
 
 class MainHandler(BaseHandler, ABC):

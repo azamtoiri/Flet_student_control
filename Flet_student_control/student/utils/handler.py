@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from flet import HoverEvent
 
 if TYPE_CHECKING:
-    from student.student import StudentApp
+    from Flet_student_control.student.student import StudentApp
 
 
 class Handler:

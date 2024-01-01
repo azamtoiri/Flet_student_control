@@ -6,7 +6,7 @@ from utils.constants import Settings
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
 
 if TYPE_CHECKING:
-    from authentication.authentication import Authentication
+    from Flet_student_control.authentication.authentication import Authentication
 
 
 class Handler:

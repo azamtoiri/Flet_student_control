@@ -1,6 +1,6 @@
 from flet import *
 
-from utils.customs import MixedView, CustomInputField, TextOnlyInputFilterRu
+from utils.controls.customs import MixedView, CustomInputField, TextOnlyInputFilterRu
 
 
 class RegisterView(MixedView):

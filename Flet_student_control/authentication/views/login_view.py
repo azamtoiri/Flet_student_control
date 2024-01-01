@@ -1,5 +1,5 @@
 from flet import *
-from authentication.utils.customs import MixedView, CustomInputField
+from Flet_student_control.authentication.utils.customs import MixedView, CustomInputField
 
 
 class LoginView(MixedView):

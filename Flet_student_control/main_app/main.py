@@ -1,13 +1,12 @@
-from abc import ABC
 from typing import Dict
 
 from flet import (Page,View)
 
-from authentication.authentication import Authentication
-from student.student import StudentApp
+from Flet_student_control.authentication.authentication import Authentication
+from Flet_student_control.student.student import StudentApp
 
-from main_app.utils.handler import MainHandler
-from main_app.views.welcome_view import WelcomeView
+from Flet_student_control.main_app.utils.handler import MainHandler
+from Flet_student_control.main_app.views.welcome_view import WelcomeView
 from utils.base_app import BaseApp
 from utils.constants import Settings
 
@@ -18,7 +17,7 @@ if Settings.DEBUG:
     logging.getLogger("flet_core").setLevel(logging.DEBUG)
 
 
-class MainApp(BaseApp, ABC):
+class MainApp(BaseApp):
     def __init__(self, page: Page):
         super().__init__(page)
         self.page = page
@@ -37,6 +36,7 @@ class MainApp(BaseApp, ABC):
         self.auth_app = Authentication(self.page)
         self.student_app = StudentApp(self.page)
 
+        # initialize our routes from other apps
         self.initialize_app_routes(self.auth_app)
         self.initialize_app_routes(self.student_app)
 

@@ -3,16 +3,16 @@ from abc import ABC
 from typing import Dict, Optional
 
 from flet import (Page,
-                  RouteChangeEvent, TemplateRoute, Theme, PageTransitionTheme, View, Container,
+                  View, Container,
                   ElevatedButton, TextButton, OutlinedButton)
 
-from authentication.utils.customs import SuccessSnackBar, WarningBanner
-from authentication.utils.handler import Handler
-from authentication.views.login_view import LoginView
-from authentication.views.register_view import RegisterView
+from Flet_student_control.authentication.utils.customs import SuccessSnackBar, WarningBanner
+from Flet_student_control.authentication.utils.handler import Handler
+from Flet_student_control.authentication.views.login_view import LoginView
+from Flet_student_control.authentication.views.register_view import RegisterView
 from utils.base_app import BaseApp
 from utils.constants import Settings
-from student.student import StudentApp
+
 if Settings.DEBUG:
     import logging
 
