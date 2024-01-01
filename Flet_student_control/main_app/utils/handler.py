@@ -38,7 +38,7 @@ class MainHandler(BaseHandler, ABC):
     def register_view_login_click(self) -> None:
         """
         Auth App
-        click register view login button
+        click on register view login button
         """
         try:
             # getting values
@@ -54,6 +54,7 @@ class MainHandler(BaseHandler, ABC):
             user = self.database.login_user(username, password)
 
             # saving temp data to client storage
+            print(self.app.page.auth)
             self.app.page.session.set("is_auth", True)
             self.app.page.session.set("username", username)
 

@@ -1,12 +1,11 @@
 from typing import Dict
 
-from flet import (Page,View)
+from flet import (Page, View)
 
 from Flet_student_control.authentication.authentication import Authentication
-from Flet_student_control.student.student import StudentApp
-
 from Flet_student_control.main_app.utils.handler import MainHandler
 from Flet_student_control.main_app.views.welcome_view import WelcomeView
+from Flet_student_control.student.student import StudentApp
 from utils.base_app import BaseApp
 from utils.constants import Settings
 
