@@ -31,7 +31,6 @@ class StudentApp:
         self.courses_view = STCoursesView()
         self.profile_view = STProfileView()
         self.tasks_view = STTasksView()
-        # hide banners
 
         # views which will be used
         self.views: Dict[str, View] = {
