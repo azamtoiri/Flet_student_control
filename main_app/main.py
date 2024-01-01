@@ -1,10 +1,11 @@
 from abc import ABC
 from typing import Dict
 
-from flet import (Page,
-                  View)
+from flet import (Page,View)
 
-from authentication.authentication import AuthApp
+from authentication.authentication import Authentication
+from student.student import StudentApp
+
 from main_app.utils.handler import MainHandler
 from main_app.views.welcome_view import WelcomeView
 from utils.base_app import BaseApp
@@ -31,25 +32,29 @@ class MainApp(BaseApp, ABC):
         self.views: Dict[str, View] = {
             self.welcome_view.route: self.welcome_view,
         }
+
+        # All apps
+        self.auth_app = Authentication(self.page)
+        self.student_app = StudentApp(self.page)
+
+        self.initialize_app_routes(self.auth_app)
+        self.initialize_app_routes(self.student_app)
+
         # initialize handler
         self.handler = MainHandler(self)
 
-        # All apps
-        self.auth_app = AuthApp(self.page)
-
         self.show_welcome_view()
-        self.initialize_app_routes(self.auth_app)
 
-    def show_welcome_view(self):
+    def show_welcome_view(self) -> None:
         self.page.go(self.welcome_view.route)
 
-    def initialize_app_routes(self, app):
+    def initialize_app_routes(self, app) -> None:
         self.views.update(app.views)
 
     @property
-    def login_button(self):
+    def login_button(self) -> None:
         return self.welcome_view.login_button
 
     @property
-    def register_button(self):
+    def register_button(self) -> None:
         return self.welcome_view.register_button

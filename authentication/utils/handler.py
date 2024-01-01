@@ -6,12 +6,12 @@ from utils.constants import Settings
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
 
 if TYPE_CHECKING:
-    from authentication.authentication import AuthApp
+    from authentication.authentication import Authentication
 
 
 class Handler:
 
-    def __init__(self, application: 'AuthApp') -> None:
+    def __init__(self, application: 'Authentication') -> None:
         """Этот класс будет обрабатывать все события"""
         self.app = application
 
@@ -27,38 +27,6 @@ class Handler:
 
         self.app.not_registered_button.on_click = lambda e: self.not_registered_click()
         self.app.already_registered_button.on_click = lambda e: self.already_registered_click()
-
-    def login_click(self) -> None:  # logining
-        try:
-            # getting values
-            form = self.app.get_login_form()
-            username = form.get('username')
-            password = form.get('password')
-
-            # hide banners
-            self.app.hide_banner()
-            self.app.hide_login_form_error()
-
-            # check have user?
-            user = self.database.login_user(username, password)
-
-            # saving temp data to client storage
-            self.app.page.client_storage.set("is_auth", True)
-            self.app.page.client_storage.set("username", username)
-
-            self.app.display_success_snack(f'Welcome {username}')
-
-            # ops, some required field is not informed, lets give a feedback.
-        except RequiredField as error:
-            self.app.display_login_form_error(error.field, str(error))
-
-        # ops, this user not exists, lets give a feedback.
-        except NotRegistered as error:
-            self.app.display_login_form_error('username', str(error))
-
-        # ok, some thing really bad hapened.
-        except Exception as error:
-            self.app.display_warning_banner(str(error))
 
     def register_click(self) -> None:  # registering
         try:

@@ -11,9 +11,8 @@ from authentication.utils.handler import Handler
 from authentication.views.login_view import LoginView
 from authentication.views.register_view import RegisterView
 from utils.base_app import BaseApp
-from utils.constants import Fonts
 from utils.constants import Settings
-
+from student.student import StudentApp
 if Settings.DEBUG:
     import logging
 
@@ -21,7 +20,7 @@ if Settings.DEBUG:
     logging.getLogger("flet_core").setLevel(logging.DEBUG)
 
 
-class AuthApp(BaseApp, ABC):
+class Authentication(BaseApp, ABC):
     def __init__(self, page: Page):
         super().__init__(page)
         self.page = page
