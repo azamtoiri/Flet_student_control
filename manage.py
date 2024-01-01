@@ -1,6 +1,7 @@
 import os
 import sys
 
+
 def create_app_structure(app_name):
     # Создаем папку для приложения
     app_folder = os.path.join(os.getcwd(), app_name)
@@ -14,12 +15,12 @@ def create_app_structure(app_name):
 
     # Создаем файл приложения
     app_file_path = os.path.join(app_folder, f"{app_name}.py")
-    with open(app_file_path, 'w') as app_file:
+    with open(app_file_path, 'w', encoding='utf-8') as app_file:
         app_file.write(f"# {app_name}.py - ваш код приложения здесь")
 
     # Создаем файл __init__.py в главной папке
     app_init_file_path = os.path.join(app_folder, '__init__.py')
-    with open(app_init_file_path, 'w'):
+    with open(app_init_file_path, 'w', encoding='utf-8'):
         pass
 
     # Создаем папку utils
@@ -28,7 +29,7 @@ def create_app_structure(app_name):
 
     # Создаем файл __init__.py в папке utils
     utils_init_file_path = os.path.join(utils_folder, '__init__.py')
-    with open(utils_init_file_path, 'w'):
+    with open(utils_init_file_path, 'w', encoding='utf-8'):
         pass
 
     # Создаем папку views
@@ -37,10 +38,11 @@ def create_app_structure(app_name):
 
     # Создаем файл __init__.py в папке views
     views_init_file_path = os.path.join(views_folder, '__init__.py')
-    with open(views_init_file_path, 'w'):
+    with open(views_init_file_path, 'w', encoding='utf-8'):
         pass
 
     print(f"Приложение {app_name} успешно создано.")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 3 or sys.argv[1] != "startapp":

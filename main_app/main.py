@@ -4,7 +4,7 @@ from typing import Dict
 from flet import (Page,
                   View)
 
-from authentication.auth_app import AuthApp
+from authentication.authentication import AuthApp
 from main_app.utils.handler import MainHandler
 from main_app.views.welcome_view import WelcomeView
 from utils.base_app import BaseApp

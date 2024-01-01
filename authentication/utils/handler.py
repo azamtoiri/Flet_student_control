@@ -6,7 +6,7 @@ from utils.constants import Settings
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
 
 if TYPE_CHECKING:
-    from authentication.auth_app import AuthApp
+    from authentication.authentication import AuthApp
 
 
 class Handler:

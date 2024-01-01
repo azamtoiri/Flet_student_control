@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import TYPE_CHECKING
 
-from utils.handler_base import BaseHandler
+from utils.base_handler import BaseHandler
 
 if TYPE_CHECKING:
     from main_app.main import MainApp
