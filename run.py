@@ -2,7 +2,7 @@ import os
 
 
 def main():
-    command_ = f"flet main.py -r"
+    command_ = f"flet main.py -r -w"
     os.system(command_)
 
 

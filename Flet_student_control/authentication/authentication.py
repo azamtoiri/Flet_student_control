@@ -2,31 +2,25 @@ import asyncio
 from abc import ABC
 from typing import Dict, Optional
 
-from flet import (Page,
-                  View, Container,
-                  ElevatedButton, TextButton, OutlinedButton)
+from flet import (
+    Page,
+    View,
+    Container,
+    ElevatedButton,
+    TextButton,
+    OutlinedButton
+)
 
+from utils.base_app import BaseApp
 from Flet_student_control.authentication.utils.customs import SuccessSnackBar, WarningBanner
 from Flet_student_control.authentication.utils.handler import Handler
 from Flet_student_control.authentication.views.login_view import LoginView
 from Flet_student_control.authentication.views.register_view import RegisterView
-from utils.base_app import BaseApp
-from utils.constants import Settings
-
-if Settings.DEBUG:
-    import logging
-
-    logging.basicConfig(level=logging.DEBUG)
-    logging.getLogger("flet_core").setLevel(logging.DEBUG)
 
 
-class Authentication(BaseApp, ABC):
+class Authentication:
     def __init__(self, page: Page):
-        super().__init__(page)
         self.page = page
-
-        self.page.client_storage.clear()
-        self.page.client_storage.set('is_auth', False)
 
         # Views
         self.login_view = LoginView()
@@ -38,7 +32,6 @@ class Authentication(BaseApp, ABC):
         self.views: Dict[str, View] = {
             self.login_view.route: self.login_view,
             self.register_view.route: self.register_view,
-
         }
         # initialize handler
         self.handler = Handler(self)
@@ -207,7 +200,7 @@ class Authentication(BaseApp, ABC):
         self.login_view.password_field.input_box_content.error_text = None
         self.page.update()
 
-    def hide_register_form_error(self):
+    def hide_register_form_error(self) -> None:
         self.register_view.first_name_field.input_box_content.error_text = None
         self.register_view.last_name_field.input_box_content.error_text = None
         self.register_view.middle_name_field.input_box_content.error_text = None

@@ -22,7 +22,6 @@ class Handler:
         self.user: Optional[User] = None
         # endregion
 
-        self.app.login_button.on_click = lambda e: self.login_click()  # authentication button on login_view
         self.app.register_button.on_click = lambda e: self.register_click()
 
         self.app.not_registered_button.on_click = lambda e: self.not_registered_click()
@@ -68,39 +67,38 @@ class Handler:
             self.app.display_warning_banner(str(error))
 
     def welcome_login_click(self) -> None:  # change view
-        # self.app.hide_banner()
-        # self.app.hide_snack_bar()
-        # self.app.set_loader_zero()
-        # self.app.hide_login_form_error()
-        # self.app.hide_register_form_error()
-        #
-        # self.app.clear_login_form()
+        self.app.hide_banner()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
+        self.app.clear_login_form()
         self.app.show_login_view()
 
     def welcome_register_click(self) -> None:  # change view
-        # self.app.hide_snack_bar()
-        # self.app.hide_banner()
-        # self.app.hide_login_form_error()
-        #
-        # self.app.clear_register_form()
+        self.app.hide_banner()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
+
+        self.app.clear_register_form()
         self.app.show_register_view()
 
     def not_registered_click(self) -> None:  # change view to register
-        # self.app.hide_banner()
-        # self.app.hide_snack_bar()
-        # self.app.set_loader_zero()
-        # self.app.hide_login_form_error()
-        # self.app.hide_register_form_error()
-        #
-        # self.app.clear_register_form()
+        self.app.hide_banner()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
+        self.app.clear_register_form()
         self.app.show_register_view()
 
     def already_registered_click(self) -> None:  # change view to log in
-        # self.app.hide_banner()
-        # self.app.hide_snack_bar()
-        # self.app.set_loader_zero()
-        # self.app.hide_login_form_error()
-        # self.app.hide_register_form_error()
-        #
-        # self.app.clear_login_form()
+        self.app.hide_banner()
+        self.app.set_loader_zero()
+        self.app.hide_login_form_error()
+        self.app.hide_register_form_error()
+
+        self.app.clear_login_form()
         self.app.show_login_view()

@@ -262,10 +262,10 @@ class STAppBar(AppBar):
         self.actions = [self.appbar_actions]
 
     def show_st_navigation_view(self, e) -> None:
-        self.page.go('/student/main_app')
+        self.page.go('/student/main')
 
     def exit(self, e) -> None:
-        self.page.client_storage.set('is_auth', False)
+        self.page.session.clear()
         self.page.go('/welcome')
 
 

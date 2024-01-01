@@ -1,6 +1,6 @@
 from typing import Dict
 
-from flet import *
+from flet import Page, View, Container
 
 from Flet_student_control.student.utils.handler import Handler
 from Flet_student_control.student.views.st_courses_view import STCoursesView
@@ -9,13 +9,6 @@ from Flet_student_control.student.views.st_home_view import STHomeView
 from Flet_student_control.student.views.st_navigation_view import STNavigationView
 from Flet_student_control.student.views.st_profile_view import STProfileView
 from Flet_student_control.student.views.st_tasks_view import STTasksView
-from utils.constants import Settings
-
-if Settings.DEBUG:
-    import logging
-
-    logging.basicConfig(level=logging.DEBUG)
-    logging.getLogger("flet_core").setLevel(logging.DEBUG)
 
 
 class StudentApp:

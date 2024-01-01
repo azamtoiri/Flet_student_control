@@ -21,8 +21,8 @@ class MainApp(BaseApp):
     def __init__(self, page: Page):
         super().__init__(page)
         self.page = page
-        self.page.client_storage.clear()
-        self.page.client_storage.set('is_auth', False)
+        self.page.session.clear()
+        self.page.session.set('is_auth', False)
 
         # Views
         self.welcome_view = WelcomeView()

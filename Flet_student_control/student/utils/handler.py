@@ -25,7 +25,6 @@ class Handler:
         self.app.navigation_view_tasks_container_button.on_click = (
             lambda e: self.navigation_view_tasks_click(e)
         )
-        self.app.navigation_view_logout_button.on_click = lambda e: self.log_out_click()
         # endregion: Navigation view buttons handler
 
     def navigation_view_home_click(self, e: HoverEvent) -> None:
@@ -47,6 +46,3 @@ class Handler:
     def navigation_view_tasks_click(self, e: HoverEvent):
         self.app.show_tasks_view()
         e.control.scale = 1
-
-    def log_out_click(self):
-        self.app.show_home_view()
