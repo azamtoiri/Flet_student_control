@@ -1,19 +1,7 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Table, Boolean
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Table, Boolean, TIMESTAMP, text
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
-
-
-class UsersSubjects(Base):
-    __tablename__ = 'users_subjects'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
-
-    # Опционально: создаем отношения с таблицами users и subjects
-    user = relationship('User', back_populates='subjects_association')
-    subject = relationship('Subject', back_populates='users_association')
 
 
 class User(Base):
@@ -31,8 +19,8 @@ class User(Base):
     password = Column(String)  # password for login
     is_staff = Column(Boolean, default=False)
     is_superuser = Column(Boolean, default=False)
-    subjects_association = relationship('UsersSubjects', back_populates='user')
-    grades = relationship('Grade', back_populates='user')
+    created_at = Column(Date)
+    # created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
 
 
 class Subject(Base):
@@ -41,15 +29,21 @@ class Subject(Base):
     subject_id = Column(Integer, primary_key=True)
     subject_name = Column(String)
     description = Column(String)
-    users_association = relationship('UsersSubjects', back_populates='subject')
 
 
 class Grade(Base):
     __tablename__ = 'grades'
 
     grade_id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
+    enrollment_id = Column(Integer, ForeignKey('enrollments.enrollment_id'))
     grade = Column(Integer)
     date = Column(Date)
-    user = relationship('User', back_populates='grades')
+
+# todo: Date time now for creating
+class Enrollments(Base):
+    __tablename__ = 'enrollments'
+
+    enrollment_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
+    enrollment_date = Column(Date)
