@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Table, Boolean, TIMESTAMP, text
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Table, Boolean, TIMESTAMP, text, DateTime
 from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.sql import func
 
 Base = declarative_base()
 
@@ -19,8 +20,7 @@ class User(Base):
     password = Column(String)  # password for login
     is_staff = Column(Boolean, default=False)
     is_superuser = Column(Boolean, default=False)
-    created_at = Column(Date)
-    # created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+    created_at = Column(DateTime(timezone=True), default=func.now())
 
 
 class Subject(Base):

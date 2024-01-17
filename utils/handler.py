@@ -203,9 +203,9 @@ class Handler:
         # for i in range(len(courses)):
         #     self.app.st_courses_view.add_course(courses[i].subject_name, courses[i].description)
 
-            # setting to the session storage course id {"course_name": id}
-            # self.app.page.session.set(courses[i].subject_name, courses[i].subject_id)
-            # self.app.page.update()
+        # setting to the session storage course id {"course_name": id}
+        # self.app.page.session.set(courses[i].subject_name, courses[i].subject_id)
+        # self.app.page.update()
         #
         self.app.show_st_courses_view()
         e.control.scale = 1

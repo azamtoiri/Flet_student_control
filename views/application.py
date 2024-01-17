@@ -32,10 +32,10 @@ class Application(ApplicationUtils):
         self.page.fonts = Fonts.URLS
         # if auth is False can't go to the students and other pages
         self.page.session.clear()
-        self.page.session.set('is_auth', True)
+        self.page.session.set('is_auth', False)
 
         # !! on ly for tests
-        self.page.session.set('username', 'admin')
+        # self.page.session.set('username', 'admin')
         # hide banners
         self.hide_banner()
         self.hide_login_form_error()
@@ -63,7 +63,7 @@ class Application(ApplicationUtils):
         self.handler = Handler(self)
 
         # showing view
-        self.show_st_courses_view()
+        self.show_welcome_view()
 
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
