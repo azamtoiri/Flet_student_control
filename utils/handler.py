@@ -4,7 +4,7 @@ from flet import HoverEvent
 
 from db.database import DataBase, CourseDatabase
 from db.model import User
-from utils.exception import NotRegistered, RequiredField, AlreadyRegistered
+from utils.exception import NotRegistered, RequiredField, AlreadyRegistered, PasswordDontMatching
 
 if TYPE_CHECKING:
     from views.application import Application
@@ -109,6 +109,8 @@ class Handler:
             )
             if password2 is None:
                 raise RequiredField('password2')
+            elif password != password2:
+                raise PasswordDontMatching('password2')
 
             self.app.show_login_view()
             self.app.display_success_banner('Вы были успешно зарегистрированы!')
@@ -122,6 +124,8 @@ class Handler:
         except AlreadyRegistered as error:
             self.app.display_warning_banner(str(error))
             self.app.display_register_form_error('username', str(error))
+        except PasswordDontMatching as error:
+            self.app.display_register_form_error(error.field, str(error))
         except Exception as error:
             self.app.display_warning_banner(str(error))
 

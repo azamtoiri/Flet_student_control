@@ -19,3 +19,9 @@ class NotRegistered(Exception):
 class NotAuthed(Exception):
     def __init__(self):
         super().__init__('Ошибка авторизации')
+
+
+class PasswordDontMatching(Exception):
+    def __init__(self, field: str):
+        self.field = field
+        super().__init__(f'Пароли не совпадают')
