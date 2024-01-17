@@ -34,6 +34,8 @@ class Application(ApplicationUtils):
         self.page.session.clear()
         self.page.session.set('is_auth', True)
 
+        # !! on ly for tests
+        self.page.session.set('username', 'admin')
         # hide banners
         self.hide_banner()
         self.hide_login_form_error()
@@ -69,6 +71,8 @@ class Application(ApplicationUtils):
         if self.page.session.get("is_auth"):
             for route, view in self.views.items():
                 if template_route.match(route):
+                    if self.page.route == self.st_courses_view.route:
+                        self.handler.download_courses()
                     self.page.views.append(view)
                     self.page.update()
                     break

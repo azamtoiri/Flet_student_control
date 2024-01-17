@@ -66,6 +66,9 @@ class STCoursesView(View):
         self.main_container.content = self.content
         self.main_container.expand = True
 
+        self._sign_course_button = TextButton("Записаться на курс")
+        self._show_course_button = TextButton("Перейти к курсу")
+
         self.controls = [
             self.main_container
         ]
@@ -84,12 +87,19 @@ class STCoursesView(View):
         course_description = Text()
         course_description.value = _course_description
 
-        sign_course_button = TextButton("Записаться на курс")
-        show_course_button = TextButton("Перейти к курсу")
-
         self._card = Card(col={"md": 12, "lg": 4})
         self._card.content = Container(content=Column([
             ListTile(leading=Icon(icons.TASK), title=course_title, subtitle=course_description),
-            Row([sign_course_button, show_course_button], alignment=MainAxisAlignment.END)
+            Row([self.sign_course_button, self.show_course_button], alignment=MainAxisAlignment.END)
         ]), width=400, padding=10)
         self.tasks.controls.append(self._card)
+
+    @property
+    def sign_course_button(self) -> TextButton:
+        return self._sign_course_button
+
+    @property
+    def show_course_button(self) -> TextButton:
+        return self._show_course_button
+
+

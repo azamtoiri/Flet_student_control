@@ -45,7 +45,7 @@ class Handler:
         # endregion
 
         # region: ST Home view log out button
-
+        self.app.st_courses_view.sign_course_button.on_click = lambda e: self.sing_in_course_click()
         # endregion
 
         self.app.welcome_login_button.on_click = lambda e: self.welcome_login_click()
@@ -81,7 +81,7 @@ class Handler:
         except NotRegistered as error:
             self.app.display_login_form_error('username', str(error))
 
-        # ok, some thing really bad hapened.
+        # ok, something really bad happened.
         except Exception as error:
             self.app.display_warning_banner(str(error))
 
@@ -194,6 +194,29 @@ class Handler:
         :param e:
         :return:
         """
+
+        # needs optimization
+        # courses = self.course_db.get_all_courses()
+        # if courses is None:
+        #     return
+        #
+        # for i in range(len(courses)):
+        #     self.app.st_courses_view.add_course(courses[i].subject_name, courses[i].description)
+
+            # setting to the session storage course id {"course_name": id}
+            # self.app.page.session.set(courses[i].subject_name, courses[i].subject_id)
+            # self.app.page.update()
+        #
+        self.app.show_st_courses_view()
+        e.control.scale = 1
+
+    def download_courses(self) -> None:
+        """
+        Show courses view before get courses from db and set them
+        """
+
+        # needs optimization
+        self.app.st_courses_view.tasks.controls.clear()
         courses = self.course_db.get_all_courses()
         if courses is None:
             return
@@ -204,9 +227,6 @@ class Handler:
             # setting to the session storage course id {"course_name": id}
             self.app.page.session.set(courses[i].subject_name, courses[i].subject_id)
             self.app.page.update()
-
-        self.app.show_st_courses_view()
-        e.control.scale = 1
 
     def st_navigation_view_grades_click(self, e: HoverEvent) -> None:
         self.app.show_st_grades_view()
@@ -221,3 +241,15 @@ class Handler:
         e.control.scale = 1
 
     # endregion
+
+    def sing_in_course_click(self) -> None:
+        username = self.app.page.session.get('username')
+        user = self.database.get_user(username=username)
+
+        course_id = self.app.page.session.get('Английский')
+
+        self.course_db.register_user_to_course(_username=username, course_id=course_id)
+
+        print(user.subjects)
+
+        print(self.app.page.session.get('Английский'), username)

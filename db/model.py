@@ -1,16 +1,19 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Table, Boolean
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
 
-class Role(Base):
-    __tablename__ = 'roles'
+class UsersSubjects(Base):
+    __tablename__ = 'users_subjects'
 
-    role_id = Column(Integer, primary_key=True)
-    role_name = Column(String)
-    description = Column(String)
-    users = relationship('User', back_populates='roles')
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
+
+    # Опционально: создаем отношения с таблицами users и subjects
+    user = relationship('User', back_populates='subjects_association')
+    subject = relationship('Subject', back_populates='users_association')
 
 
 class User(Base):
@@ -26,18 +29,10 @@ class User(Base):
     email = Column(String)  # email
     username = Column(String, unique=True)  # username for login
     password = Column(String)  # password for login
-    role_id = Column(Integer, ForeignKey('roles.role_id'))  # role
-    roles = relationship('Role', back_populates='users')
-    subjects = relationship('Subject', back_populates='user')
+    is_staff = Column(Boolean, default=False)
+    is_superuser = Column(Boolean, default=False)
+    subjects_association = relationship('UsersSubjects', back_populates='user')
     grades = relationship('Grade', back_populates='user')
-
-
-class UserRoles(Base):
-    __tablename__ = 'user_roles'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    role_id = Column(Integer, ForeignKey('roles.role_id'))
 
 
 class Subject(Base):
@@ -46,8 +41,7 @@ class Subject(Base):
     subject_id = Column(Integer, primary_key=True)
     subject_name = Column(String)
     description = Column(String)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    user = relationship('User', back_populates='subjects')
+    users_association = relationship('UsersSubjects', back_populates='subject')
 
 
 class Grade(Base):

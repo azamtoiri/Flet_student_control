@@ -112,7 +112,39 @@ class DataBase(BaseDataBase):
         else:
             return users[0]
 
+    def get_user(self, **value) -> Type[User]:
+        users = self.session.query(User).filter_by(**value).first()
+
+        if not users:
+            raise NotRegistered
+        return users
+
 
 class CourseDatabase(BaseDataBase):
     def get_all_courses(self, **values) -> list[Type[Subject]]:
         return self.session.query(Subject).filter_by(**values).all()
+
+    def register_user_to_course(self, _username: str, course_id: int) -> None:
+        # Получаем пользователя по имени пользователя
+        user = self.session.query(User).filter_by(username=_username).first()
+
+        # Получаем объект предмета (курса) по его идентификатору
+        course = self.session.query(Subject).get(course_id)
+
+        # Проверяем, что пользователь и предмет (курс) найдены
+        if user and course:
+            # Проверяем, не записан ли пользователь уже на этот курс
+            if course in user.subjects:
+                print(f"Пользователь {_username} уже записан на курс {course_id}.")
+            else:
+                # Добавляем предмет (курс) к пользователю
+                user.subjects.append(course)
+
+                # Фиксируем изменения в базе данных
+                self.session.commit()
+
+                print(f"Пользователь {_username} успешно записан на курс {course_id}.")
+        else:
+            print(f"Пользователь или курс не найдены.")
+
+        # self.session.query(User).filter_by(username=_username).update({"subjects": course_id})
