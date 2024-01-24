@@ -13,6 +13,4 @@ JOIN
 JOIN
   Grades ON Enrollments.enrollment_id = Grades.enrollment_id
 WHERE
-  Users.first_name = 'John'
-  AND Users.last_name = 'Doe'
-  AND Grades.grade_date = '2023-02-01';
+  Users.user_id = 1

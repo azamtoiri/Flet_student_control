@@ -1,9 +1,10 @@
+from datetime import datetime
 from typing import Optional, Type
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from db.model import User, Base, Subject
+from db.model import User, Base, Subject, Enrollments, Grades
 from utils.constants import Connection, UserDefaults
 from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 from utils.jwt_hash import hash_, verify
@@ -138,27 +139,57 @@ class SubjectDatabase(BaseDataBase):
     def get_all_courses(self, **values) -> list[Type[Subject]]:
         return self.session.query(Subject).filter_by(**values).all()
 
-    def register_user_to_course(self, _username: str, course_id: int) -> None:
-        # Получаем пользователя по имени пользователя
-        user = self.session.query(User).filter_by(username=_username).first()
-
-        # Получаем объект предмета (курса) по его идентификатору
-        course = self.session.query(Subject).get(course_id)
-
-        # Проверяем, что пользователь и предмет (курс) найдены
-        if user and course:
+    def register_user_to_course(self, user_id: int, subject_id: int, enrollment_date: str) -> None:
+        """Register user to course"""
+        try:
             # Проверяем, не записан ли пользователь уже на этот курс
-            if course in user.subjects:
-                print(f"Пользователь {_username} уже записан на курс {course_id}.")
-            else:
-                # Добавляем предмет (курс) к пользователю
-                user.subjects.append(course)
+            existing_enrollment = (
+                self.session.query(Enrollments)
+                .filter_by(user_id=user_id, subject_id=subject_id)
+                .first()
+            )
 
-                # Фиксируем изменения в базе данных
+            if existing_enrollment:
+                print(f"Пользователь с ID {user_id} уже записан на курс с ID {subject_id}.")
+            else:
+                # Создаем новый экземпляр Enrollments
+                new_enrollment = Enrollments(
+                    user_id=user_id,
+                    subject_id=subject_id,
+                    enrollment_date=datetime.strptime(enrollment_date, '%Y-%m-%d').date()
+                )
+
+                # Добавляем в сессию и фиксируем изменения в базе данных
+                self.session.add(new_enrollment)
                 self.session.commit()
 
-                print(f"Пользователь {_username} успешно записан на курс {course_id}.")
-        else:
-            print(f"Пользователь или курс не найдены.")
+                print(f"Пользователь с ID {user_id} успешно записан на курс с ID {subject_id}.")
+        except Exception as e:
+            print(f"Произошла ошибка при регистрации пользователя на курс: {str(e)}")
 
-        # self.session.query(User).filter_by(username=_username).update({"subjects": course_id})
+    def get_user_grades(self, user_id: int) -> list:
+        """Getting all grades from user TIP: Can use For teacher"""
+        try:
+            user_grades = (
+                self.session.query(
+                    User.user_id,
+                    User.first_name,
+                    User.last_name,
+                    Subject.subject_name,
+                    Grades.grade_value,
+                    Grades.grade_date
+                )
+                .join(Enrollments, User.user_id == Enrollments.user_id)
+                .join(Subject, Enrollments.subject_id == Subject.subject_id)
+                .join(Grades, Enrollments.enrollment_id == Grades.enrollment_id)
+                .filter(User.user_id == user_id)
+                .all()
+            )
+
+            return user_grades
+        except Exception as e:
+            print(f"Произошла ошибка при выполнении запроса: {str(e)}")
+            return []
+
+    def set_grade_to_user(self, user_id: int, grade: int) -> None:
+        pass

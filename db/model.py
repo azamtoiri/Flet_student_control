@@ -31,7 +31,7 @@ class Subject(Base):
     description = Column(String)
 
 
-class Grade(Base):
+class Grades(Base):
     __tablename__ = 'grades'
 
     grade_id = Column(Integer, primary_key=True)
