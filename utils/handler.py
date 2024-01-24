@@ -2,9 +2,10 @@ from typing import TYPE_CHECKING, Optional
 
 from flet import HoverEvent
 
-from db.database import DataBase, CourseDatabase
+from db.database import DataBase, SubjectDatabase
 from db.model import User
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered, PasswordDontMatching
+from utils.jwt_hash import hash_, verify
 
 if TYPE_CHECKING:
     from views.application import Application
@@ -18,7 +19,7 @@ class Handler:
 
         # region: DB
         self.database = DataBase()
-        self.course_db = CourseDatabase()
+        self.course_db = SubjectDatabase()
         self.user: Optional[User] = None
         # endregion
 
@@ -103,14 +104,18 @@ class Handler:
             # hide banners
             self.app.hide_banner()
 
-            self.database.register_user(
-                first_name=first_name, last_name=last_name, middle_name=middle_name,
-                username=username, password=password, group=group, course=course, age=age, email=email
-            )
             if password2 is None:
                 raise RequiredField('password2')
             elif password != password2:
                 raise PasswordDontMatching('password2')
+
+            # hashing password for security
+            password = hash_(password)
+
+            self.database.register_user(
+                first_name=first_name, last_name=last_name, middle_name=middle_name,
+                username=username, password=password, group=group, course=course, age=age, email=email
+            )
 
             self.app.show_login_view()
             self.app.display_success_banner('Вы были успешно зарегистрированы!')

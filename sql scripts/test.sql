@@ -5,7 +5,7 @@ CREATE TABLE Subjects (
   description TEXT
 );
 
--- Таблица пользователей
+-- Таблица студентов
 CREATE TABLE Users (
   user_id SERIAL PRIMARY KEY,
   last_name VARCHAR(250),
@@ -14,7 +14,7 @@ CREATE TABLE Users (
   age INT,
   "group" VARCHAR(250),
   course INT,
-  email VARCHAR(100),
+  email VARCHAR(250),
   username VARCHAR(250) NOT NULL UNIQUE,
   password VARCHAR(250) NOT NULL,
   is_staff BOOLEAN DEFAULT false,
@@ -36,7 +36,7 @@ CREATE TABLE Enrollments (
 CREATE TABLE Grades (
   grade_id SERIAL PRIMARY KEY,
   enrollment_id INT,
-  grade INT,
-  date TIMESTAMP DEFAULT now(),
+  grade_value FLOAT,
+  grade_date DATE NOT NULL,
   FOREIGN KEY (enrollment_id) REFERENCES Enrollments(enrollment_id)
 );

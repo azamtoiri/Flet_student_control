@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from db.model import User, Base, Subject
 from utils.constants import Connection, UserDefaults
 from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
+from utils.jwt_hash import hash_, verify
 
 
 # TODO: CRUD for db
@@ -27,7 +28,7 @@ class DataBase(BaseDataBase):
     # section user creating
     def create_default_user(self) -> None:
         username = UserDefaults.DEFAULT_USERNAME
-        password = UserDefaults.DEFAULT_PASSWORD
+        password = hash_(UserDefaults.DEFAULT_PASSWORD)
         if not self.filter_users(username=username):
             user = User(username=username, password=password)
             self.insert_user(user)
@@ -58,6 +59,14 @@ class DataBase(BaseDataBase):
 
     def filter_users(self, **values) -> list[Type[User]]:
         return self.session.query(User).filter_by(**values).all()
+
+    def verify_password(self, username: str, password: str) -> bool:
+        hashed_password = self.session.query(User).filter_by(username=username).first().password
+        try:
+            verify(plain_password=password, hashed_password=hashed_password)
+        except ValueError as err:
+            return False
+        return True
 
     def register_user(
             self, first_name, last_name, middle_name, username,
@@ -99,18 +108,19 @@ class DataBase(BaseDataBase):
     # TODO: Add password hashing
     def login_user(
             self, username: Optional[str], password: Optional[str]
-    ) -> Type[User]:
+    ) -> bool:
         if username is None:
             raise RequiredField('username')
 
         if password is None:
             raise RequiredField('password')
 
-        users = self.filter_users(username=username, password=password)
-        if not users:
+        ver_pass = self.verify_password(username, password)
+        # print(ver_pass)
+
+        if not ver_pass:
             raise NotRegistered('Invalid username or password')
-        else:
-            return users[0]
+        return True
 
     def get_user(self, **value) -> Type[User]:
         users = self.session.query(User).filter_by(**value).first()
@@ -120,7 +130,11 @@ class DataBase(BaseDataBase):
         return users
 
 
-class CourseDatabase(BaseDataBase):
+class SubjectDatabase(BaseDataBase):
+    def insert_to_course(self, user_id, subject_id):
+        """Записать на курс"""
+        pass
+
     def get_all_courses(self, **values) -> list[Type[Subject]]:
         return self.session.query(Subject).filter_by(**values).all()
 
