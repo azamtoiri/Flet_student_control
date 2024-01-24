@@ -36,8 +36,9 @@ class Grade(Base):
 
     grade_id = Column(Integer, primary_key=True)
     enrollment_id = Column(Integer, ForeignKey('enrollments.enrollment_id'))
-    grade = Column(Integer)
-    date = Column(Date)
+    grade_value = Column(Integer)
+    grade_date = Column(Date)
+
 
 # todo: Date time now for creating
 class Enrollments(Base):

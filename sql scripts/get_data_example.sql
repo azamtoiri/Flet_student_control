@@ -12,7 +12,7 @@ JOIN
   Subjects ON Enrollments.subject_id = Subjects.subject_id
 JOIN
   Grades ON Enrollments.enrollment_id = Grades.enrollment_id
--- WHERE
---   Students.first_name = 'John'
---   AND Students.last_name = 'Doe'
---   AND Grades.grade_date = '2023-02-01';
+WHERE
+  Users.first_name = 'John'
+  AND Users.last_name = 'Doe'
+  AND Grades.grade_date = '2023-02-01';
