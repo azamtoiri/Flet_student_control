@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, Optional
 
 from db.database import UserDatabase
-from db.model import User
+from db.model import Users
 from utils.constants import Settings
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered, NotAuthed
 
@@ -19,5 +19,5 @@ class Handler:
         self.database = UserDatabase()
         if Settings.DEBUG:
             self.database.create_default_user()
-        self.user: Optional[User] = None
+        self.user: Optional[Users] = None
         # endregion

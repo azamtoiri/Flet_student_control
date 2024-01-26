@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 from flet import HoverEvent
 
 from db.database import DataBase, SubjectDatabase
-from db.model import User
+from db.model import Users
 from utils.exception import NotRegistered, RequiredField, AlreadyRegistered, PasswordDontMatching
 from utils.jwt_hash import hash_, verify
 
@@ -20,7 +20,7 @@ class Handler:
         # region: DB
         self.database = DataBase()
         self.course_db = SubjectDatabase()
-        self.user: Optional[User] = None
+        self.user: Optional[Users] = None
         # endregion
 
         self.app.login_button.on_click = lambda e: self.login_click()  # login button on login_view
@@ -257,7 +257,7 @@ class Handler:
 
         course_id = self.app.page.session.get('Английский')
 
-        self.course_db.register_user_to_course(_username=username, course_id=course_id)
+        self.course_db.register_user_to_subject(_username=username, course_id=course_id)
 
         print(user.subjects)
 

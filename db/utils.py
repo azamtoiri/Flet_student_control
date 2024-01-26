@@ -2,7 +2,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, Session
 
-from db.model import User, Subjects
+from db.model import Users, Subjects
 
 Base = declarative_base()
 engine = create_engine('postgresql+psycopg2://postgres:1234@localhost:5432/dev')
@@ -26,7 +26,7 @@ user_data = {
     'course': 1,
 }
 
-user = session.query(User).filter_by(username='jsmith').first()
+user = session.query(Users).filter_by(username='jsmith').first()
 subject = session.query(Subjects).filter_by(subject_id=1).first()
 
 print(user)
