@@ -20,7 +20,7 @@ class Users(Base):
     password = Column(String)  # password for login
     is_staff = Column(Boolean, default=False)
     is_superuser = Column(Boolean, default=False)
-    created_at = Column(DateTime(timezone=True), default=func.now())
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 
 class Subjects(Base):
@@ -37,7 +37,7 @@ class Grades(Base):
     grade_id = Column(Integer, primary_key=True)
     enrollment_id = Column(Integer, ForeignKey('enrollments.enrollment_id'))
     grade_value = Column(Integer)
-    grade_date = Column(DateTime(timezone=True), default=func.now())
+    grade_date = Column(DateTime(timezone=True), server_default=func.now())
 
 
 # todo: Date time now for creating
@@ -47,4 +47,4 @@ class Enrollments(Base):
     enrollment_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
-    enrollment_date = Column(DateTime(timezone=True), default=func.now())
+    enrollment_date = Column(DateTime(timezone=True), server_default=func.now())
