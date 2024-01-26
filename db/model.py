@@ -23,7 +23,7 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), default=func.now())
 
 
-class Subject(Base):
+class Subjects(Base):
     __tablename__ = 'subjects'
 
     subject_id = Column(Integer, primary_key=True)

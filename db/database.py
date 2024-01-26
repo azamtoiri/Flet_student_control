@@ -4,7 +4,7 @@ from typing import Optional, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from db.model import User, Base, Subject, Enrollments, Grades
+from db.model import User, Base, Subjects, Enrollments, Grades
 from utils.constants import Connection, UserDefaults
 from utils.exception import RequiredField, AlreadyRegistered, NotRegistered
 from utils.jwt_hash import hash_, verify
@@ -132,12 +132,62 @@ class DataBase(BaseDataBase):
 
 
 class SubjectDatabase(BaseDataBase):
-    def insert_to_course(self, user_id, subject_id):
-        """Записать на курс"""
-        pass
+    # TIP: Create func for getting post or something like this
+    def get_subjects(self, **values) -> list[Type[Subjects]]:
+        """Getting all Subjects in DB"""
+        return self.session.query(Subjects).filter_by(**values).all()
 
-    def get_all_courses(self, **values) -> list[Type[Subject]]:
-        return self.session.query(Subject).filter_by(**values).all()
+    def create_subject(self, subject_name: str, subject_description: str) -> bool:
+        try:
+            new_subject = Subjects(subject_name=subject_name, description=subject_description)
+
+            # add new subject
+            self.session.add(new_subject)
+
+            self.session.commit()
+            return True
+        except Exception as ex:
+            print(f"{ex}")
+            return False
+
+    def update_subject(self, subject_id: int, new_subject_name: str, new_description: str) -> None:
+        try:
+            # Query the subject by subject_id
+            subject_to_update = self.session.get(Subjects, subject_id)
+
+            # Check if the subject with the given subject_id exists
+            if subject_to_update:
+                # Update the subject attributes
+                subject_to_update.subject_name = new_subject_name
+                subject_to_update.description = new_description
+
+                # Commit the changes to persist the updates in the database
+                self.session.commit()
+
+                print(f"Subject with ID {subject_id} successfully updated.")
+            else:
+                print(f"Subject with ID {subject_id} not found.")
+        except Exception as e:
+            print(f"Error updating subject: {str(e)}")
+
+    def delete_subject(self, subject_id: int) -> None:
+        try:
+            # Query the subject by subject_id
+            subject_to_delete = self.session.get(Subjects, subject_id)
+
+            # Check if the subject with the given subject_id exists
+            if subject_to_delete:
+                # Delete the subject
+                self.session.delete(subject_to_delete)
+
+                # Commit the changes to persist the deletion in the database
+                self.session.commit()
+
+                print(f"Subject with ID {subject_id} successfully deleted.")
+            else:
+                print(f"Subject with ID {subject_id} not found.")
+        except Exception as e:
+            print(f"Error deleting subject: {str(e)}")
 
     def register_user_to_course(self, user_id: int, subject_id: int, enrollment_date: str) -> None:
         """Register user to course"""
@@ -172,15 +222,13 @@ class SubjectDatabase(BaseDataBase):
         try:
             user_grades = (
                 self.session.query(
-                    User.user_id,
                     User.first_name,
-                    User.last_name,
-                    Subject.subject_name,
+                    Subjects.subject_name,
                     Grades.grade_value,
                     Grades.grade_date
                 )
                 .join(Enrollments, User.user_id == Enrollments.user_id)
-                .join(Subject, Enrollments.subject_id == Subject.subject_id)
+                .join(Subjects, Enrollments.subject_id == Subjects.subject_id)
                 .join(Grades, Enrollments.enrollment_id == Grades.enrollment_id)
                 .filter(User.user_id == user_id)
                 .all()
@@ -192,4 +240,7 @@ class SubjectDatabase(BaseDataBase):
             return []
 
     def set_grade_to_user(self, user_id: int, grade: int) -> None:
+        pass
+
+    def get_user_subjects(self, user_id: int) -> Subjects:
         pass

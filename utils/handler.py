@@ -226,7 +226,7 @@ class Handler:
 
         # needs optimization
         self.app.st_courses_view.tasks.controls.clear()
-        courses = self.course_db.get_all_courses()
+        courses = self.course_db.get_subjects()
         if courses is None:
             return
 
