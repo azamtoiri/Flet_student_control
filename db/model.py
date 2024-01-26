@@ -37,7 +37,7 @@ class Grades(Base):
     grade_id = Column(Integer, primary_key=True)
     enrollment_id = Column(Integer, ForeignKey('enrollments.enrollment_id'))
     grade_value = Column(Integer)
-    grade_date = Column(Date)
+    grade_date = Column(DateTime(timezone=True), default=func.now())
 
 
 # todo: Date time now for creating
@@ -47,4 +47,4 @@ class Enrollments(Base):
     enrollment_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     subject_id = Column(Integer, ForeignKey('subjects.subject_id'))
-    enrollment_date = Column(Date)
+    enrollment_date = Column(DateTime(timezone=True), default=func.now())

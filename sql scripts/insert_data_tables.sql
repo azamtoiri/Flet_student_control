@@ -13,17 +13,17 @@ VALUES
   ('Web Development', 'Build dynamic and interactive websites');
 
 -- Вставка тестовых данных в таблицу Enrollments
-INSERT INTO Enrollments (user_id, subject_id, enrollment_date)
+INSERT INTO Enrollments (user_id, subject_id)
 VALUES
-  (1, 1, '2023-01-15'),
-  (1, 2, '2023-01-16'),
-  (2, 3, '2023-01-17'),
-  (3, 1, '2023-01-18');
+  (1, 1),
+  (1, 2),
+  (2, 3),
+  (3, 1);
 
 -- Вставка тестовых данных в таблицу Grades
-INSERT INTO Grades (enrollment_id, grade_value, grade_date)
+INSERT INTO Grades (enrollment_id, grade_value)
 VALUES
-  (1, 90, '2023-02-01'),
-  (2, 85, '2023-02-02'),
-  (3, 95, '2023-02-03'),
-  (4, 88, '2023-02-04');
+  (1, 90),
+  (2, 85),
+  (3, 95),
+  (4, 88);

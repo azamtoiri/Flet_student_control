@@ -27,7 +27,7 @@ CREATE TABLE Enrollments (
   enrollment_id SERIAL PRIMARY KEY,
   user_id INT,
   subject_id INT,
-  enrollment_date DATE NOT NULL,
+  enrollment_date TIMESTAMP DEFAULT now(),
   FOREIGN KEY (user_id) REFERENCES Users(user_id),
   FOREIGN KEY (subject_id) REFERENCES Subjects(subject_id)
 );
@@ -37,6 +37,6 @@ CREATE TABLE Grades (
   grade_id SERIAL PRIMARY KEY,
   enrollment_id INT,
   grade_value FLOAT,
-  grade_date DATE NOT NULL,
+  grade_date TIMESTAMP DEFAULT now(),
   FOREIGN KEY (enrollment_id) REFERENCES Enrollments(enrollment_id)
 );
