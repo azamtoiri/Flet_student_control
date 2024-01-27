@@ -109,7 +109,7 @@ class DataBase(BaseDataBase):
     # TODO: Add password hashing
     def login_user(
             self, username: Optional[str], password: Optional[str]
-    ) -> bool:
+    ) -> Type[Users]:
         if username is None:
             raise RequiredField('username')
 
@@ -117,11 +117,12 @@ class DataBase(BaseDataBase):
             raise RequiredField('password')
 
         ver_pass = self.verify_password(username, password)
-        # print(ver_pass)
+        users = self.filter_users(username=username)
 
         if not ver_pass:
             raise NotRegistered('Invalid username or password')
-        return True
+        else:
+            return users[0]
 
     def get_user(self, **value) -> Type[Users]:
         users = self.session.query(Users).filter_by(**value).first()
@@ -129,6 +130,9 @@ class DataBase(BaseDataBase):
         if not users:
             raise NotRegistered
         return users
+
+    def is_staff(self, user_id: int) -> bool:
+        return self.session.get(Users, user_id).is_staff
 
 
 class SubjectDatabase(BaseDataBase):

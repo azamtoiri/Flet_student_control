@@ -11,6 +11,7 @@ from views.st_veiw.st_home_view import STHomeView
 from views.st_veiw.st_navigation_view import STNavigationView
 from views.st_veiw.st_profile_view import STProfileView
 from views.st_veiw.st_tasks_view import STTasksView
+from views.t_view.t_navigation_view import TNavigationView
 
 
 class ApplicationUtils:
@@ -32,6 +33,10 @@ class ApplicationUtils:
         self.st_grades_view = STGradesView(self)
         self.st_tasks_view = STTasksView(self)
         self.st_profile_view = STProfileView(self)
+
+        # region: Teacher views
+        self.t_navigation_view = TNavigationView()
+        # endregion
 
     # region: @Properties
     @property  # login_button for authentication

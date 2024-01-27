@@ -59,6 +59,10 @@ class Application(ApplicationUtils):
             self.register_view.route: self.register_view,
         }
 
+        self.teacher_views: Dict[str, View] = {
+            self.t_navigation_view.route: self.t_navigation_view,
+        }
+
         # initialize handler
         self.handler = Handler(self)
 
@@ -68,7 +72,15 @@ class Application(ApplicationUtils):
     def route_change(self, _event: RouteChangeEvent) -> None:
         template_route = TemplateRoute(self.page.route)
         self.page.views.clear()
-        if self.page.session.get("is_auth"):
+        if self.page.session.get("is_auth") and self.page.session.get('is_staff'):
+            for route, view in self.teacher_views.items():
+                if template_route.match(route):
+                    if self.page.route == self.st_courses_view.route:
+                        self.handler.download_courses()
+                    self.page.views.append(view)
+                    self.page.update()
+                    break
+        elif self.page.session.get("is_auth"):
             for route, view in self.views.items():
                 if template_route.match(route):
                     if self.page.route == self.st_courses_view.route:
@@ -112,4 +124,6 @@ class Application(ApplicationUtils):
     def show_st_profile_view(self) -> None:
         self.page.go(self.st_profile_view.route)
 
+    def show_teacher_navigation_view(self) -> None:
+        self.page.go(self.t_navigation_view.route)
     # endregion

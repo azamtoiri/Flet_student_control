@@ -71,7 +71,11 @@ class Handler:
 
             self.app.page.session.set("is_auth", True)
             self.app.page.session.set('username', username)
-            self.app.show_st_navigation_view()
+            if self.database.is_staff(user.user_id):
+                self.app.page.session.set("is_staff", True)
+                self.app.show_teacher_navigation_view()
+            else:
+                self.app.show_st_navigation_view()
             self.app.display_success_snack(f'Welcome {username}')
 
             # ops, some required field is not informed, lets give a feedback.
